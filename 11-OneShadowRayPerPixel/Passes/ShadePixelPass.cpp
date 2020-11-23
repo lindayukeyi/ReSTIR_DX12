@@ -74,7 +74,7 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	rayGenVars["gPos"] = mpResManager->getTexture("WorldPosition");
 	rayGenVars["gNorm"] = mpResManager->getTexture("WorldNormal");
 	rayGenVars["gDiffuseMatl"] = mpResManager->getTexture("MaterialDiffuse");
-	rayGenVars["gReservoirShadowed"] = mpResManager->getTexture("ReservoirFinal");
+	rayGenVars["gReservoirFinal"] = mpResManager->getTexture("ReservoirFinal");
 	rayGenVars["gOutput"] = pDstTex;
 
 	// Shoot our rays and shade our primary hit points

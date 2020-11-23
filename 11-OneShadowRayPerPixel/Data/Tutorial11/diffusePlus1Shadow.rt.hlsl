@@ -158,7 +158,7 @@ void ShadowedDetection() {
 
 	// If we don't hit any geometry, our difuse material contains our background color.
 	float3 shadeColor = rsv.rgb;
-	shadeColor = saturate(shadeColor + float3(0.2f, 0.3f, 0.2f));
+	//shadeColor = saturate(shadeColor + float3(0.2f, 0.3f, 0.2f));
 	/*
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
@@ -204,7 +204,7 @@ void SpatialReuse() {
 
 	// If we don't hit any geometry, our difuse material contains our background color.
 	float3 shadeColor = rsv.rgb;
-	shadeColor = saturate(shadeColor + float3(0.0f, 0.5f, 0.0f));
+	//shadeColor = saturate(shadeColor + float3(0.0f, 0.5f, 0.0f));
 	/*
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
@@ -250,7 +250,7 @@ void ShadePixel() {
 
 	// If we don't hit any geometry, our difuse material contains our background color.
 	float3 shadeColor = rsv.rgb;
-	shadeColor = saturate(shadeColor + float3(0.0f, 0.0f, 0.5f));
+	//shadeColor = saturate(shadeColor + float3(0.0f, 0.0f, 0.5f));
 	/*
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);

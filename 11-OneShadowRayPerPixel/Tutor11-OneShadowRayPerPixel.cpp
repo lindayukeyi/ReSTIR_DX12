@@ -33,12 +33,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	RenderingPipeline *pipeline = new RenderingPipeline();
 
 	// Add passes into our pipeline
-	pipeline->setPass(0, LightProbeGBufferPass::create());
+	pipeline->setPass(0, LightProbeGBufferPass::create());  // generate G-buffer
 	pipeline->setPass(1, GenerateCandidatesPass::create()); // generate potential candidates m = 32
-	pipeline->setPass(2, ShadowDetectionPass::create());    // Replace with our deferred shader that only shoots 1 random shadow ray
-	pipeline->setPass(3, SpatialReusePass::create());
-	pipeline->setPass(4, ShadePixelPass::create());
-	pipeline->setPass(5, CopyToOutputPass::create());
+	pipeline->setPass(2, ShadowDetectionPass::create());    // remove invisible sample
+	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
+	pipeline->setPass(4, ShadePixelPass::create());         // compute final color
+	pipeline->setPass(5, CopyToOutputPass::create());       // output selected texture to channel; for debug
 
 	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));  
 
