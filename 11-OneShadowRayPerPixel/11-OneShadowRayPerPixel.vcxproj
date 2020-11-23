@@ -20,6 +20,7 @@
     <ClCompile Include="..\SharedUtils\ResourceManager.cpp" />
     <ClCompile Include="..\SharedUtils\SceneLoaderWrapper.cpp" />
     <ClCompile Include="..\SharedUtils\SimpleVars.cpp" />
+    <ClCompile Include="Passes\CopyToOutputPass.cpp" />
     <ClCompile Include="Passes\DiffuseOneShadowRayPass.cpp" />
     <ClCompile Include="Passes\GenerateCandidatesPass.cpp" />
     <ClCompile Include="Passes\ShadePixelPass.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="..\SharedUtils\ResourceManager.h" />
     <ClInclude Include="..\SharedUtils\SceneLoaderWrapper.h" />
     <ClInclude Include="..\SharedUtils\SimpleVars.h" />
+    <ClInclude Include="Passes\CopyToOutputPass.h" />
     <ClInclude Include="Passes\DiffuseOneShadowRayPass.h" />
     <ClInclude Include="Passes\GenerateCandidatesPass.h" />
     <ClInclude Include="Passes\ShadePixelPass.h" />

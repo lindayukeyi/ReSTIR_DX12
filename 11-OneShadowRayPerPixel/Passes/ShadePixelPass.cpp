@@ -35,7 +35,8 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	// Stash a copy of our resource manager so we can get rendering resources
 	mpResManager = pResManager;
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse", "ReservoirFinal" });
-	mpResManager->requestTextureResource(ResourceManager::kOutputChannel);
+	mpResManager->requestTextureResource("FinalShadedImage");
+	//mpResManager->requestTextureResource(ResourceManager::kOutputChannel);
 
 	// Set the default scene to load
 	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
@@ -59,7 +60,7 @@ void ShadePixelPass::initScene(RenderContext* pRenderContext, Scene::SharedPtr p
 void ShadePixelPass::execute(RenderContext* pRenderContext)
 {
 	// Get the output buffer we're writing into; clear it to black.
-	Texture::SharedPtr pDstTex = mpResManager->getClearedTexture(ResourceManager::kOutputChannel, vec4(0.0f, 0.0f, 0.0f, 0.0f));
+	Texture::SharedPtr pDstTex = mpResManager->getClearedTexture("FinalShadedImage", vec4(0.0f, 0.0f, 0.0f, 0.0f));
 
 	// Do we have all the resources we need to render?  If not, return
 	if (!pDstTex || !mpRays || !mpRays->readyToRender()) return;

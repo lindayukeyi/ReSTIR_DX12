@@ -57,6 +57,9 @@
     <ClInclude Include="Passes\SpatialReusePass.h">
       <Filter>Passes</Filter>
     </ClInclude>
+    <ClInclude Include="Passes\CopyToOutputPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SharedUtils\RenderingPipeline.cpp">
@@ -100,6 +103,9 @@
       <Filter>Passes</Filter>
     </ClCompile>
     <ClCompile Include="Passes\SpatialReusePass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\CopyToOutputPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
   </ItemGroup>

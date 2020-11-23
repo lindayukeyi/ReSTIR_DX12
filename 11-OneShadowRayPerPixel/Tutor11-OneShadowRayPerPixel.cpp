@@ -25,6 +25,7 @@
 #include "Passes/ShadowDetectionPass.h"
 #include "Passes/SpatialReusePass.h"
 #include "Passes/ShadePixelPass.h"
+#include "Passes/CopyToOutputPass.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -37,6 +38,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	pipeline->setPass(2, ShadowDetectionPass::create());    // Replace with our deferred shader that only shoots 1 random shadow ray
 	pipeline->setPass(3, SpatialReusePass::create());
 	pipeline->setPass(4, ShadePixelPass::create());
+	pipeline->setPass(5, CopyToOutputPass::create());
 
 	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));  
 
