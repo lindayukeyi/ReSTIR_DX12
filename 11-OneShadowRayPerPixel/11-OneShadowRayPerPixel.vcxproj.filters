@@ -45,6 +45,18 @@
     <ClInclude Include="..\SharedUtils\RenderPass.h">
       <Filter>SharedUtils</Filter>
     </ClInclude>
+    <ClInclude Include="Passes\GenerateCandidatesPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\ShadowDetectionPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\ShadePixelPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\SpatialReusePass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SharedUtils\RenderingPipeline.cpp">
@@ -77,6 +89,18 @@
     </ClCompile>
     <ClCompile Include="..\SharedUtils\RenderPass.cpp">
       <Filter>SharedUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\GenerateCandidatesPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\ShadowDetectionPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\ShadePixelPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\SpatialReusePass.cpp">
+      <Filter>Passes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
