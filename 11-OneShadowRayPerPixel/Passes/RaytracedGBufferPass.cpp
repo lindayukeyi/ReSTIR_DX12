@@ -39,6 +39,10 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	//     format (in this case, the default, RGBA32F) and size (in this case, the default, screen sized)
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResource("SamplePosition");
+	mpResManager->requestTextureResource("SampleNormal");
+	mpResManager->requestTextureResource("Reservoir");
+	//mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	// Set the default scene to load
 	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
@@ -80,6 +84,14 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr matExtra = mpResManager->getClearedTexture("MaterialExtraParams", vec4(0, 0, 0, 0));
 	Texture::SharedPtr matEmit = mpResManager->getClearedTexture("Emissive", vec4(0, 0, 0, 0));
 
+	// Reservoir information
+	Texture::SharedPtr samplePosition = mpResManager->getClearedTexture("SamplePosition", vec4(0, 0, 0, 0));
+	Texture::SharedPtr sampleNormal = mpResManager->getClearedTexture("SampleNormal", vec4(0, 0, 0, 0));
+	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, 0));
+
+	//Texture::SharedPtr M = mpResManager->getClearedTexture("SamplesSeenSoFar", 0); // TODO problematic: can we use int or int4?
+
+
 	// Now we'll send our parameters down to our ray tracing shaders
 
 	// Pass our background color down to miss shader #0
@@ -99,6 +111,11 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["gMatSpec"] = matSpec;
 		pVars["gMatExtra"] = matExtra;
 		pVars["gMatEmissive"] = matEmit;
+
+		pVars["samplePosition"] = samplePosition;
+		pVars["sampleNormal"] = sampleNormal;
+		pVars["reservoir"] = reservoir;
+		//pVars["M"] = M; //TODO
 	}
 
 	// Launch our ray tracing
