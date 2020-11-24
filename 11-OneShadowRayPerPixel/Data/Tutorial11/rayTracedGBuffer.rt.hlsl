@@ -76,7 +76,7 @@ RWTexture2D<float4> gMatEmissive;
 RWTexture2D<float4> samplePosition;
 RWTexture2D<float4> sampleNormal;
 RWTexture2D<float4> reservoir; // W // Wsum // sample area // not used
-//RWTexture2D<int> M;
+RWTexture2D<int> M;
 
 // A constant buffer used in our miss shader, we'll fill data in from C++ code
 cbuffer MissShaderCB
@@ -122,9 +122,11 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	gMatExtra[launchIndex] = float4(shadeData.IoR, shadeData.doubleSidedMaterial ? 1.f : 0.f, 0.f, 0.f);
 	gMatEmissive[launchIndex] = float4(shadeData.emissive, 0.f);
 
+
+
 	samplePosition[launchIndex] = float4(1.f, 0, 0, 1.f);
 	sampleNormal[launchIndex] = float4(0, 1.f, 0, 1.f);
-	reservoir[launchIndex] = float4(0, 0, 1.f, 1.f);
-	//M[launchIndex] = 42; // TODO
+	M[launchIndex] = 240;
+	reservoir[launchIndex] = float4(M[launchIndex] / 255.0f, 0, 0, 1.f);
 }
 

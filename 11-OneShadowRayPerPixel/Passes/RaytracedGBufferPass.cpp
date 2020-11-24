@@ -42,7 +42,7 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	mpResManager->requestTextureResource("SamplePosition");
 	mpResManager->requestTextureResource("SampleNormal");
 	mpResManager->requestTextureResource("Reservoir");
-	//mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	// Set the default scene to load
 	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
@@ -88,7 +88,7 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr samplePosition = mpResManager->getClearedTexture("SamplePosition", vec4(0, 0, 0, 0));
 	Texture::SharedPtr sampleNormal = mpResManager->getClearedTexture("SampleNormal", vec4(0, 0, 0, 0));
 	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, 0));
-
+	Texture::SharedPtr M = mpResManager->getTexture("SamplesSeenSoFar");
 	//Texture::SharedPtr M = mpResManager->getClearedTexture("SamplesSeenSoFar", 0); // TODO problematic: can we use int or int4?
 
 
@@ -115,7 +115,7 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["samplePosition"] = samplePosition;
 		pVars["sampleNormal"] = sampleNormal;
 		pVars["reservoir"] = reservoir;
-		//pVars["M"] = M; //TODO
+		pVars["M"] = M; 
 	}
 
 	// Launch our ray tracing
