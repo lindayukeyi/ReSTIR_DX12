@@ -16,37 +16,36 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********************************************************************************************************************/
 
-#include "Falcor.h"
-#include "../SharedUtils/RenderingPipeline.h"
-#include "Passes/DiffuseOneShadowRayPass.h"
-#include "../CommonPasses/SimpleAccumulationPass.h"
-#include "Passes/GenerateCandidatesPass.h"
-#include "Passes/ShadowDetectionPass.h"
-#include "Passes/SpatialReusePass.h"
-#include "Passes/ShadePixelPass.h"
-#include "Passes/CopyToOutputPass.h"
-#include "Passes/RaytracedGBufferPass.h"
+#pragma once
+#include "../SharedUtils/RenderPass.h"
+#include "../SharedUtils/SimpleVars.h"
+#include "../SharedUtils/RayLaunch.h"
 
-int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
+class RayTracedGBufferPass : public ::RenderPass, inherit_shared_from_this<::RenderPass, RayTracedGBufferPass>
 {
-	// Create our rendering pipeline
-	RenderingPipeline *pipeline = new RenderingPipeline();
+public:
+	using SharedPtr = std::shared_ptr<RayTracedGBufferPass>;
 
-	// Add passes into our pipeline
-	pipeline->setPass(0, RayTracedGBufferPass::create());  // generate G-buffer
-	pipeline->setPass(1, GenerateCandidatesPass::create()); // generate potential candidates m = 32
-	pipeline->setPass(2, ShadowDetectionPass::create());    // remove invisible sample
-	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
-	pipeline->setPass(4, ShadePixelPass::create());         // compute final color
-	pipeline->setPass(5, CopyToOutputPass::create());       // output selected texture to channel; for debug
+	static SharedPtr create() { return SharedPtr(new RayTracedGBufferPass()); }
+	virtual ~RayTracedGBufferPass() = default;
 
-	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));  
+protected:
+	RayTracedGBufferPass() : ::RenderPass("Ray Traced G-Buffer", "Ray Traced G-Buffer Options") {}
 
-	// Define a set of config / window parameters for our program
-    SampleConfig config;
-	config.windowDesc.title = "ReSTIR with DX12";
-	config.windowDesc.resizableWindow = true;
+	// Implementation of RenderPass interface
+	bool initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager) override;
+	void execute(RenderContext* pRenderContext) override;
+	void initScene(RenderContext* pRenderContext, Scene::SharedPtr pScene) override;
 
-	// Start our program!
-	RenderingPipeline::run(pipeline, config);
-}
+	// The base RenderPass class defines a number of methods that we can override to 
+	//    specify what properties this pass has.  
+	bool requiresScene() override { return true; }
+	bool usesRayTracing() override { return true; }
+
+	// Internal pass state
+	RayLaunch::SharedPtr        mpRays;            ///< Our wrapper around a DX Raytracing pass
+	RtScene::SharedPtr          mpScene;           ///<  A copy of our scene
+
+	// What's our background color?
+	vec3                        mBgColor = vec3(0.5f, 0.5f, 1.0f);
+};

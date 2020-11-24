@@ -60,6 +60,9 @@
     <ClInclude Include="Passes\CopyToOutputPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
+    <ClInclude Include="Passes\RaytracedGBufferPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SharedUtils\RenderingPipeline.cpp">
@@ -106,6 +109,9 @@
       <Filter>Passes</Filter>
     </ClCompile>
     <ClCompile Include="Passes\CopyToOutputPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\RaytracedGBufferPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
   </ItemGroup>
