@@ -21,7 +21,7 @@
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
-	const char* kFileRayTrace = "Tutorial04\\rayTracedGBuffer.rt.hlsl";
+	const char* kFileRayTrace = "Tutorial11\\rayTracedGBuffer.rt.hlsl";
 
 	// What function names are used for the shader entry points for various shaders?
 	const char* kEntryPointRayGen = "GBufferRayGen";

@@ -48,6 +48,7 @@
     <ClInclude Include="Passes\SpatialReusePass.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\Tutorial11\alphaTest.hlsli" />
     <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli" />
     <None Include="Data\Tutorial11\standardShadowRay.hlsli" />
   </ItemGroup>
@@ -63,6 +64,11 @@
     <ProjectReference Include="..\Falcor\Framework\Source\Falcor.vcxproj">
       <Project>{3b602f0e-3834-4f73-b97d-7dfc91597a98}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\rayTracedGBuffer.rt.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D04DA011-0F3F-459E-8B18-41180F9ACCAD}</ProjectGuid>

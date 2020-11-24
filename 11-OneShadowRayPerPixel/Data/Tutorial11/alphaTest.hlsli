@@ -16,37 +16,29 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********************************************************************************************************************/
 
-#include "Falcor.h"
-#include "../SharedUtils/RenderingPipeline.h"
-#include "Passes/DiffuseOneShadowRayPass.h"
-#include "../CommonPasses/SimpleAccumulationPass.h"
-#include "Passes/GenerateCandidatesPass.h"
-#include "Passes/ShadowDetectionPass.h"
-#include "Passes/SpatialReusePass.h"
-#include "Passes/ShadePixelPass.h"
-#include "Passes/CopyToOutputPass.h"
-#include "Passes/RaytracedGBufferPass.h"
-
-int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
+// This function tests if the alpha test fails, given the attributes of the current hit. 
+//   -> Can legally be called in a DXR any-hit shader or a DXR closest-hit shader, and 
+//      accesses Falcor helpers and data structures to extract and perform the alpha test.
+bool alphaTestFails(BuiltInTriangleIntersectionAttributes attribs)
 {
-	// Create our rendering pipeline
-	RenderingPipeline *pipeline = new RenderingPipeline();
+	// Run a Falcor helper to extract the current hit point's geometric data
+	VertexOut  vsOut = getVertexAttributes(PrimitiveIndex(), attribs);
 
-	// Add passes into our pipeline
-	pipeline->setPass(0, RayTracedGBufferPass::create());  // generate G-buffer
-	//pipeline->setPass(1, GenerateCandidatesPass::create()); // generate potential candidates m = 32
-	//pipeline->setPass(2, ShadowDetectionPass::create());    // remove invisible sample
-	//pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(4, ShadePixelPass::create());         // compute final color
-	pipeline->setPass(5, CopyToOutputPass::create());       // output selected texture to channel; for debug
-	 
-	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));  
+	// Extracts the diffuse color from the material (the alpha component is opacity)
+    ExplicitLodTextureSampler lodSampler = { 0 };  // Specify the tex lod/mip to use here
+	float4 baseColor = sampleTexture(gMaterial.resources.baseColor, gMaterial.resources.samplerState,
+		vsOut.texC, gMaterial.baseColor, EXTRACT_DIFFUSE_TYPE(gMaterial.flags), lodSampler);
 
-	// Define a set of config / window parameters for our program
-    SampleConfig config;
-	config.windowDesc.title = "ReSTIR with DX12";
-	config.windowDesc.resizableWindow = true;
+	// Test if this hit point fails a standard alpha test.  
+	return (baseColor.a < gMaterial.alphaThreshold);
+}
 
-	// Start our program!
-	RenderingPipeline::run(pipeline, config);
+// This function combines two Falcor-defined utility routines into one.  (That does not
+//       require the user to define an additional opaque data type 'VertexOut', which 
+//       is largely irrelevant since ShadingData contains all the important data from
+//       VertexOut)
+ShadingData getShadingData(uint primId, BuiltInTriangleIntersectionAttributes barys)
+{
+	VertexOut  vsOut = getVertexAttributes(primId, barys);
+	return prepareShadingData(vsOut, gMaterial, gCamera.posW, 0);
 }
