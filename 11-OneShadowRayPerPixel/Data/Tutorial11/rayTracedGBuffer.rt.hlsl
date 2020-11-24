@@ -130,3 +130,48 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	reservoir[launchIndex] = float4(M[launchIndex] / 255.0f, 0, 0, 1.f);
 }
 
+void LambertShadowsRayGen()
+{
+	// Get our pixel's position on the screen
+	uint2 launchIndex = DispatchRaysIndex().xy;
+	uint2 launchDim = DispatchRaysDimensions().xy;
+
+	// Load g-buffer data:  world-space position, normal, and diffuse color
+	float4 worldPos = gPos[launchIndex];
+	float4 worldNorm = gNorm[launchIndex];
+	float4 difMatlColor = gDiffuseMatl[launchIndex];
+
+	// If we don't hit any geometry, our difuse material contains our background color.
+	float3 shadeColor = difMatlColor.rgb;
+
+	// Initialize our random number generator
+	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
+
+	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
+	if (worldPos.w != 0.0f)
+	{
+		// Pick a random light from our scene to sample
+		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
+
+		// We need to query our scene to find info about the current light
+		float distToLight;      // How far away is it?
+		float3 lightIntensity;  // What color is it?
+		float3 toLight;         // What direction is it from our current pixel?
+
+		// A helper (from the included .hlsli) to query the Falcor scene to get this data
+		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
+
+		// Compute our lambertion term (L dot N)
+		float LdotN = saturate(dot(worldNorm.xyz, toLight));
+
+		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
+		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
+		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
+
+		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
+		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
+	}
+	
+	// Save out our final shaded
+	gOutput[launchIndex] = float4(shadeColor, 1.0f);
+}
