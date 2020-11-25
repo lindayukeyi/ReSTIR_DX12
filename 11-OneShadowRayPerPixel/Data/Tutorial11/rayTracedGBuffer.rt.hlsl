@@ -109,6 +109,43 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	
 }
 
+void RIS(uint2 launchIndex, uint2 launchDim) {
+	// Get position and normal from G-Buffer
+	float3 pos = gWsPos[launchIndex].xyz;
+	float3 nor = normalize(gWsNorm[launchIndex].xyz);
+	float INV_PI = 1.f / 3.1415926535898f;
+	
+	// Initialize our random number generator
+	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
+	for (int i = 0; i < 32; i++) {
+		// Pick a random light from our scene to sample
+		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
+
+		// We need to query our scene to find info about the current light
+		float distToLight;      // How far away is it?
+		float3 lightIntensity;  // What color is it?
+		float3 toLight;         // What direction is it from our current pixel?
+
+		// A helper (from the included .hlsli) to query the Falcor scene to get this data
+		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
+		
+		// Compute w
+		float3 lightNorm = float3(0, 0, 1); // TODO
+		
+		float lambert = saturate(dot(normalize(toLight), nor));
+		
+		float brdf = INV_PI;
+		float area = 1.f; // TODO
+		
+		float geo_term = distToLight * distToLight / (saturate(abs(dot(normalize(toLight), lightNorm))) * area);
+		float w = lambert * brdf / geo_term;
+		
+		update(w); // TODO
+		
+		
+	}
+}
+
 // What code is executed when our ray misses all geometry?
 [shader("miss")]
 void PrimaryMiss(inout SimpleRayPayload)
