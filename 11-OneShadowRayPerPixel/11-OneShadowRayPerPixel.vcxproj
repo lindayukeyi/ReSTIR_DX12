@@ -48,7 +48,6 @@
     <ClInclude Include="Passes\SpatialReusePass.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\alphaTest.hlsli" />
     <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli" />
     <None Include="Data\Tutorial11\standardShadowRay.hlsli" />
   </ItemGroup>

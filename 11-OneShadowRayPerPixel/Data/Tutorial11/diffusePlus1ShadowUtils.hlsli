@@ -104,3 +104,21 @@ bool alphaTestFails(BuiltInTriangleIntersectionAttributes attribs)
 	return (baseColor.a < gMaterial.alphaThreshold);
 }
 
+// This function combines two Falcor-defined utility routines into one.  (That does not
+//       require the user to define an additional opaque data type 'VertexOut', which 
+//       is largely irrelevant since ShadingData contains all the important data from
+//       VertexOut)
+ShadingData getShadingData(uint primId, BuiltInTriangleIntersectionAttributes barys)
+{
+	VertexOut  vsOut = getVertexAttributes(primId, barys);
+	return prepareShadingData(vsOut, gMaterial, gCamera.posW, 0);
+}
+
+// toLight, lightNormal and normal should be normalized before calling this function
+float evalP(float3 toLight, float3 lightNormal, float distToLight, float area, float3 nor, ) {
+	float lambert = saturate(dot(toLight, nor));
+	float brdf = 1.f / 3.1415926535898f;
+	float geom_term = distToLight * distToLight / (saturate(abs(dot(toLight, lightNormal))) * area);
+	float p = lambert * brdf / geom_term;
+	return p;
+}

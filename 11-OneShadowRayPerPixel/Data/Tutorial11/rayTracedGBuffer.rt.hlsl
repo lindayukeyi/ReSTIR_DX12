@@ -18,11 +18,16 @@
 
 // Some shared Falcor stuff for talking between CPU and GPU code
 #include "HostDeviceSharedMacros.h"
+#include "HostDeviceData.h" 
+
+// Include helper functions
+#include "diffusePlus1ShadowUtils.hlsli"
 
 // Include and import common Falcor utilities and data structures
 __import Raytracing;                   // Shared ray tracing specific functions & data
 __import ShaderCommon;                 // Shared shading data structures
 __import Shading;                      // Shading functions, etc       
+__import Lights;                       // Light structures for our current scene
 
 // Payload for our primary rays.  This shader doesn't actually use the data, but it is currently
 //    required to use a user-defined payload while tracing a ray.  So define a simple one.
@@ -63,6 +68,11 @@ void GBufferRayGen()
 		rayData);                             // Our user-defined ray payload structure to store intermediate results
 }
 
+// A constant buffer used in our miss shader, we'll fill data in from C++ code
+cbuffer MissShaderCB
+{
+	float3  gBgColor;
+};
 
 // The output textures, where we store our G-buffer results.  See bindings in C++ code.
 RWTexture2D<float4> gWsPos;
@@ -73,16 +83,31 @@ RWTexture2D<float4> gMatExtra;
 RWTexture2D<float4> gMatEmissive;
 
 // Reservoir texture
+RWTexture2D<int> sampleIndex;
 RWTexture2D<float4> samplePosition;
 RWTexture2D<float4> sampleNormal;
 RWTexture2D<float4> reservoir; // W // Wsum // sample area // not used
 RWTexture2D<int> M;
 
-// A constant buffer used in our miss shader, we'll fill data in from C++ code
-cbuffer MissShaderCB
+// A constant buffer we'll populate from our c++ code
+cbuffer RISCB
 {
-	float3  gBgColor;
+	uint gFrameCount; // Frame counter, used to perturb random seed each frame
 };
+
+void updateReservoir(uint2 launchIndex, int lightIndex, float w, inout uint seed) {
+	reservoir[launchIndex].y = reservoir[launchIndex].y + w;
+	M[launchIndex] = M[launchIndex] + 1;
+	if (nextRand(seed) < (w / reservoir[launchIndex].y)) {
+		sampleIndex[launchIndex] = lightIndex;
+	}
+}
+
+void RIS(uint2 launchIndex, uint2 launchDim) {
+	float3 nor = normalize(gWsNorm[launchIndex].xyz);
+
+	
+}
 
 // What code is executed when our ray misses all geometry?
 [shader("miss")]
@@ -91,9 +116,6 @@ void PrimaryMiss(inout SimpleRayPayload)
 	// Store the background color into our diffuse material buffer
 	gMatDif[DispatchRaysIndex().xy] = float4(gBgColor, 1.0f);
 }
-
-// Include a simple helper function to do alpha testing (alphaTestFails())
-#include "alphaTest.hlsli"
 
 // What code is executed when our ray hits a potentially transparent surface?
 [shader("anyhit")]
@@ -108,8 +130,9 @@ void PrimaryAnyHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttributes
 [shader("closesthit")]
 void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttributes attribs)
 {
-	// Which pixel spawned our ray?
-	uint2  launchIndex = DispatchRaysIndex().xy;
+	// Get our pixel's position on the screen
+	uint2 launchIndex = DispatchRaysIndex().xy;
+	uint2 launchDim = DispatchRaysDimensions().xy;
 
 	// Run helper function to compute important data at the current hit point
 	ShadingData shadeData = getShadingData( PrimitiveIndex(), attribs );
@@ -122,56 +145,12 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	gMatExtra[launchIndex] = float4(shadeData.IoR, shadeData.doubleSidedMaterial ? 1.f : 0.f, 0.f, 0.f);
 	gMatEmissive[launchIndex] = float4(shadeData.emissive, 0.f);
 
-
+	M[launchIndex] = 0; // Initial number of samples is zero
+	
+	//TODO: call RIS
 
 	samplePosition[launchIndex] = float4(1.f, 0, 0, 1.f);
 	sampleNormal[launchIndex] = float4(0, 1.f, 0, 1.f);
 	M[launchIndex] = 240;
 	reservoir[launchIndex] = float4(M[launchIndex] / 255.0f, 0, 0, 1.f);
-}
-
-void LambertShadowsRayGen()
-{
-	// Get our pixel's position on the screen
-	uint2 launchIndex = DispatchRaysIndex().xy;
-	uint2 launchDim = DispatchRaysDimensions().xy;
-
-	// Load g-buffer data:  world-space position, normal, and diffuse color
-	float4 worldPos = gPos[launchIndex];
-	float4 worldNorm = gNorm[launchIndex];
-	float4 difMatlColor = gDiffuseMatl[launchIndex];
-
-	// If we don't hit any geometry, our difuse material contains our background color.
-	float3 shadeColor = difMatlColor.rgb;
-
-	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-
-	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
-	if (worldPos.w != 0.0f)
-	{
-		// Pick a random light from our scene to sample
-		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
-
-		// We need to query our scene to find info about the current light
-		float distToLight;      // How far away is it?
-		float3 lightIntensity;  // What color is it?
-		float3 toLight;         // What direction is it from our current pixel?
-
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
-
-		// Compute our lambertion term (L dot N)
-		float LdotN = saturate(dot(worldNorm.xyz, toLight));
-
-		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
-		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
-		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
-
-		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
-	}
-	
-	// Save out our final shaded
-	gOutput[launchIndex] = float4(shadeColor, 1.0f);
 }

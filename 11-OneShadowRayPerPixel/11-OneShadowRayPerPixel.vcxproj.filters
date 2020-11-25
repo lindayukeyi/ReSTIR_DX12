@@ -125,9 +125,6 @@
     <None Include="Data\Tutorial11\diffusePlus1Shadow.rt.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\alphaTest.hlsli">
-      <Filter>Shaders</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Data\Tutorial11\rayTracedGBuffer.rt.hlsl">
