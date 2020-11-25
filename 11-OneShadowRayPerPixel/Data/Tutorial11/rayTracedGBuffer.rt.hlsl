@@ -84,9 +84,9 @@ RWTexture2D<float4> gMatEmissive;
 
 // Reservoir texture
 RWTexture2D<int> sampleIndex;
-RWTexture2D<float4> samplePosition;
-RWTexture2D<float4> sampleNormal;
-RWTexture2D<float4> reservoir; // W // Wsum // sample area // not used
+RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
+RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
+RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
 // A constant buffer we'll populate from our c++ code
@@ -95,55 +95,50 @@ cbuffer RISCB
 	uint gFrameCount; // Frame counter, used to perturb random seed each frame
 };
 
-void updateReservoir(uint2 launchIndex, int lightIndex, float w, inout uint seed) {
-	reservoir[launchIndex].y = reservoir[launchIndex].y + w;
+void updateReservoir(uint2 launchIndex, int lightIndex, float4 toS, float4 sNA, float w, inout uint seed) {
+	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
 	if (nextRand(seed) < (w / reservoir[launchIndex].y)) {
 		sampleIndex[launchIndex] = lightIndex;
+		toSample[launchIndex] = toS;
+		sampleNormalArea[launchIndex] = sNA;
 	}
-}
-
-void RIS(uint2 launchIndex, uint2 launchDim) {
-	float3 nor = normalize(gWsNorm[launchIndex].xyz);
-
-	
 }
 
 void RIS(uint2 launchIndex, uint2 launchDim) {
 	// Get position and normal from G-Buffer
 	float3 pos = gWsPos[launchIndex].xyz;
 	float3 nor = normalize(gWsNorm[launchIndex].xyz);
-	float INV_PI = 1.f / 3.1415926535898f;
 	
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
 	for (int i = 0; i < 32; i++) {
-		// Pick a random light from our scene to sample
+		// TODO: Generate sample according to p
 		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
+		float p = 1.f / gLightsCount;
 
 		// We need to query our scene to find info about the current light
 		float distToLight;      // How far away is it?
 		float3 lightIntensity;  // What color is it?
-		float3 toLight;         // What direction is it from our current pixel?
+		float3 toLight;         // What direction is it from our current pixel? Normalized.
 
 		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
+		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight);
 		
+		// TODO: Get light normal and area
+		float4 sNA = float4(1.f, 0, 0, 1.f);
+		float4 toS = float4(toLight, distToLight);
+
 		// Compute w
-		float3 lightNorm = float3(0, 0, 1); // TODO
-		
-		float lambert = saturate(dot(normalize(toLight), nor));
-		
-		float brdf = INV_PI;
-		float area = 1.f; // TODO
-		
-		float geo_term = distToLight * distToLight / (saturate(abs(dot(normalize(toLight), lightNorm))) * area);
-		float w = lambert * brdf / geo_term;
-		
-		update(w); // TODO
-		
-		
+		float w = evalP(toS.xyz, sNA.xyz, toS.w, sNA.w, nor) / p;
+
+		updateReservoir(launchIndex, lightToSample, toS, sNA, w, randSeed);
 	}
+
+	float4 sNA = sampleNormalArea[launchIndex];
+	float4 toS = toSample[launchIndex];
+
+	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, sNA.xyz, toS.w, sNA.w, nor);
 }
 
 // What code is executed when our ray misses all geometry?
@@ -184,10 +179,6 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 
 	M[launchIndex] = 0; // Initial number of samples is zero
 	
-	//TODO: call RIS
-
-	samplePosition[launchIndex] = float4(1.f, 0, 0, 1.f);
-	sampleNormal[launchIndex] = float4(0, 1.f, 0, 1.f);
-	M[launchIndex] = 240;
-	reservoir[launchIndex] = float4(M[launchIndex] / 255.0f, 0, 0, 1.f);
+	// Call RIS
+	RIS(launchIndex, launchDim);
 }
