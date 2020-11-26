@@ -11,11 +11,15 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	// Stash a copy of our resource manager so we can get rendering resources
 	mpResManager = pResManager;
 
-	// TODO : request textures
+	// Request textures
 	mpResManager->requestTextureResource("FinalShadedImage");
-	mpResManager->requestTextureResources({ "WorldPosition" });
-	
-	//mpResManager->requestTextureResource(ResourceManager::kOutputChannel);
+	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
+											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResource("SampleIndex", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	mpResManager->requestTextureResource("ToSample");
+	mpResManager->requestTextureResource("SampleNormalArea");
+	mpResManager->requestTextureResource("Reservoir");
+	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
@@ -28,13 +32,22 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 void ShadePixelPass::execute(RenderContext* pRenderContext)
 {
-	Texture::SharedPtr shadedImage = mpResManager->getTexture("FinalShadedImage");
-
-	// If our texture is invalid, do nothing
-	if (!shadedImage) return;
+	auto outputFbo = mpResManager->createManagedFbo({ "FinalShadedImage" });
 
 	auto shaderVars = mpShadePixelPass->getVars();
-
-	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
 	
+	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
+	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
+	shaderVars["gMatDif"] = mpResManager->getTexture("MaterialDiffuse");
+	shaderVars["gMatSpec"] = mpResManager->getTexture("MaterialSpecRough");
+	shaderVars["gMatExtra"]	= mpResManager->getTexture("MaterialExtraParams");
+	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
+
+	shaderVars["sampleIndex"] = mpResManager->getTexture("SampleIndex");
+	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
+	shaderVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
+	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
+	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
+
+	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState);}
