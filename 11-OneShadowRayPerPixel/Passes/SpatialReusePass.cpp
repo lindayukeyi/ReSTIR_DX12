@@ -1,85 +1,59 @@
-/**********************************************************************************************************************
-# Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
-# following conditions are met:
-#  * Redistributions of code must retain the copyright notice, this list of conditions and the following disclaimer.
-#  * Neither the name of NVIDIA CORPORATION nor the names of its contributors may be used to endorse or promote products
-#    derived from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT
-# SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**********************************************************************************************************************/
-
 #include "SpatialReusePass.h" 
 
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
-	const char* kFileRayTrace = "Tutorial11\\diffusePlus1Shadow.rt.hlsl";
-
-	// What are the entry points in that shader for various ray tracing shaders?
-	const char* kEntryPointRayGen = "SpatialReuse";
-	const char* kEntryPointMiss0 = "ShadowMiss";
-	const char* kEntryAoAnyHit = "ShadowAnyHit";
-	const char* kEntryAoClosestHit = "ShadowClosestHit";
+	const char* kSpatialReuseShader = "Tutorial11\\spatialReuse.hlsl";
 };
 
 bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager)
 {
 	// Stash a copy of our resource manager so we can get rendering resources
 	mpResManager = pResManager;
-	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse", "ReservoirShadowed" });
-	mpResManager->requestTextureResource("ReservoirFinal");
-	//mpResManager->requestTextureResource(ResourceManager::kOutputChannel);
 
-	// Set the default scene to load
-	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
+	// Request textures
+	mpResManager->requestTextureResource("PingPongReservior");
+	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
+											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResource("SampleIndex", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	mpResManager->requestTextureResource("ToSample");
+	mpResManager->requestTextureResource("SampleNormalArea");
+	mpResManager->requestTextureResource("Reservoir");
+	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
-	// Create our wrapper around a ray tracing pass.  Tell it where our ray generation shader and ray-specific shaders are
-	mpRays = RayLaunch::create(kFileRayTrace, kEntryPointRayGen);
-	mpRays->addMissShader(kFileRayTrace, kEntryPointMiss0);
-	mpRays->addHitShader(kFileRayTrace, kEntryAoClosestHit, kEntryAoAnyHit);
-	mpRays->compileRayProgram();
-	if (mpScene) mpRays->setScene(mpScene);
+	// Use the default gfx pipeline state
+	mpGfxState = GraphicsState::create();
+
+	// Create our shader
+	mpSpatialReusePass = FullscreenLaunch::create(kSpatialReuseShader);
+
 	return true;
-}
-
-void SpatialReusePass::initScene(RenderContext* pRenderContext, Scene::SharedPtr pScene)
-{
-	// Stash a copy of the scene and pass it to our ray tracer (if initialized)
-	mpScene = std::dynamic_pointer_cast<RtScene>(pScene);
-	if (mpRays) mpRays->setScene(mpScene);
 }
 
 void SpatialReusePass::execute(RenderContext* pRenderContext)
 {
-	// Get the output buffer we're writing into; clear it to black.
-	Texture::SharedPtr pDstTex = mpResManager->getClearedTexture("ReservoirFinal", vec4(0.0f, 0.0f, 0.0f, 0.0f));
-	//Texture::SharedPtr pDstTex = mpResManager->getClearedTexture(ResourceManager::kOutputChannel, vec4(0.0f, 0.0f, 0.0f, 0.0f));
+	auto outputFbo = mpResManager->createManagedFbo({ "PingPongReservior", "PingpongM", "PingpongSampleIndex", "PingpongToSample", "PingpongSampleNormalArea" });
 
-	// Do we have all the resources we need to render?  If not, return
-	if (!pDstTex || !mpRays || !mpRays->readyToRender()) return;
+	auto shaderVars = mpSpatialReusePass->getVars();
 
-	// Set our ray tracing shader variables 
-	auto rayGenVars = mpRays->getRayGenVars();
-	rayGenVars["RayGenCB"]["gMinT"] = mpResManager->getMinTDist();
-	rayGenVars["RayGenCB"]["gFrameCount"] = mFrameCount++;
+	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
+	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
+	shaderVars["gMatDif"] = mpResManager->getTexture("MaterialDiffuse");
+	shaderVars["gMatSpec"] = mpResManager->getTexture("MaterialSpecRough");
+	shaderVars["gMatExtra"] = mpResManager->getTexture("MaterialExtraParams");
+	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
 
-	// Pass our G-buffer textures down to the HLSL so we can shade
-	rayGenVars["gPos"] = mpResManager->getTexture("WorldPosition");
-	rayGenVars["gNorm"] = mpResManager->getTexture("WorldNormal");
-	rayGenVars["gDiffuseMatl"] = mpResManager->getTexture("MaterialDiffuse");
-	rayGenVars["gReservoirShadowed"] = mpResManager->getTexture("ReservoirShadowed");
-	rayGenVars["gOutput"] = pDstTex;
+	shaderVars["sampleIndex"] = mpResManager->getTexture("SampleIndex");
+	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
+	shaderVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
+	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
+	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 
-	// Shoot our rays and shade our primary hit points
-	mpRays->execute(pRenderContext, mpResManager->getScreenSize());
+	mpGfxState->setFbo(outputFbo);
+	mpSpatialReusePass->execute(pRenderContext, mpGfxState);
+	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), outputFbo->getColorTexture(0)->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), outputFbo->getColorTexture(1)->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SampleIndex")->getSRV(), outputFbo->getColorTexture(2)->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("toSample")->getSRV(), outputFbo->getColorTexture(3)->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SampleNormalArea")->getSRV(), outputFbo->getColorTexture(4)->getRTV());
 }
-
-

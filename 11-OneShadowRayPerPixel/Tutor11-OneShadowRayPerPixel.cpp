@@ -39,9 +39,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
 	pipeline->setPass(4, ShadePixelPass::create());         // compute final color
 	pipeline->setPass(5, CopyToOutputPass::create());        // output selected texture to channel; for debug
-	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(4, ShadePixelPass::create());         // compute final color
-	pipeline->setPass(5, CopyToOutputPass::create());       // output selected texture to channel; for debug
 	 
 	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));  
 
