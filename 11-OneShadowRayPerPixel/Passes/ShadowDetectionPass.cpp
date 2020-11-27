@@ -76,6 +76,7 @@ void ShadowDetectionPass::execute(RenderContext* pRenderContext)
 	rayGenVars["gNorm"] = mpResManager->getTexture("WorldNormal");
 	rayGenVars["gDiffuseMatl"] = mpResManager->getTexture("MaterialDiffuse");
 	rayGenVars["gReservoir"] = mpResManager->getTexture("Reservoir");
+	rayGenVars["sampleIndex"] = mpResManager->getTexture("sampleIndex");
 	rayGenVars["gOutput"] = pDstTex;
 
 	// Shoot our rays and shade our primary hit points

@@ -45,104 +45,8 @@ Texture2D<float4>   gNorm;                  // G-buffer world-space normal
 Texture2D<float4>   gDiffuseMatl;           // G-buffer diffuse material (RGB) and opacity (A)
 Texture2D<float4>   gReservoir;             // G-buffer sample light at each pixel
 Texture2D<float4>   gReservoirShadowed;     // G-buffer sample light + visible
-Texture2D<float4>   gReservoirFinal;        // G-buffer sample light + visible + spatial reuse
+Texture2D<float4>   sampleIndex;        
 RWTexture2D<float4> gOutput;                // Output to store shaded result
-
-// How do we shade our g-buffer and generate shadow rays?
-[shader("raygeneration")]
-void LambertShadowsRayGen()
-{
-	// Get our pixel's position on the screen
-	uint2 launchIndex = DispatchRaysIndex().xy;
-	uint2 launchDim = DispatchRaysDimensions().xy;
-
-	// Load g-buffer data:  world-space position, normal, and diffuse color
-	float4 worldPos = gPos[launchIndex];
-	float4 worldNorm = gNorm[launchIndex];
-	float4 difMatlColor = gDiffuseMatl[launchIndex];
-
-	// If we don't hit any geometry, our difuse material contains our background color.
-	float3 shadeColor = difMatlColor.rgb;
-
-	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-
-	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
-	if (worldPos.w != 0.0f)
-	{
-		// Pick a random light from our scene to sample
-		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
-
-		// We need to query our scene to find info about the current light
-		float distToLight;      // How far away is it?
-		float3 lightIntensity;  // What color is it?
-		float3 toLight;         // What direction is it from our current pixel?
-
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
-
-		// Compute our lambertion term (L dot N)
-		float LdotN = saturate(dot(worldNorm.xyz, toLight));
-
-		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
-		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
-		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
-
-		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
-	}
-	
-	// Save out our final shaded
-	gOutput[launchIndex] = float4(shadeColor, 1.0f);
-}
-
-
-// TODO: RIS
-void GenerateCandidates()
-{
-	// Get our pixel's position on the screen
-	uint2 launchIndex = DispatchRaysIndex().xy;
-	uint2 launchDim = DispatchRaysDimensions().xy;
-
-	// Load g-buffer data:  world-space position, normal, and diffuse color
-	float4 worldPos = gPos[launchIndex];
-	float4 worldNorm = gNorm[launchIndex];
-	float4 difMatlColor = gDiffuseMatl[launchIndex];
-
-	// If we don't hit any geometry, our difuse material contains our background color.
-	float3 shadeColor = difMatlColor.rgb;
-
-	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-
-	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
-	if (worldPos.w != 0.0f)
-	{
-		// Pick a random light from our scene to sample
-		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
-
-		// We need to query our scene to find info about the current light
-		float distToLight;      // How far away is it?
-		float3 lightIntensity;  // What color is it?
-		float3 toLight;         // What direction is it from our current pixel?
-
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
-
-		// Compute our lambertion term (L dot N)
-		float LdotN = saturate(dot(worldNorm.xyz, toLight));
-
-		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
-		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
-		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
-
-		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
-	}
-
-	// Save out our final shaded
-	gOutput[launchIndex] = float4(1.0f, 0.0f, 0.0f, 1.0f);
-}
 
 
 // TODO : shadowed detection
@@ -159,15 +63,15 @@ void ShadowedDetection() {
 	// If we don't hit any geometry, our difuse material contains our background color.
 	float3 shadeColor = rsv.rgb;
 	//shadeColor = saturate(shadeColor + float3(0.2f, 0.3f, 0.2f));
-	/*
+	
 	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
+	//uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
 	
 	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
 	if (worldPos.w != 0.0f)
 	{
 		// Pick a random light from our scene to sample
-		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
+		int lightToSample = sampleIndex[launchIndex].x;
 
 		// We need to query our scene to find info about the current light
 		float distToLight;      // How far away is it?
@@ -177,108 +81,15 @@ void ShadowedDetection() {
 		// A helper (from the included .hlsli) to query the Falcor scene to get this data
 		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
 
-		// Compute our lambertion term (L dot N)
-		float LdotN = saturate(dot(worldNorm.xyz, toLight));
 
 		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
 		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
-		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
-		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
+		int isVisible = shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);;
+		if (isVisble == 0) {
+			shaderColor = float3(0.0);
+		}
 	}
-	*/
+	
 	// Save out our final shaded
-	gOutput[launchIndex] = float4(shadeColor, 1.0f);
-}
-
-// TODO: Spatial Reuse
-void SpatialReuse() {
-	// Get our pixel's position on the screen
-	uint2 launchIndex = DispatchRaysIndex().xy;
-	uint2 launchDim = DispatchRaysDimensions().xy;
-
-	// Load g-buffer data:  world-space position, normal, and diffuse color
-	float4 worldPos = gPos[launchIndex];
-	float4 worldNorm = gNorm[launchIndex];
-	float4 rsv = gReservoirShadowed[launchIndex];
-
-	// If we don't hit any geometry, our difuse material contains our background color.
-	float3 shadeColor = rsv.rgb;
-	//shadeColor = saturate(shadeColor + float3(0.0f, 0.5f, 0.0f));
-	/*
-	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-
-	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
-	if (worldPos.w != 0.0f)
-	{
-		// Pick a random light from our scene to sample
-		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
-
-		// We need to query our scene to find info about the current light
-		float distToLight;      // How far away is it?
-		float3 lightIntensity;  // What color is it?
-		float3 toLight;         // What direction is it from our current pixel?
-
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
-
-		// Compute our lambertion term (L dot N)
-		float LdotN = saturate(dot(worldNorm.xyz, toLight));
-
-		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
-		//    (we're uniformly sampling, so this probability is: 1 / #lights)
-		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
-		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
-	}
-	*/
-	// Save out our final shaded
-	gOutput[launchIndex] = float4(shadeColor, 1.0f);
-}
-
-// TODO: compute pixel color
-void ShadePixel() {
-	// Get our pixel's position on the screen
-	uint2 launchIndex = DispatchRaysIndex().xy;
-	uint2 launchDim = DispatchRaysDimensions().xy;
-
-	// Load g-buffer data:  world-space position, normal, and diffuse color
-	float4 worldPos = gPos[launchIndex];
-	float4 worldNorm = gNorm[launchIndex];
-	float4 rsv = gReservoirFinal[launchIndex];
-
-	// If we don't hit any geometry, our difuse material contains our background color.
-	float3 shadeColor = rsv.rgb;
-	//shadeColor = saturate(shadeColor + float3(0.0f, 0.0f, 0.5f));
-	/*
-	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-
-	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
-	if (worldPos.w != 0.0f)
-	{
-		// Pick a random light from our scene to sample
-		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
-
-		// We need to query our scene to find info about the current light
-		float distToLight;      // How far away is it?
-		float3 lightIntensity;  // What color is it?
-		float3 toLight;         // What direction is it from our current pixel?
-
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
-
-		// Compute our lambertion term (L dot N)
-		float LdotN = saturate(dot(worldNorm.xyz, toLight));
-
-		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
-		//    (we're uniformly sampling, so this probability is: 1 / #lights)
-		float shadowMult = float(gLightsCount) * shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
-		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
-	}
-	*/
-	// Save out our final shaded
-	gOutput[launchIndex] = float4(shadeColor, 1.0f);
+	gReservoirShadowed[launchIndex] = float4(shadeColor, 1.0f);
 }

@@ -126,10 +126,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Data\Tutorial11\rayTracedGBuffer.rt.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Data\Tutorial11\spatialReuse.rt.hlsl">
+    <None Include="Data\Tutorial11\spatialReuse.rt.hlsl" />
+    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
       <Filter>Shaders</Filter>
-    </FxCompile>
+    </None>
   </ItemGroup>
 </Project>
