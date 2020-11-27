@@ -27,7 +27,7 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	// Create our shader
 	mpShadePixelPass = FullscreenLaunch::create(kShadePixelShader);
 
-	return true;
+	return true; 
 }
 
 void ShadePixelPass::execute(RenderContext* pRenderContext)
