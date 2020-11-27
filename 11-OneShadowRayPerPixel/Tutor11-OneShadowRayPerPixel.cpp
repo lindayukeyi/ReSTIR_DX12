@@ -20,7 +20,6 @@
 #include "../SharedUtils/RenderingPipeline.h"
 #include "Passes/DiffuseOneShadowRayPass.h"
 #include "../CommonPasses/SimpleAccumulationPass.h"
-#include "Passes/GenerateCandidatesPass.h"
 #include "Passes/ShadowDetectionPass.h"
 #include "Passes/SpatialReusePass.h"
 #include "Passes/ShadePixelPass.h"
@@ -34,17 +33,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// Add passes into our pipeline
 	pipeline->setPass(0, RayTracedGBufferPass::create());  // generate G-buffer and initial candidates
-	//pipeline->setPass(1, GenerateCandidatesPass::create()); // generate potential candidates m = 32
 	//pipeline->setPass(2, ShadowDetectionPass::create());    // remove invisible sample
 	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
 	pipeline->setPass(4, ShadePixelPass::create());         // compute final color
-	pipeline->setPass(5, CopyToOutputPass::create());        // output selected texture to channel; for debug
-	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(4, ShadePixelPass::create());         // compute final color
 	pipeline->setPass(5, CopyToOutputPass::create());       // output selected texture to channel; for debug
-	 
-	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));  
-
+	
 	// Define a set of config / window parameters for our program
     SampleConfig config;
 	config.windowDesc.title = "ReSTIR with DX12";
