@@ -19,8 +19,7 @@ protected:
     void execute(RenderContext* pRenderContext) override;
 
     // Override some functions that provide information to the RenderPipeline class
-    bool requiresScene() override { return true; }
-	bool usesRasterization() override { return true; }
+    bool usesRasterization() override { return true; }
 
 	// Internal pass state
 	FullscreenLaunch::SharedPtr   mpShadePixelPass;         ///< Our accumulation shader state
