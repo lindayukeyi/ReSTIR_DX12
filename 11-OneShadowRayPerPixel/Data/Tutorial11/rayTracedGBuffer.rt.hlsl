@@ -4,6 +4,7 @@
 
 // Include helper functions
 #include "diffusePlus1ShadowUtils.hlsli"
+#include "pbr.hlsli"
 
 // Include and import common Falcor utilities and data structures
 __import Raytracing;                   // Shared ray tracing specific functions & data

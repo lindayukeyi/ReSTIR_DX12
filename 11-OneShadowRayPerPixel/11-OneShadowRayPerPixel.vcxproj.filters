@@ -125,5 +125,8 @@
     <None Include="Data\Tutorial11\shadePixel.hlsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Data\Tutorial11\pbr.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

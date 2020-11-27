@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli" />
+    <None Include="Data\Tutorial11\pbr.hlsli" />
     <None Include="Data\Tutorial11\standardShadowRay.hlsli" />
   </ItemGroup>
   <ItemGroup>
