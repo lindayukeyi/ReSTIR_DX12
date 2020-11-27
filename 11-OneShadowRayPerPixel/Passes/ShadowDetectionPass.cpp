@@ -21,7 +21,7 @@
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
-	const char* kFileRayTrace = "Tutorial11\\diffusePlus1Shadow.rt.hlsl";
+	const char* kFileRayTrace = "Tutorial11\\shadowDetection.rt.hlsl";
 
 	// What are the entry points in that shader for various ray tracing shaders?
 	const char* kEntryPointRayGen = "ShadowedDetection";
@@ -75,8 +75,12 @@ void ShadowDetectionPass::execute(RenderContext* pRenderContext)
 	rayGenVars["gPos"] = mpResManager->getTexture("WorldPosition");
 	rayGenVars["gNorm"] = mpResManager->getTexture("WorldNormal");
 	rayGenVars["gDiffuseMatl"] = mpResManager->getTexture("MaterialDiffuse");
-	rayGenVars["gReservoir"] = mpResManager->getTexture("Reservoir");
-	rayGenVars["sampleIndex"] = mpResManager->getTexture("sampleIndex");
+
+	rayGenVars["sampleIndex"] = mpResManager->getTexture("SampleIndex");
+	rayGenVars["toSample"] = mpResManager->getTexture("ToSample");
+	rayGenVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
+	rayGenVars["reservoir"] = mpResManager->getTexture("Reservoir");
+	rayGenVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	rayGenVars["gOutput"] = pDstTex;
 
 	// Shoot our rays and shade our primary hit points

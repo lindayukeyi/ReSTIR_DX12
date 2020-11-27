@@ -57,7 +57,7 @@ void combineReservoirs(uint2 launchIndex, inout uint seed, int k) {
 	float M_sum = 0.0;
 	for (int i = 0; i < k; i++) {
 		// sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
-		float r = 30.0 * nextRand(seed + k);
+		float r = 30.0 * sqrt(nextRand(seed + k));
 		float theta = 2.0 * PI *nextRand(seed + k + launchIndex.x + launchIndex.y);
 		uint2 neighborIndex;
 		neighborIndex.x = launchIndex.x + int(clamp(r * cos(theta), 0.0, width));
