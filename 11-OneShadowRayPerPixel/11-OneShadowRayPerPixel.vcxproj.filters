@@ -134,5 +134,8 @@
     <None Include="Data\Tutorial11\shadePixel.hlsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Data\Tutorial11\spatialReuse.rt.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
