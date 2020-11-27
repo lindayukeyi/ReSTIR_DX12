@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\shadePixel.hlsl">
-    <None Include="Data\Tutorial11\spatialReuse.rt.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
