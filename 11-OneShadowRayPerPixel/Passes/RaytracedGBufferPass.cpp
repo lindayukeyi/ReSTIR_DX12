@@ -21,7 +21,6 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	//     format (in this case, the default, RGBA32F) and size (in this case, the default, screen sized)
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
-	mpResManager->requestTextureResource("SampleIndex", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
@@ -68,13 +67,10 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr matEmit = mpResManager->getClearedTexture("Emissive", vec4(0, 0, 0, 0));
 
 	// Reservoir information
-	Texture::SharedPtr sampleIndex = mpResManager->getTexture("SampleIndex");
 	Texture::SharedPtr toSample = mpResManager->getClearedTexture("ToSample", vec4(0, 0, 0, 0));
 	Texture::SharedPtr sampleNormalArea = mpResManager->getClearedTexture("SampleNormalArea", vec4(0, 0, 0, 0));
 	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, 0));
 	Texture::SharedPtr M = mpResManager->getTexture("SamplesSeenSoFar");
-	//Texture::SharedPtr M = mpResManager->getClearedTexture("SamplesSeenSoFar", 0); // TODO problematic: can we use int or int4?
-
 
 	// Now we'll send our parameters down to our ray tracing shaders
 
@@ -96,7 +92,6 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["gMatExtra"] = matExtra;
 		pVars["gMatEmissive"] = matEmit;
 
-		pVars["sampleIndex"] = sampleIndex;
 		pVars["toSample"] = toSample;
 		pVars["sampleNormalArea"] = sampleNormalArea;
 		pVars["reservoir"] = reservoir;

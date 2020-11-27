@@ -9,9 +9,8 @@ RWTexture2D<float4> gMatExtra;
 RWTexture2D<float4> gMatEmissive;
 
 // Reservoir texture
-RWTexture2D<int> sampleIndex;
 RWTexture2D<float4> emittedLight; // xyz: light color
-RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
+RWTexture2D<float4> toSample; // xyz: hit point(ref) to sample // w: distToLight
 RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
