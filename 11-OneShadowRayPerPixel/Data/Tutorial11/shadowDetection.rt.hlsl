@@ -91,7 +91,7 @@ void ShadowedDetection() {
 	}
 	
 	// Save out our final shaded
-	reservoir[launchIndex] = float4(weight, rsv.y, rsv.z, rsv.w);
-	//gOutput[launchIndex] = float4(weight, 0.0, 0.0, 0.0);
+	//reservoir[launchIndex] = float4(weight, rsv.y, rsv.z, rsv.w);
+	gOutput[launchIndex] = float4(weight, 0.0, 0.0, 0.0);
 
 }
