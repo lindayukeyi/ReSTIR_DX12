@@ -15,10 +15,6 @@ RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
-cbuffer MyConst {
-	uint lightCount;
-}
-
 float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 {
 	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
@@ -34,12 +30,8 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 		float r = toSample[pixelPos].w;
 		pdfL = r * r / (cosLight * sampleNormalArea[pixelPos].w);
 	}
-	if (pdfL == 0.f) {
-		return float4(0, 0, 0, 1.f);
-	}
-	else {
-		float3 ret = (bsdf * L) * lambert * lightCount / pdfL * reservoir[pixelPos].x;
-		return float4(ret, 1.f);
-	}
-	return float4(0, 0, 0, 1);
+
+	// float3 result = bsdf * L * lambert * (float)lightCount * (reservoir[pixelPos].x > 0 ? 1 : 0);
+	float3 result = bsdf * L * lambert * reservoir[pixelPos].x;
+	return float4(result, 1);
 }
