@@ -78,6 +78,16 @@
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\folder2\ReSTIR_DX12-li\ReSTIR_DX12-li\11-OneShadowRayPerPixel\Data\Tutorial11\spatialReuse.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\spatialReuse.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D04DA011-0F3F-459E-8B18-41180F9ACCAD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

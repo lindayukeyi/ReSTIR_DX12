@@ -128,9 +128,11 @@
     <None Include="Data\Tutorial11\pbr.hlsli">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl" />
+    <None Include="..\..\..\folder2\ReSTIR_DX12-li\ReSTIR_DX12-li\11-OneShadowRayPerPixel\Data\Tutorial11\spatialReuse.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+    <FxCompile Include="Data\Tutorial11\spatialReuse.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
