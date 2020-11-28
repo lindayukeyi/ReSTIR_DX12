@@ -163,5 +163,5 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	M[launchIndex] = 0; // Initial number of samples is zero
 	
 	// Call RIS
-	// RIS(launchIndex, launchDim);
+	 RIS(launchIndex, launchDim);
 }

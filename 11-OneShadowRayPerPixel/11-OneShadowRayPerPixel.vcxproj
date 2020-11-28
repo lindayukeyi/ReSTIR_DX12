@@ -73,6 +73,16 @@
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\spatialReuse.rt.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D04DA011-0F3F-459E-8B18-41180F9ACCAD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
