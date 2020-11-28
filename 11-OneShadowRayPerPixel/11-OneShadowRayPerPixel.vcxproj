@@ -69,22 +69,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\shadePixel.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
       <FileType>Document</FileType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\folder2\ReSTIR_DX12-li\ReSTIR_DX12-li\11-OneShadowRayPerPixel\Data\Tutorial11\spatialReuse.hlsl">
+    <None Include="Data\Tutorial11\spatialReuse.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\spatialReuse.hlsl">
+    <None Include="Data\Tutorial11\shadePixel.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
