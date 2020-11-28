@@ -127,13 +127,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+    <FxCompile Include="Data\Tutorial11\shadePixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Data\Tutorial11\spatialReuse.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Data\Tutorial11\shadePixel.ps.hlsl">
+    <FxCompile Include="Data\Tutorial11\shadowDetection.rt.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
