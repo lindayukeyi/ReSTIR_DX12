@@ -35,10 +35,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	pipeline->setPass(0, RayTracedGBufferPass::create());  // generate G-buffer and initial candidates
 	pipeline->setPass(1, ShadowDetectionPass::create());    // remove invisible sample
 	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(4, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(5, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(6, SpatialReusePass::create());       // spatial reuse
-	//pipeline->setPass(7, SpatialReusePass::create());       // spatial reuse
+	pipeline->setPass(4, SpatialReusePass::create());       // spatial reuse
+	pipeline->setPass(5, SpatialReusePass::create());       // spatial reuse
+	pipeline->setPass(6, SpatialReusePass::create());       // spatial reuse
+	pipeline->setPass(7, SpatialReusePass::create());       // spatial reuse
 	pipeline->setPass(8, ShadePixelPass::create());         // compute final color
 	pipeline->setPass(9, CopyToOutputPass::create());       // output selected texture to channel; for debug
 
