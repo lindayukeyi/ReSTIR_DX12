@@ -31,7 +31,6 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 		pdfL = r * r / (cosLight * sampleNormalArea[pixelPos].w);
 	}
 
-	// float3 result = bsdf * L * lambert * (float)lightCount * (reservoir[pixelPos].x > 0 ? 1 : 0);
 	float3 result = bsdf * L * lambert * reservoir[pixelPos].x;
 	return float4(result, 1);
 }
