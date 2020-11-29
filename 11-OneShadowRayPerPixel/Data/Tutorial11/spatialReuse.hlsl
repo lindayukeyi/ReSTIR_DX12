@@ -103,11 +103,11 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 			continue;
 		}
 		// Exceed 10% of current pixel's depth
-		//if (gWsPos[neighborPos].z > 1.1 * gWsPos[pixelPos].z || gWsPos[neighborPos].z < 0.9 * gWsPos[pixelPos].z) {
-		//	i--;
-		//	i_total++;
-		//	continue;
-		//}
+		if (gWsNorm[neighborPos].w > 1.1 * gWsNorm[pixelPos].w || gWsNorm[neighborPos].w < 0.9 * gWsNorm[pixelPos].w) {
+			i--;
+			i_total++;
+			continue;
+		}
 		float3 nor = normalize(gWsNorm[neighborPos].xyz);
 		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[neighborPos].xyz, emittedLight[neighborPos].xyz, nor);
 		float3 Le = emittedLight[neighborPos].xyz;
