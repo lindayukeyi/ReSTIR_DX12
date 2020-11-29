@@ -26,6 +26,7 @@
     <ClCompile Include="Passes\ShadePixelPass.cpp" />
     <ClCompile Include="Passes\ShadowDetectionPass.cpp" />
     <ClCompile Include="Passes\SpatialReusePass.cpp" />
+    <ClCompile Include="TemporalReusePass.cpp" />
     <ClCompile Include="Tutor11-OneShadowRayPerPixel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <ClInclude Include="Passes\ShadePixelPass.h" />
     <ClInclude Include="Passes\ShadowDetectionPass.h" />
     <ClInclude Include="Passes\SpatialReusePass.h" />
+    <ClInclude Include="TemporalReusePass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli" />
@@ -69,7 +71,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+    <None Include="Data\Tutorial11\shadePixel.hlsl">
       <FileType>Document</FileType>
     </None>
     <None Include="Data\Tutorial11\spatialReuse.hlsl">
@@ -77,7 +79,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\shadePixel.hlsl">
+    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
