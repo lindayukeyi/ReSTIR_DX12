@@ -18,6 +18,9 @@ RWTexture2D<int> M;
 float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 {
 	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
+	if (gWsPos[pixelPos].w == 0) {
+		return float4(0, 0, 0, 1);
+	}
 
 	float lambert = max(0, dot(toSample[pixelPos].xyz, gWsNorm[pixelPos].xyz));
 	float3 bsdf = gMatDif[pixelPos].xyz / 3.14159265359f;

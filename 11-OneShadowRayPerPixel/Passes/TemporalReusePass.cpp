@@ -13,6 +13,7 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 	mpResManager = pResManager;
 
 	// Request textures
+	mpResManager->requestTextureResource("TestOutput");
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
@@ -25,6 +26,7 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 	mpResManager->requestTextureResource("LastSampleNormalArea");
 	mpResManager->requestTextureResource("LastReservoir");
 	mpResManager->requestTextureResource("LastSamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	mpResManager->requestTextureResource("LastWorldPosition");
 
 	// Create our graphics state and accumulation shader
 	mpGfxState = GraphicsState::create();
@@ -34,8 +36,9 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 }
 
 void TemporalReusePass::execute(RenderContext* pRenderContext) {
+	auto myFBO = mpResManager->createManagedFbo({ "WorldPosition" });
+
 	// Get textures
-	Texture::SharedPtr wsPos = mpResManager->getTexture("WorldPosition");
 	Texture::SharedPtr wsNorm = mpResManager->getTexture("WorldNormal");
 	Texture::SharedPtr matDif = mpResManager->getTexture("MaterialDiffuse");
 
@@ -50,18 +53,38 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 	Texture::SharedPtr lastSampleNormalArea = mpResManager->getTexture("LastSampleNormalArea");
 	Texture::SharedPtr lastReservoir = mpResManager->getTexture("LastReservoir");
 	Texture::SharedPtr lastM = mpResManager->getTexture("LastSamplesSeenSoFar");
+	Texture::SharedPtr lastWPos = mpResManager->getTexture("LastWorldPosition");
 	
-	// Set shader parameters for our accumulation
+	// Set shader parameters
 	auto shaderVars = mpTemporalReuse->getVars();
 	shaderVars["MyCB"]["gFrameCount"] = mFrameCount++;
+	shaderVars["MyCB"]["lastViewProjMat"] = mLastViewProjMatrix;
+	mLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
+
+	shaderVars["gWsPos"] = myFBO->getColorTexture(0);
+	shaderVars["gWsNorm"] = wsNorm;
+	shaderVars["gMatDif"] = matDif;
 	
+	shaderVars["emittedLight"] = emittedLight;
+	shaderVars["toSample"] = toSample;
+	shaderVars["sampleNormalArea"] = sampleNormalArea;
+	shaderVars["reservoir"] = reservoir;
+	shaderVars["M"] = M;
+
+	shaderVars["lastEmittedLight"] = lastEmittedLight;
+	shaderVars["lastToSample"] = lastToSample;
+	shaderVars["lastSampleNormalArea"] = lastSampleNormalArea;
+	shaderVars["lastReservoir"] = lastReservoir;
+	shaderVars["lastM"] = lastM;
+	shaderVars["lastWPos"] = lastWPos;
+
+	mpGfxState->setFbo(myFBO); // We need a FBO to make it work
+
 	if (mFrameCount != 1) {
 		// Skip the first frame since we do not have a frame to reuse
 		mpTemporalReuse->execute(pRenderContext, mpGfxState);
 	}
 	
-	shaderVars["MyCB"]["lastViewProjMat"] = mpScene->getActiveCamera()->getViewProjMatrix();
-
 	// TODO: This should be done after spatial reuse pass
 	// Save the current reservoir to be used in next frame
 	pRenderContext->blit(emittedLight->getSRV(), lastEmittedLight->getRTV());
@@ -69,4 +92,5 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 	pRenderContext->blit(sampleNormalArea->getSRV(), lastSampleNormalArea->getRTV());
 	pRenderContext->blit(reservoir->getSRV(), lastReservoir->getRTV());
 	pRenderContext->blit(M->getSRV(), lastM->getRTV());
+	pRenderContext->blit(myFBO->getColorTexture(0)->getSRV(), lastWPos->getRTV());
 }

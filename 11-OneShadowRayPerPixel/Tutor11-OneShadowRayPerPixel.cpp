@@ -25,6 +25,7 @@
 #include "Passes/ShadePixelPass.h"
 #include "Passes/CopyToOutputPass.h"
 #include "Passes/RaytracedGBufferPass.h"
+#include "Passes/TemporalReusePass.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -32,15 +33,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	RenderingPipeline *pipeline = new RenderingPipeline();
 
 	// Add passes into our pipeline
-	pipeline->setPass(0, RayTracedGBufferPass::create());  // generate G-buffer and initial candidates
-	pipeline->setPass(1, ShadowDetectionPass::create());    // remove invisible sample
-	pipeline->setPass(3, SpatialReusePass::create());       // spatial reuse
-	pipeline->setPass(4, SpatialReusePass::create());       // spatial reuse
-	pipeline->setPass(5, SpatialReusePass::create());       // spatial reuse
-	pipeline->setPass(6, SpatialReusePass::create());       // spatial reuse
-	pipeline->setPass(7, SpatialReusePass::create());       // spatial reuse
-	pipeline->setPass(8, ShadePixelPass::create());         // compute final color
-	pipeline->setPass(9, CopyToOutputPass::create());       // output selected texture to channel; for debug
+	pipeline->setPass(0, RayTracedGBufferPass::create());                     // generate G-buffer and initial candidates
+	pipeline->setPass(1, ShadowDetectionPass::create());                      // remove invisible sample
+	//pipeline->setPass(2, TemporalReusePass::create());                        // temporal reuse
+
+	const int spatialReuseIteration = 0;
+	for (int i = 0; i < spatialReuseIteration; i++) {
+		pipeline->setPass(3 + i, SpatialReusePass::create());                 // spatial reuse
+	}
+
+	pipeline->setPass(3 + spatialReuseIteration, ShadePixelPass::create());   // compute final color
+	pipeline->setPass(4 + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
 
 	// Define a set of config / window parameters for our program
     SampleConfig config;

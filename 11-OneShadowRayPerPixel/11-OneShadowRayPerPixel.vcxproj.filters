@@ -60,7 +60,7 @@
     <ClInclude Include="Passes\ShadePixelPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="TemporalReusePass.h">
+    <ClInclude Include="Passes\TemporalReusePass.h">
       <Filter>Passes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -111,7 +111,7 @@
     <ClCompile Include="Passes\ShadePixelPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="TemporalReusePass.cpp">
+    <ClCompile Include="Passes\TemporalReusePass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,12 +131,22 @@
     <None Include="Data\Tutorial11\pbr.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl" />
     <None Include="Data\Tutorial11\shadePixel.hlsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Data\Tutorial11\spatialReuse.hlsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Data\Tutorial11\randomHelper.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Data\Tutorial11\temporalReuse.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
