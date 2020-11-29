@@ -20,7 +20,14 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
-	
+
+	mpResManager->requestTextureResource("LastEmittedLight");
+	mpResManager->requestTextureResource("LastToSample");
+	mpResManager->requestTextureResource("LastSampleNormalArea");
+	mpResManager->requestTextureResource("LastReservoir");
+	mpResManager->requestTextureResource("LastSamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	mpResManager->requestTextureResource("LastWorldPosition");
+
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
 
@@ -50,4 +57,13 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 
 	mpGfxState->setFbo(outputFbo);
-	mpShadePixelPass->execute(pRenderContext, mpGfxState);}
+	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
+	
+	// Save the current reservoir to be used in next frame
+	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), mpResManager->getTexture("LastEmittedLight")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("LastToSample")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SampleNormalArea")->getSRV(), mpResManager->getTexture("LastSampleNormalArea")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), mpResManager->getTexture("LastReservoir")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("LastSamplesSeenSoFar")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("WorldPosition")->getSRV(), mpResManager->getTexture("LastWorldPosition")->getRTV());
+}

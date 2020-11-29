@@ -101,17 +101,17 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	reservoir.GetDimensions(width, height);
 
 	float4 worldPos = gWsPos[pixelPos];
-	if (worldPos.w == 0) { // This indicates the pixel is out of scene
+	if (worldPos.w == 0) { // This pixel is out of scene
 		return;
 	}
 
 	bool inScreen;
 	uint2 lastPos = getLastPixelPos(worldPos, width, height, inScreen);
-	if (!inScreen) {
+	if (!inScreen) { // The corresponding pixel in previous frame is out of screen
 		return;
 	}
 
-	if (length(worldPos - lastWPos[lastPos]) > 0.01f) {
+	if (length(worldPos - lastWPos[lastPos]) > 0.01f) { // The corresonding fragment is occluded by another fragment
 		return;
 	}
 
