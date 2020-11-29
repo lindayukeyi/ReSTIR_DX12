@@ -21,13 +21,14 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	//     format (in this case, the default, RGBA32F) and size (in this case, the default, screen sized)
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	// Set the default scene to load
-	mpResManager->setDefaultSceneName("Data/simpleScene/box.fscene");
+	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
 
 	// Create our wrapper around a ray tracing pass.  Specify our ray generation shader and ray-specific shaders
 	mpRays = RayLaunch::create(kFileRayTrace, kEntryPointRayGen);
@@ -67,6 +68,7 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr matEmit = mpResManager->getClearedTexture("Emissive", vec4(0, 0, 0, 0));
 
 	// Reservoir information
+	Texture::SharedPtr emittedLight = mpResManager->getClearedTexture("EmittedLight", vec4(0, 0, 0, 0));
 	Texture::SharedPtr toSample = mpResManager->getClearedTexture("ToSample", vec4(0, 0, 0, 0));
 	Texture::SharedPtr sampleNormalArea = mpResManager->getClearedTexture("SampleNormalArea", vec4(0, 0, 0, 0));
 	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, 0));
@@ -92,11 +94,15 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["gMatExtra"] = matExtra;
 		pVars["gMatEmissive"] = matEmit;
 
+		pVars["emittedLight"] = emittedLight;
 		pVars["toSample"] = toSample;
 		pVars["sampleNormalArea"] = sampleNormalArea;
 		pVars["reservoir"] = reservoir;
 		pVars["M"] = M; 
 	}
+
+	auto globalVars = mpRays->getGlobalVars();
+	globalVars["RISCB"]["gFrameCount"] = mFrameCount++;
 
 	// Launch our ray tracing
 	mpRays->execute(pRenderContext, mpResManager->getScreenSize());

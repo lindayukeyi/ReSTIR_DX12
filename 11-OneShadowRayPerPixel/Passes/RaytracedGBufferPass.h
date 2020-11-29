@@ -30,4 +30,7 @@ protected:
 
 	// What's our background color?
 	vec3                        mBgColor = vec3(0.5f, 0.5f, 1.0f);
+
+	// Frame count used for seed generation
+	uint32_t mFrameCount = 0;
 };

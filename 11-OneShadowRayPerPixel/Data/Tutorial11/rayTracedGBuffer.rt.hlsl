@@ -81,7 +81,8 @@ cbuffer RISCB
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
-	if (nextRand(seed) < (w / reservoir[launchIndex].y)) {
+	float Wsum = reservoir[launchIndex].y;
+	if (Wsum > 0 && nextRand(seed) < (w / Wsum)) {
 		emittedLight[launchIndex] = float4(Le, 1.f);
 		toSample[launchIndex] = toS;
 		sampleNormalArea[launchIndex] = sNA;
@@ -96,7 +97,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
 	for (int i = 0; i < 32; i++) {
-		// TODO: Generate sample according to p
+		// Generate sample according to p
 		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
 		float p = 1.f / gLightsCount;
 
@@ -108,12 +109,11 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 		// A helper (from the included .hlsli) to query the Falcor scene to get this data
 		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight);
 		
-		// TODO: Get light normal and area
-		float4 sNA = float4(1.f, 0, 0, 1.f);
+		float4 sNA = float4(1.f, 0, 0, 1.f); // TODO: Get light normal and area for areaLight
 		float4 toS = float4(toLight, distToLight);
 
 		// Compute w
-		float w = evalP(toS.xyz, sNA.xyz, toS.w, sNA.w, nor) / p;
+		float w = evalP(toS.xyz, gMatDif[launchIndex].xyz, lightIntensity, nor) / p;
 
 		updateReservoir(launchIndex, lightIntensity, toS, sNA, w, randSeed);
 	}
@@ -121,7 +121,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	float4 sNA = sampleNormalArea[launchIndex];
 	float4 toS = toSample[launchIndex];
 
-	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, sNA.xyz, toS.w, sNA.w, nor);
+	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
 }
 
 // What code is executed when our ray misses all geometry?
@@ -163,5 +163,5 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	M[launchIndex] = 0; // Initial number of samples is zero
 	
 	// Call RIS
-	 RIS(launchIndex, launchDim);
+	RIS(launchIndex, launchDim);
 }

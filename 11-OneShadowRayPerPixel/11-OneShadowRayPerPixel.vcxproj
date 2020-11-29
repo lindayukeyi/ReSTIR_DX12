@@ -72,6 +72,9 @@
     <None Include="Data\Tutorial11\shadePixel.hlsl">
       <FileType>Document</FileType>
     </None>
+    <None Include="Data\Tutorial11\spatialReuse.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
