@@ -55,7 +55,7 @@ Falcor::RtScene::SharedPtr loadScene( uvec2 currentScreenSize, const char *defau
 	// Load a scene
 	if (hasSuffix(filename, ".fscene", false))
 	{
-		pScene = RtScene::loadFromFile(filename, RtBuildFlags::None, Model::LoadFlags::RemoveInstancing);
+		pScene = RtScene::loadFromFile(filename, RtBuildFlags::None, Model::LoadFlags::RemoveInstancing, Scene::LoadFlags::GenerateAreaLights);
 
 		// If we have a valid scene, do some sanity checking; set some defaults
 		if (pScene)

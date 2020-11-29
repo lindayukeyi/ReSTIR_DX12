@@ -15,7 +15,6 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	mpResManager->requestTextureResource("FinalShadedImage");
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
-	mpResManager->requestTextureResource("SampleIndex", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
@@ -43,7 +42,6 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	shaderVars["gMatExtra"]	= mpResManager->getTexture("MaterialExtraParams");
 	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
 
-	shaderVars["sampleIndex"] = mpResManager->getTexture("SampleIndex");
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
 	shaderVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");

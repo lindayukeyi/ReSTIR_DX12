@@ -22,7 +22,6 @@
     <ClCompile Include="..\SharedUtils\SimpleVars.cpp" />
     <ClCompile Include="Passes\CopyToOutputPass.cpp" />
     <ClCompile Include="Passes\DiffuseOneShadowRayPass.cpp" />
-    <ClCompile Include="Passes\GenerateCandidatesPass.cpp" />
     <ClCompile Include="Passes\RaytracedGBufferPass.cpp" />
     <ClCompile Include="Passes\ShadePixelPass.cpp" />
     <ClCompile Include="Passes\ShadowDetectionPass.cpp" />
@@ -41,7 +40,6 @@
     <ClInclude Include="..\SharedUtils\SimpleVars.h" />
     <ClInclude Include="Passes\CopyToOutputPass.h" />
     <ClInclude Include="Passes\DiffuseOneShadowRayPass.h" />
-    <ClInclude Include="Passes\GenerateCandidatesPass.h" />
     <ClInclude Include="Passes\RaytracedGBufferPass.h" />
     <ClInclude Include="Passes\ShadePixelPass.h" />
     <ClInclude Include="Passes\ShadowDetectionPass.h" />
@@ -49,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli" />
+    <None Include="Data\Tutorial11\pbr.hlsli" />
     <None Include="Data\Tutorial11\standardShadowRay.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -76,11 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Tutorial11\spatialReuse.rt.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

@@ -4,6 +4,7 @@
 
 // Include helper functions
 #include "diffusePlus1ShadowUtils.hlsli"
+#include "pbr.hlsli"
 
 // Include and import common Falcor utilities and data structures
 __import Raytracing;                   // Shared ray tracing specific functions & data
@@ -65,8 +66,8 @@ RWTexture2D<float4> gMatExtra;
 RWTexture2D<float4> gMatEmissive;
 
 // Reservoir texture
-RWTexture2D<int> sampleIndex;
-RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
+RWTexture2D<float4> emittedLight; // xyz: light color
+RWTexture2D<float4> toSample; // xyz: hit point(ref) to sample // w: distToLight
 RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
@@ -77,11 +78,11 @@ cbuffer RISCB
 	uint gFrameCount; // Frame counter, used to perturb random seed each frame
 };
 
-void updateReservoir(uint2 launchIndex, int lightIndex, float4 toS, float4 sNA, float w, inout uint seed) {
+void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
 	if (nextRand(seed) < (w / reservoir[launchIndex].y)) {
-		sampleIndex[launchIndex] = lightIndex;
+		emittedLight[launchIndex] = float4(Le, 1.f);
 		toSample[launchIndex] = toS;
 		sampleNormalArea[launchIndex] = sNA;
 	}
@@ -114,7 +115,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 		// Compute w
 		float w = evalP(toS.xyz, sNA.xyz, toS.w, sNA.w, nor) / p;
 
-		updateReservoir(launchIndex, lightToSample, toS, sNA, w, randSeed);
+		updateReservoir(launchIndex, lightIntensity, toS, sNA, w, randSeed);
 	}
 
 	float4 sNA = sampleNormalArea[launchIndex];

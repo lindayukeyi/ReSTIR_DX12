@@ -601,6 +601,7 @@ void RenderingPipeline::onFirstRun(SampleCallbacks* pSample)
 	// Did the user ask for us to load a scene by default?
 	if (mPipeNeedsDefaultScene)
 	{
+		mpResourceManager->setDefaultSceneName("Data/simpleScene/box.fscene");
 		RtScene::SharedPtr loadedScene = loadScene(mLastKnownSize, mpResourceManager->getDefaultSceneName().c_str());
 		if (loadedScene) onInitNewScene(pSample->getRenderContext().get(), loadedScene);
 	}

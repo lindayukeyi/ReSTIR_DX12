@@ -45,9 +45,6 @@
     <ClInclude Include="..\SharedUtils\RenderPass.h">
       <Filter>SharedUtils</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\GenerateCandidatesPass.h">
-      <Filter>Passes</Filter>
-    </ClInclude>
     <ClInclude Include="Passes\ShadowDetectionPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
@@ -96,9 +93,6 @@
     <ClCompile Include="..\SharedUtils\RenderPass.cpp">
       <Filter>SharedUtils</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\GenerateCandidatesPass.cpp">
-      <Filter>Passes</Filter>
-    </ClCompile>
     <ClCompile Include="Passes\ShadowDetectionPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
@@ -125,17 +119,19 @@
     <None Include="Data\Tutorial11\diffusePlus1Shadow.rt.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Data\Tutorial11\rayTracedGBuffer.rt.hlsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Data\Tutorial11\shadePixel.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\spatialReuse.rt.hlsl">
+    <None Include="Data\Tutorial11\pbr.hlsli">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
