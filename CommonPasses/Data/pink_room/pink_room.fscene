@@ -50,17 +50,24 @@
     "lights": [
         {
             "name": "dirLight0",
-            "type": "dir_light",
+            "type": "point_light",
             "intensity": [
                 1.0,
                 1.0,
                 0.9843137860298157
             ],
+            "pos": [
+                -2.5,
+                1.5427508354187012,
+                -1.488459825515747
+            ],
             "direction": [
                 0.3642265796661377,
                 -0.5452651977539063,
                 0.7549999952316284
-            ]
+            ],
+            "opening_angle": 180.0,
+            "penumbra_angle": 0.0
         },
         {
             "name": "pointLight1",

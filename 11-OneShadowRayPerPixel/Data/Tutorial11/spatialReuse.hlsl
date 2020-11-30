@@ -20,9 +20,6 @@ RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
-RWTexture2D<float4> reject;
-
-
 cbuffer RISCB
 {
 	uint gFrameCount; // Frame counter, used to perturb random seed each frame
@@ -34,7 +31,7 @@ struct Pingpong
 	float4 ptoSample         : SV_Target1;
 	float4 psampleNormalArea : SV_Target2;
 	float4 pemittedLight     : SV_Target3;
-	int    pM                : SV_Target4;
+	int    pM : SV_Target4;
 };
 
 
@@ -89,13 +86,8 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	uint seed = initRand(pixelPos.x + pixelPos.y * width.x, gFrameCount, 16);
 	Pingpong pp;
 
-	float3 norCur = normalize(gWsNorm[pixelPos].xyz);
-	float angleThres = cos(25.0 * PI / 180.0);
-	float zCur = abs(gWsPos[pixelPos].z);
-	
-	int count = 0;
 	for (int i = 0; i < 5; i++) {
-	// sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
+		// sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
 		float r = 30.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
 		uint2 neighborPos;
@@ -103,18 +95,6 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		neighborPos.y = pixelPos.y + int(clamp(r * sin(theta), 0.0, height));
 
 		float3 nor = normalize(gWsNorm[neighborPos].xyz);
-		float z = abs(gWsPos[neighborPos].z);
-		
-		if (abs(dot(nor, norCur)) > angleThres) {
-			reject[pixelPos] = float4(0.0, 0.0, 0.0, 1.0);
-			continue;
-		}
-
-		if (abs(zCur - z) / z > 0.1) {
-			//reject[pixelPos] = float4(0.0, 0.0, 0.0, 1.0);
-			//continue;
-		}
-
 		float p_hat = evalP(toSample[neighborPos].xyz, sampleNormalArea[neighborPos].xyz, toSample[neighborPos].w, sampleNormalArea[neighborPos].w, nor);
 		float3 Le = emittedLight[neighborPos].xyz;
 		float4 toS = toSample[neighborPos];

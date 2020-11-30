@@ -152,9 +152,11 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	// Run helper function to compute important data at the current hit point
 	ShadingData shadeData = getShadingData( PrimitiveIndex(), attribs );
 
+	float depthW = abs(dot(normalize(gCamera.cameraW), shadeData.posW - gCamera.posW));
+
 	// Save out our G-Buffer values to the specified output textures
 	gWsPos[launchIndex] = float4(shadeData.posW, 1.f);
-	gWsNorm[launchIndex] = float4(shadeData.N, length(shadeData.posW - gCamera.posW));
+	gWsNorm[launchIndex] = float4(shadeData.N, depthW);
 	gMatDif[launchIndex] = float4(shadeData.diffuse, shadeData.opacity);
 	gMatSpec[launchIndex] = float4(shadeData.specular, shadeData.linearRoughness);
 	gMatExtra[launchIndex] = float4(shadeData.IoR, shadeData.doubleSidedMaterial ? 1.f : 0.f, 0.f, 0.f);

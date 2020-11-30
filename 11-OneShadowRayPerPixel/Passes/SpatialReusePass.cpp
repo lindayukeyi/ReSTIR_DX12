@@ -34,7 +34,7 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 
 void SpatialReusePass::execute(RenderContext* pRenderContext)
 {
-	auto outputFbo = mpResManager->createManagedFbo({ "PingPongReservior", "PingpongToSample", "PingpongSampleNormalArea", "PingpongEmittedLight", "PingpongM"});
+	auto outputFbo = mpResManager->createManagedFbo({ "PingPongReservior", "PingpongToSample", "PingpongSampleNormalArea", "PingpongEmittedLight", "PingpongM" });
 
 	auto shaderVars = mpSpatialReusePass->getVars();
 
@@ -54,10 +54,10 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 
 	mpGfxState->setFbo(outputFbo);
 	mpSpatialReusePass->execute(pRenderContext, mpGfxState);
-	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), outputFbo->getColorTexture(0)->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), outputFbo->getColorTexture(1)->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("SampleNormalArea")->getSRV(), outputFbo->getColorTexture(2)->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), outputFbo->getColorTexture(3)->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), outputFbo->getColorTexture(4)->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(0)->getSRV(), mpResManager->getTexture("Reservoir")->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(1)->getSRV(), mpResManager->getTexture("ToSample")->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(2)->getSRV(), mpResManager->getTexture("SampleNormalArea")->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(3)->getSRV(), mpResManager->getTexture("EmittedLight")->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(4)->getSRV(), mpResManager->getTexture("SamplesSeenSoFar")->getRTV());
 
 }
