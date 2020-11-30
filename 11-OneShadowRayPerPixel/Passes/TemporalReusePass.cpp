@@ -84,4 +84,12 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 		// Skip the first frame since we do not have a frame to reuse
 		mpTemporalReuse->execute(pRenderContext, mpGfxState);
 	}
+
+	// Save the current reservoir to be used in next frame
+	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), mpResManager->getTexture("LastEmittedLight")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("LastToSample")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SampleNormalArea")->getSRV(), mpResManager->getTexture("LastSampleNormalArea")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), mpResManager->getTexture("LastReservoir")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("LastSamplesSeenSoFar")->getRTV());
+	pRenderContext->blit(myFBO->getColorTexture(0)->getSRV(), mpResManager->getTexture("LastWorldPosition")->getRTV());
 }

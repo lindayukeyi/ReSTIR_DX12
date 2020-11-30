@@ -39,7 +39,7 @@ struct Pingpong
 void updatereservoir(float3 le, float4 tos, float4 sna, float w, inout uint seed, inout Pingpong pp) {
 	pp.preservoir.y += w;  // wsum += w
 	pp.pM = pp.pM + 1;
-	if (nextRand(seed) < (w / pp.preservoir.y)) {
+	if (pp.preservoir.y > 0 && nextRand(seed) < (w / pp.preservoir.y)) {
 		pp.pemittedLight = float4(le, 1.f);
 		pp.ptoSample = tos;
 		pp.psampleNormalArea = sna;
