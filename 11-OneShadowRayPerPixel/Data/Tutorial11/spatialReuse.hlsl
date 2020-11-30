@@ -73,8 +73,8 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		float r = 30.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
 		uint2 neighborPos;
-		neighborPos.x = pixelPos.x + int(clamp(r * cos(theta), 0.0, width));
-		neighborPos.y = pixelPos.y + int(clamp(r * sin(theta), 0.0, height));
+		neighborPos.x = pixelPos.x + clamp(int(r * cos(theta)), 0, int(width - 1));
+		neighborPos.y = pixelPos.y + clamp(int(r * sin(theta)), 0, int(height - 1));
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree
 		if ( dot( normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz) ) < 0.9063) {
 			i--;
