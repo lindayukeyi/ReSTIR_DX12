@@ -10,7 +10,7 @@ ReSTIR with DirectX Raytracing
 * Li Zheng
   * [LinkedIn](https://www.linkedin.com/in/li-zheng-1955ba169/).
 
-![](compare.png)
+![](./images/compare.png)
 
 ## Introduction
 
