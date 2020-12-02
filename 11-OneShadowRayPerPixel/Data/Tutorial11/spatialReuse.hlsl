@@ -98,9 +98,12 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 			continue;
 		}
 
-		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, gWsNorm[pixelPos].xyz);
+		float3 lightPosW = toSample[neighborPos].xyz * toSample[neighborPos].w + gWsPos[neighborPos].xyz;
+		float3 curToSampleUnit = normalize(lightPosW - gWsPos[pixelPos].xyz);
+
+		float p_hat = evalP(curToSampleUnit, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, gWsNorm[pixelPos].xyz);
 		float3 Le = emittedLight[neighborPos].xyz;
-		float4 toS = toSample[neighborPos];
+		float4 toS = float4(lightPosW, 1);
 		float4 sNA = sampleNormalArea[neighborPos];
 		float w = p_hat * reservoir[neighborPos].x * M[neighborPos];
 		updatereservoir(Le, toS, sNA, w, seed, pp);
@@ -108,8 +111,10 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	}
 
 	pp.pM += M_sum;
-	float3 nor_s = normalize(gWsNorm[pixelPos].xyz);
-	float p_hat_s = evalP(pp.ptoSample.xyz, gMatDif[pixelPos].xyz, pp.pemittedLight.xyz, nor_s);
+
+	float3 curToSample = pp.ptoSample.xyz - gWsPos[pixelPos].xyz;
+	pp.ptoSample = float4(normalize(curToSample), length(curToSample));
+	float p_hat_s = evalP(pp.ptoSample.xyz, gMatDif[pixelPos].xyz, pp.pemittedLight.xyz, gWsNorm[pixelPos].xyz);
 	pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
 
 	return pp;
