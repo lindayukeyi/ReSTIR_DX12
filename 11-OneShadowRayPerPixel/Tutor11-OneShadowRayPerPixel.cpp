@@ -33,8 +33,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	RenderingPipeline *pipeline = new RenderingPipeline();
 
 	// Add passes into our pipeline
+	
+	/*
+	pipeline->setPass(0, RayTracedGBufferPass::create());  // generate G-buffer
+	pipeline->setPass(1, DiffuseOneShadowRayPass::create());
+	//pipeline->setPass(2, SimpleAccumulationPass::create(ResourceManager::kOutputChannel));
+	*/
+	
 	pipeline->setPass(0, RayTracedGBufferPass::create());                     // generate G-buffer and initial candidates
 	pipeline->setPass(1, ShadowDetectionPass::create());                      // remove invisible sample
+
 	pipeline->setPass(2, TemporalReusePass::create());                        // temporal reuse
 
 	const int spatialReuseIteration = 2;
@@ -44,7 +52,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	pipeline->setPass(3 + spatialReuseIteration, ShadePixelPass::create());   // compute final color
 	pipeline->setPass(4 + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
-
+	
 	// Define a set of config / window parameters for our program
     SampleConfig config;
 	config.windowDesc.title = "ReSTIR with DX12";

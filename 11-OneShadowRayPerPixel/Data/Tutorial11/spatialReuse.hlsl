@@ -33,7 +33,7 @@ struct Pingpong
 	float4 ptoSample         : SV_Target1;
 	float4 psampleNormalArea : SV_Target2;
 	float4 pemittedLight     : SV_Target3;
-	int    pM                : SV_Target4;
+	int    pM : SV_Target4;
 };
 
 void updatereservoir(float3 le, float4 tos, float4 sna, float w, inout uint seed, inout Pingpong pp) {
@@ -67,16 +67,24 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	int i_total = 0;
 	// Sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
 	for (int i = 0; i < 5; i++) {
-		if (i_total > 10) {
+		if (i_total > 50) {
 			break;
-		}	  
+		}
 		float r = 30.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
 		uint2 neighborPos;
-		neighborPos.x = pixelPos.x + clamp(int(r * cos(theta)), 0, int(width - 1));
-		neighborPos.y = pixelPos.y + clamp(int(r * sin(theta)), 0, int(height - 1));
+		neighborPos.x = pixelPos.x + clamp(int(r * cos(theta)), 0, (width - 1));
+		neighborPos.y = pixelPos.y + clamp(int(r * sin(theta)), 0, (height - 1));
+		// If the pixel is out of bound, disgard it
+		if (neighborPos.x < 0 || neighborPos.x >= width || neighborPos.y < 0 || neighborPos.y >= height) {
+			i--;
+			i_total++;
+			continue;
+		}
+
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree
-		if ( dot( normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz) ) < 0.9063) {
+		
+		if (dot(normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz)) < 0.9063) {
 			i--;
 			i_total++;
 			continue;
@@ -87,8 +95,8 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 			i_total++;
 			continue;
 		}
-		float3 nor = normalize(gWsNorm[neighborPos].xyz);
-		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[neighborPos].xyz, emittedLight[neighborPos].xyz, nor);
+		float3 nor = normalize(gWsNorm[pixelPos].xyz);
+		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, nor);
 		float3 Le = emittedLight[neighborPos].xyz;
 		float4 toS = toSample[neighborPos];
 		float4 sNA = sampleNormalArea[neighborPos];

@@ -86,10 +86,10 @@ void LambertShadowsRayGen()
 
 		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
 		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
-		float shadowMult = shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);//* float(gLightsCount);
+		float shadowMult = shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight) * float(gLightsCount);
 
 		// Compute our Lambertian shading color using the physically based Lambertian term (albedo / pi)
-		shadeColor = shadowMult;// * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
+		shadeColor = shadowMult * LdotN * lightIntensity * difMatlColor.rgb / 3.141592f;
 	}
 	
 	// Save out our final shaded
