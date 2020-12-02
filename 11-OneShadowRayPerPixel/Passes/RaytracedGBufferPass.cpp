@@ -71,7 +71,7 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr emittedLight = mpResManager->getClearedTexture("EmittedLight", vec4(0, 0, 0, 0));
 	Texture::SharedPtr toSample = mpResManager->getClearedTexture("ToSample", vec4(0, 0, 0, 0));
 	Texture::SharedPtr sampleNormalArea = mpResManager->getClearedTexture("SampleNormalArea", vec4(0, 0, 0, 0));
-	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, 0));
+	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, mFrameCount++));
 	Texture::SharedPtr M = mpResManager->getTexture("SamplesSeenSoFar");
 
 	// Now we'll send our parameters down to our ray tracing shaders
@@ -100,9 +100,6 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["reservoir"] = reservoir;
 		pVars["M"] = M; 
 	}
-
-	auto globalVars = mpRays->getGlobalVars();
-	globalVars["RISCB"]["gFrameCount"] = mFrameCount++;
 
 	// Launch our ray tracing
 	mpRays->execute(pRenderContext, mpResManager->getScreenSize());
