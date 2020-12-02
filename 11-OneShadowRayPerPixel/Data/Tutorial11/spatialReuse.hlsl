@@ -54,7 +54,7 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	float height;
 	reservoir.GetDimensions(width, height);
 
-	float M_sum = 0.0;
+	int M_sum = 0;
 	uint seed = initRand(pixelPos.x + pixelPos.y * width.x, gFrameCount, 16);
 	Pingpong pp;
 
