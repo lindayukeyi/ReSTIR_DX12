@@ -50,6 +50,8 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 
+	shaderVars["RISCB"]["gFrameCount"] = mFrameCount++;
+
 	mpGfxState->setFbo(outputFbo);
 	mpSpatialReusePass->execute(pRenderContext, mpGfxState);
 	pRenderContext->blit(outputFbo->getColorTexture(0)->getSRV(), mpResManager->getTexture("Reservoir")->getRTV());
