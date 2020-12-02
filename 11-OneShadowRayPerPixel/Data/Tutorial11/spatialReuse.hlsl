@@ -72,31 +72,33 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		}
 		float r = 30.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
-		uint2 neighborPos;
-		neighborPos.x = pixelPos.x + clamp(int(r * cos(theta)), 0, (width - 1));
-		neighborPos.y = pixelPos.y + clamp(int(r * sin(theta)), 0, (height - 1));
-		// If the pixel is out of bound, disgard it
-		if (neighborPos.x < 0 || neighborPos.x >= width || neighborPos.y < 0 || neighborPos.y >= height) {
+		float2 neighborf = pos.xy;
+		neighborf.x += r * cos(theta);
+		neighborf.y += r * sin(theta);
+
+		// If the pixel is out of bound, discard it
+		if (neighborf.x < 0 || neighborf.x >= width || neighborf.y < 0 || neighborf.y >= height) {
 			i--;
 			i_total++;
 			continue;
 		}
+		uint2 neighborPos = (uint2)neighborf;
 
-		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree
-		
+		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree		
 		if (dot(normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz)) < 0.9063) {
 			i--;
 			i_total++;
 			continue;
 		}
+
 		// Exceed 10% of current pixel's depth
 		if (gWsNorm[neighborPos].w > 1.1 * gWsNorm[pixelPos].w || gWsNorm[neighborPos].w < 0.9 * gWsNorm[pixelPos].w) {
 			i--;
 			i_total++;
 			continue;
 		}
-		float3 nor = normalize(gWsNorm[pixelPos].xyz);
-		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, nor);
+
+		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, gWsNorm[pixelPos].xyz);
 		float3 Le = emittedLight[neighborPos].xyz;
 		float4 toS = toSample[neighborPos];
 		float4 sNA = sampleNormalArea[neighborPos];
