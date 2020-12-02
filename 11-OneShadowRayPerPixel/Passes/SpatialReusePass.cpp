@@ -17,7 +17,6 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
 	mpResManager->requestTextureResource("ToSample");
-	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("EmittedLight");
@@ -33,7 +32,7 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 
 void SpatialReusePass::execute(RenderContext* pRenderContext)
 {
-	auto outputFbo = mpResManager->createManagedFbo({ "PingPongReservior", "PingpongToSample", "PingpongSampleNormalArea", "PingpongEmittedLight", "PingpongM" });
+	auto outputFbo = mpResManager->createManagedFbo({ "PingPongReservior", "PingpongToSample", "PingpongEmittedLight", "PingpongM" });
 
 	auto shaderVars = mpSpatialReusePass->getVars();
 
@@ -45,19 +44,17 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
 
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
-	shaderVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 
-	shaderVars["RISCB"]["gFrameCount"] = mFrameCount++;
+	shaderVars["MyCB"]["gFrameCount"] = mFrameCount++;
 
 	mpGfxState->setFbo(outputFbo);
 	mpSpatialReusePass->execute(pRenderContext, mpGfxState);
 	pRenderContext->blit(outputFbo->getColorTexture(0)->getSRV(), mpResManager->getTexture("Reservoir")->getRTV());
 	pRenderContext->blit(outputFbo->getColorTexture(1)->getSRV(), mpResManager->getTexture("ToSample")->getRTV());
-	pRenderContext->blit(outputFbo->getColorTexture(2)->getSRV(), mpResManager->getTexture("SampleNormalArea")->getRTV());
-	pRenderContext->blit(outputFbo->getColorTexture(3)->getSRV(), mpResManager->getTexture("EmittedLight")->getRTV());
-	pRenderContext->blit(outputFbo->getColorTexture(4)->getSRV(), mpResManager->getTexture("SamplesSeenSoFar")->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(2)->getSRV(), mpResManager->getTexture("EmittedLight")->getRTV());
+	pRenderContext->blit(outputFbo->getColorTexture(3)->getSRV(), mpResManager->getTexture("SamplesSeenSoFar")->getRTV());
 
 }

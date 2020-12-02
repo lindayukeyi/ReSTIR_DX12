@@ -18,11 +18,10 @@ RWTexture2D<float4> gMatEmissive;
 // Reservoir texture
 RWTexture2D<float4> emittedLight; // xyz: light color
 RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
-RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
-cbuffer RISCB
+cbuffer MyCB
 {
 	uint gFrameCount; // Frame counter, used to perturb random seed each frame
 };
@@ -31,18 +30,16 @@ struct Pingpong
 {
 	float4 preservoir        : SV_Target0;
 	float4 ptoSample         : SV_Target1;
-	float4 psampleNormalArea : SV_Target2;
-	float4 pemittedLight     : SV_Target3;
-	int    pM : SV_Target4;
+	float4 pemittedLight     : SV_Target2;
+	int    pM                : SV_Target3;
 };
 
-void updatereservoir(float3 le, float4 tos, float4 sna, float w, inout uint seed, inout Pingpong pp) {
+void updatereservoir(float3 le, float4 tos, float w, inout uint seed, inout Pingpong pp) {
 	pp.preservoir.y += w;  // wsum += w
 	pp.pM = pp.pM + 1;
 	if (pp.preservoir.y > 0 && nextRand(seed) < (w / pp.preservoir.y)) {
 		pp.pemittedLight = float4(le, 1.f);
 		pp.ptoSample = tos;
-		pp.psampleNormalArea = sna;
 	}
 	return;
 }
@@ -60,16 +57,12 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 
 	pp.preservoir = reservoir[pixelPos];
 	pp.ptoSample = float4(toSample[pixelPos].xyz * toSample[pixelPos].w + gWsPos[pixelPos].xyz, 1);
-	pp.psampleNormalArea = sampleNormalArea[pixelPos];
 	pp.pemittedLight = emittedLight[pixelPos];
 	pp.pM = M[pixelPos];
 
-	int i_total = 0;
+
 	// Sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
 	for (int i = 0; i < 5; i++) {
-		if (i_total > 50) {
-			break;
-		}
 		float r = 30.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
 		float2 neighborf = pos.xy;
@@ -78,23 +71,17 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 
 		// If the pixel is out of bound, discard it
 		if (neighborf.x < 0 || neighborf.x >= width || neighborf.y < 0 || neighborf.y >= height) {
-			i--;
-			i_total++;
 			continue;
 		}
 		uint2 neighborPos = (uint2)neighborf;
 
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree		
 		if (dot(normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz)) < 0.9063) {
-			i--;
-			i_total++;
 			continue;
 		}
 
 		// Exceed 10% of current pixel's depth
 		if (gWsNorm[neighborPos].w > 1.1 * gWsNorm[pixelPos].w || gWsNorm[neighborPos].w < 0.9 * gWsNorm[pixelPos].w) {
-			i--;
-			i_total++;
 			continue;
 		}
 
@@ -104,9 +91,8 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		float p_hat = evalP(curToSampleUnit, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, gWsNorm[pixelPos].xyz);
 		float3 Le = emittedLight[neighborPos].xyz;
 		float4 toS = float4(lightPosW, 1);
-		float4 sNA = sampleNormalArea[neighborPos];
 		float w = p_hat * reservoir[neighborPos].x * M[neighborPos];
-		updatereservoir(Le, toS, sNA, w, seed, pp);
+		updatereservoir(Le, toS, w, seed, pp);
 		M_sum += M[neighborPos];
 	}
 
