@@ -107,7 +107,7 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		M_sum += M[neighborPos];
 	}
 
-	pp.pM = M_sum;
+	pp.pM += M_sum;
 	float3 nor_s = normalize(gWsNorm[pixelPos].xyz);
 	float p_hat_s = evalP(pp.ptoSample.xyz, gMatDif[pixelPos].xyz, pp.pemittedLight.xyz, nor_s);
 	pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
