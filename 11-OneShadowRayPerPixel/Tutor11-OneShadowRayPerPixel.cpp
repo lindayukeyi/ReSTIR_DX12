@@ -45,7 +45,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	pipeline->setPass(2, TemporalReusePass::create());                        // temporal reuse
 
-	const int spatialReuseIteration = 1;
+	const int spatialReuseIteration = 2;
 	for (int i = 0; i < spatialReuseIteration; i++) {
 		pipeline->setPass(3 + i, SpatialReusePass::create());                 // spatial reuse
 	}
