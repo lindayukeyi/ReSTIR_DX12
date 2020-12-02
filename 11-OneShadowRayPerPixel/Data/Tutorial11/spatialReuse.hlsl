@@ -59,7 +59,7 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	Pingpong pp;
 
 	pp.preservoir = reservoir[pixelPos];
-	pp.ptoSample = toSample[pixelPos];
+	pp.ptoSample = float4(toSample[pixelPos].xyz * toSample[pixelPos].w + gWsPos[pixelPos].xyz, 1);
 	pp.psampleNormalArea = sampleNormalArea[pixelPos];
 	pp.pemittedLight = emittedLight[pixelPos];
 	pp.pM = M[pixelPos];
