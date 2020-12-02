@@ -11,18 +11,18 @@ RWTexture2D<float4> gMatDif;
 // Reservoir texture
 RWTexture2D<float4> emittedLight; // xyz: light color
 RWTexture2D<float4> toSample; // xyz: hit point(ref) to sample // w: distToLight
-RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
 // Last frame's reservoir texture and world position
 RWTexture2D<float4> lastEmittedLight;
 RWTexture2D<float4> lastToSample;
-RWTexture2D<float4> lastSampleNormalArea;
 RWTexture2D<float4> lastReservoir;
 RWTexture2D<int> lastM;
 
 RWTexture2D<float4> lastWPos;
+
+RWTexture2D<float4> jilin;
 
 cbuffer MyCB {
 	uint gFrameCount;
@@ -32,7 +32,6 @@ cbuffer MyCB {
 struct MySample {
 	float3 eL; 
 	float4 tS;
-	float4 sNA;
 };
 
 struct MyReservoir {
@@ -115,16 +114,17 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		return;
 	}
 
+	
+	jilin[pixelPos] = float4((float2(pixelPos - lastPos) / float2(width, height) + float2(2, 2)) / 4.0, 0, 1);
+
 	// Use pixel index and frame count to initialize random seed
 	uint seed = initRand(pixelPos.x + pixelPos.y * width, gFrameCount, 16);
 
 	MySample s1, s2;
 	s1.eL = emittedLight[pixelPos].xyz;
 	s1.tS = toSample[pixelPos];
-	s1.sNA = sampleNormalArea[pixelPos];
 	s2.eL = lastEmittedLight[lastPos].xyz;
 	s2.tS = lastToSample[lastPos];
-	s2.sNA = lastSampleNormalArea[lastPos];
 	
 	MyReservoir rq, rl;	
 	rq.y_ = s1;
@@ -140,7 +140,6 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	
 	emittedLight[pixelPos] = float4(outRes.y_.eL, 1.f);
 	toSample[pixelPos] = outRes.y_.tS;
-	sampleNormalArea[pixelPos] = outRes.y_.sNA;
 	reservoir[pixelPos] = float4(outRes.W_, outRes.Wsum_, 0, 0);
 	M[pixelPos] = outRes.M_;
 }
