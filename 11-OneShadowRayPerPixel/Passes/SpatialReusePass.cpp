@@ -21,7 +21,6 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("EmittedLight");
-	mpResManager->requestTextureResource("RejectNeigh");
 
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
@@ -50,7 +49,6 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
-	shaderVars["reject"] = mpResManager->getClearedTexture("RejectNeigh", vec4(1.0f, 0.0f, 0.0f, 0.0f));
 
 	mpGfxState->setFbo(outputFbo);
 	mpSpatialReusePass->execute(pRenderContext, mpGfxState);

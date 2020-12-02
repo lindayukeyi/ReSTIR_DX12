@@ -1,7 +1,9 @@
 /* Spatial Reuse */
 
 // Include helper functions
-//#include "diffusePlus1ShadowUtils.hlsli"
+// #include "diffusePlus1ShadowUtils.hlsli"
+#include "pbr.hlsli"
+#include "randomHelper.hlsli"
 
 static const float PI = 3.14159265f;
 
@@ -34,45 +36,15 @@ struct Pingpong
 	int    pM : SV_Target4;
 };
 
-
-/**********************************************************************/
-uint initRand(uint val0, uint val1, uint backoff = 16)
-{
-	uint v0 = val0, v1 = val1, s0 = 0;
-
-	[unroll]
-	for (uint n = 0; n < backoff; n++)
-	{
-		s0 += 0x9e3779b9;
-		v0 += ((v1 << 4) + 0xa341316c) ^ (v1 + s0) ^ ((v1 >> 5) + 0xc8013ea4);
-		v1 += ((v0 << 4) + 0xad90777d) ^ (v0 + s0) ^ ((v0 >> 5) + 0x7e95761e);
-	}
-	return v0;
-}
-
-float nextRand(inout uint s)
-{
-	s = (1664525u * s + 1013904223u);
-	return float(s & 0x00FFFFFF) / float(0x01000000);
-}
-
-float evalP(float3 toLight, float3 lightNormal, float distToLight, float area, float3 nor) {
-	float lambert = saturate(dot(toLight, nor));
-	float brdf = 1.f / 3.1415926535898f;
-	float geom_term = distToLight * distToLight / (saturate(abs(dot(toLight, lightNormal))) * area);
-	float p = lambert * brdf / geom_term;
-	return p;
-}
-/**********************************************************************/
-
-void updatereservoir(uint2 launchindex, float3 le, float4 tos, float4 sna, float w, inout uint seed, Pingpong pp) {
-	pp.preservoir = reservoir[launchindex] + float4(0.f, w, 0.f, 0.f);  // wsum += w
-	pp.pM = M[launchindex] + 1;
-	if (nextRand(seed) < (w / reservoir[launchindex].y)) {
+void updatereservoir(float3 le, float4 tos, float4 sna, float w, inout uint seed, inout Pingpong pp) {
+	pp.preservoir.y += w;  // wsum += w
+	pp.pM = pp.pM + 1;
+	if (pp.preservoir.y > 0 && nextRand(seed) < (w / pp.preservoir.y)) {
 		pp.pemittedLight = float4(le, 1.f);
 		pp.ptoSample = tos;
 		pp.psampleNormalArea = sna;
 	}
+	return;
 }
 
 Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
@@ -86,29 +58,57 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	uint seed = initRand(pixelPos.x + pixelPos.y * width.x, gFrameCount, 16);
 	Pingpong pp;
 
+	pp.preservoir = reservoir[pixelPos];
+	pp.ptoSample = toSample[pixelPos];
+	pp.psampleNormalArea = sampleNormalArea[pixelPos];
+	pp.pemittedLight = emittedLight[pixelPos];
+	pp.pM = M[pixelPos];
+
+	int i_total = 0;
+	// Sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
 	for (int i = 0; i < 5; i++) {
-		// sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
+		if (i_total > 50) {
+			break;
+		}
 		float r = 30.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
 		uint2 neighborPos;
-		neighborPos.x = pixelPos.x + int(clamp(r * cos(theta), 0.0, width));
-		neighborPos.y = pixelPos.y + int(clamp(r * sin(theta), 0.0, height));
+		neighborPos.x = pixelPos.x + clamp(int(r * cos(theta)), 0, (width - 1));
+		neighborPos.y = pixelPos.y + clamp(int(r * sin(theta)), 0, (height - 1));
+		// If the pixel is out of bound, disgard it
+		if (neighborPos.x < 0 || neighborPos.x >= width || neighborPos.y < 0 || neighborPos.y >= height) {
+			i--;
+			i_total++;
+			continue;
+		}
 
-		float3 nor = normalize(gWsNorm[neighborPos].xyz);
-		float p_hat = evalP(toSample[neighborPos].xyz, sampleNormalArea[neighborPos].xyz, toSample[neighborPos].w, sampleNormalArea[neighborPos].w, nor);
+		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree
+		
+		if (dot(normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz)) < 0.9063) {
+			i--;
+			i_total++;
+			continue;
+		}
+		// Exceed 10% of current pixel's depth
+		if (gWsNorm[neighborPos].w > 1.1 * gWsNorm[pixelPos].w || gWsNorm[neighborPos].w < 0.9 * gWsNorm[pixelPos].w) {
+			i--;
+			i_total++;
+			continue;
+		}
+		float3 nor = normalize(gWsNorm[pixelPos].xyz);
+		float p_hat = evalP(toSample[neighborPos].xyz, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, nor);
 		float3 Le = emittedLight[neighborPos].xyz;
 		float4 toS = toSample[neighborPos];
 		float4 sNA = sampleNormalArea[neighborPos];
 		float w = p_hat * reservoir[neighborPos].x * M[neighborPos];
-		uint seed_tmp = 1;
-		updatereservoir(pixelPos, Le, toS, sNA, w, seed, pp);
+		updatereservoir(Le, toS, sNA, w, seed, pp);
 		M_sum += M[neighborPos];
 	}
 
 	pp.pM = M_sum;
 	float3 nor_s = normalize(gWsNorm[pixelPos].xyz);
-	float p_hat_s = evalP(toSample[pixelPos].xyz, sampleNormalArea[pixelPos].xyz, toSample[pixelPos].w, sampleNormalArea[pixelPos].w, nor_s);
-	pp.preservoir.x = reservoir[pixelPos].y / p_hat_s / M_sum;
+	float p_hat_s = evalP(pp.ptoSample.xyz, gMatDif[pixelPos].xyz, pp.pemittedLight.xyz, nor_s);
+	pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
 
 	return pp;
 }
