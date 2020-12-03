@@ -22,7 +22,7 @@ RWTexture2D<int> lastM;
 
 RWTexture2D<float4> lastWPos;
 
-RWTexture2D<float4> jilin;
+RWTexture2D<float4> jilin; // Debug
 
 cbuffer MyCB {
 	uint gFrameCount;
@@ -113,10 +113,7 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	if (length(worldPos - lastWPos[lastPos]) > 0.01f) { // The corresonding fragment is occluded by another fragment
 		return;
 	}
-
 	
-	jilin[pixelPos] = float4((float2(pixelPos - lastPos) / float2(width, height) + float2(2, 2)) / 4.0, 0, 1);
-
 	// Use pixel index and frame count to initialize random seed
 	uint seed = initRand(pixelPos.x + pixelPos.y * width, gFrameCount, 16);
 

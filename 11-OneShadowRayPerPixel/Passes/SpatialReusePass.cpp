@@ -21,6 +21,8 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("EmittedLight");
 
+	mpResManager->requestTextureResource("Jilin"); // Debug
+
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
 
@@ -47,6 +49,8 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
+
+	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
 
 	shaderVars["MyCB"]["gFrameCount"] = mFrameCount++;
 

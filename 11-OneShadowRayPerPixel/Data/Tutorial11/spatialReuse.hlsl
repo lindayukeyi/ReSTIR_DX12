@@ -21,6 +21,8 @@ RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
+RWTexture2D<float4> jilin;
+
 cbuffer MyCB
 {
 	uint gFrameCount; // Frame counter, used to perturb random seed each frame
@@ -50,7 +52,7 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	float width;
 	float height;
 	reservoir.GetDimensions(width, height);
-
+	
 	int M_sum = 0;
 	uint seed = initRand(pixelPos.x + pixelPos.y * width.x, gFrameCount, 16);
 	Pingpong pp;
@@ -60,15 +62,20 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	pp.pemittedLight = emittedLight[pixelPos];
 	pp.pM = M[pixelPos];
 
-
+	if (gWsPos[pixelPos].w == 0) {
+		float3 curToSample = pp.ptoSample.xyz - gWsPos[pixelPos].xyz;
+		pp.ptoSample = float4(normalize(curToSample), length(curToSample));
+		return pp;
+	}
+	
 	// Sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
 	for (int i = 0; i < 5; i++) {
-		float r = 30.0 * sqrt(nextRand(seed));
+		float r = 10.0 * sqrt(nextRand(seed));
 		float theta = 2.0 * PI * nextRand(seed);
 		float2 neighborf = pos.xy;
 		neighborf.x += r * cos(theta);
 		neighborf.y += r * sin(theta);
-
+		
 		// If the pixel is out of bound, discard it
 		if (neighborf.x < 0 || neighborf.x >= width || neighborf.y < 0 || neighborf.y >= height) {
 			continue;
@@ -76,7 +83,7 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		uint2 neighborPos = (uint2)neighborf;
 
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree		
-		if (dot(normalize(gWsNorm[pixelPos].xyz), normalize(gWsNorm[neighborPos].xyz)) < 0.9063) {
+		if (dot(gWsNorm[pixelPos].xyz, gWsNorm[neighborPos].xyz) < 0.9063) {
 			continue;
 		}
 
@@ -89,10 +96,9 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		float3 curToSampleUnit = normalize(lightPosW - gWsPos[pixelPos].xyz);
 
 		float p_hat = evalP(curToSampleUnit, gMatDif[pixelPos].xyz, emittedLight[neighborPos].xyz, gWsNorm[pixelPos].xyz);
-		float3 Le = emittedLight[neighborPos].xyz;
 		float4 toS = float4(lightPosW, 1);
 		float w = p_hat * reservoir[neighborPos].x * M[neighborPos];
-		updatereservoir(Le, toS, w, seed, pp);
+		updatereservoir(emittedLight[neighborPos].xyz, toS, w, seed, pp);
 		M_sum += M[neighborPos];
 	}
 
