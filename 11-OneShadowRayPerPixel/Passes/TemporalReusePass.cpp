@@ -24,7 +24,7 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
-	mpResManager->requestTextureResources({ "PingPongReservior", "PingpongToSample", "PingpongEmittedLight" });
+	mpResManager->requestTextureResources({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight" });
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	mpResManager->requestTextureResource("LastWorldPosition");
@@ -52,7 +52,7 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 
 	Texture::SharedPtr lastEmittedLight = mpResManager->getTexture("PingpongEmittedLight");
 	Texture::SharedPtr lastToSample = mpResManager->getTexture("PingpongToSample");
-	Texture::SharedPtr lastReservoir = mpResManager->getTexture("PingPongReservior");
+	Texture::SharedPtr lastReservoir = mpResManager->getTexture("PingpongReservoir");
 	Texture::SharedPtr lastM = mpResManager->getTexture("PingpongM");
 	Texture::SharedPtr lastWPos = mpResManager->getTexture("LastWorldPosition");
 	

@@ -12,14 +12,19 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	mpResManager = pResManager;
 
 	// Request textures
+	mpResManager->requestTextureResources({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight" });
+	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+
 	mpResManager->requestTextureResource("FinalShadedImage");
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
-	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+
+	mpResManager->requestTextureResource("Jilin2");
 	
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
@@ -33,6 +38,8 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 void ShadePixelPass::execute(RenderContext* pRenderContext)
 {
 	auto outputFbo = mpResManager->createManagedFbo({ "FinalShadedImage" });
+	Texture::SharedPtr jilin = mpResManager->getTexture("Jilin2");
+
 
 	auto shaderVars = mpShadePixelPass->getVars();
 	
@@ -42,13 +49,20 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	shaderVars["gMatSpec"] = mpResManager->getTexture("MaterialSpecRough");
 	shaderVars["gMatExtra"]	= mpResManager->getTexture("MaterialExtraParams");
 	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
-
+	
+	/*
+	shaderVars["emittedLight"] = mpResManager->getTexture("PingpongEmittedLight");
+	shaderVars["toSample"] = mpResManager->getTexture("PingpongToSample");
+	shaderVars["reservoir"] = mpResManager->getTexture("PingpongReservoir");
+	shaderVars["M"] = mpResManager->getTexture("PingpongM");
+	*/
+	shaderVars["jilin"] = jilin;
+	
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
-	shaderVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
-
+	
 	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
 }

@@ -72,8 +72,6 @@ void ShadowedDetection() {
 	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
 	if (worldPos.w != 0.0f)
 	{
-		// Pick a random light from our scene to sample
-		int lightToSample = sampleIndex[launchIndex];
 
 		// We need to query our scene to find info about the current light
 		float distToLight = toSample[launchIndex].w;      // How far away is it?

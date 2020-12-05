@@ -21,6 +21,12 @@ RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
+RWTexture2D<float4> ppReservoir;
+RWTexture2D<float4> ppToSample;
+RWTexture2D<float4> ppEmittedLight;
+RWTexture2D<int> ppM;
+
+
 RWTexture2D<float4> jilin;
 
 cbuffer MyCB
@@ -30,10 +36,10 @@ cbuffer MyCB
 
 struct Pingpong
 {
-	float4 preservoir        : SV_Target0;
-	float4 ptoSample         : SV_Target1;
-	float4 pemittedLight     : SV_Target2;
-	int    pM                : SV_Target3;
+	float4 preservoir   ;
+	float4 ptoSample    ;
+	float4 pemittedLight;
+	int    pM           ;
 };
 
 void updatereservoir(float3 le, float4 tos, float w, inout uint seed, inout Pingpong pp) {
@@ -46,7 +52,7 @@ void updatereservoir(float3 le, float4 tos, float w, inout uint seed, inout Ping
 	return;
 }
 
-Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
+void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 {
 	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
 	float width;
@@ -65,7 +71,11 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	if (gWsPos[pixelPos].w == 0) {
 		float3 curToSample = pp.ptoSample.xyz - gWsPos[pixelPos].xyz;
 		pp.ptoSample = float4(normalize(curToSample), length(curToSample));
-		return pp;
+
+		ppReservoir[pixelPos] = pp.preservoir;
+		ppToSample[pixelPos] = pp.ptoSample;
+		ppEmittedLight[pixelPos] = pp.pemittedLight;
+		ppM[pixelPos] = pp.pM;
 	}
 	
 	// Sample k = 5 (k = 3 for our unbiased algorithm) random points in a 30 - pixel radius around the current pixel
@@ -107,7 +117,15 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	float3 curToSample = pp.ptoSample.xyz - gWsPos[pixelPos].xyz;
 	pp.ptoSample = float4(normalize(curToSample), length(curToSample));
 	float p_hat_s = evalP(pp.ptoSample.xyz, gMatDif[pixelPos].xyz, pp.pemittedLight.xyz, gWsNorm[pixelPos].xyz);
-	pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
+	if (p_hat_s == 0.f || pp.pM == 0) {
+		pp.preservoir.x = 0;
+	}
+	else
+		pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
 
-	return pp;
+	
+	ppReservoir[pixelPos] = pp.preservoir;
+	ppToSample[pixelPos] = pp.ptoSample;
+	ppEmittedLight[pixelPos] = pp.pemittedLight;
+	ppM[pixelPos] = pp.pM;
 }

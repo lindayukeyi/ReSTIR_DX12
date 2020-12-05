@@ -26,6 +26,9 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	
+	// Debug
+	mpResManager->requestTextureResource("Jilin2");
 
 	// Set the default scene to load
 	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
@@ -74,6 +77,9 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, mFrameCount++));
 	Texture::SharedPtr M = mpResManager->getTexture("SamplesSeenSoFar");
 
+	// Debug
+	Texture::SharedPtr jilin = mpResManager->getTexture("Jilin2");
+
 	// Now we'll send our parameters down to our ray tracing shaders
 
 	// Pass our background color down to miss shader #0
@@ -99,6 +105,7 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["sampleNormalArea"] = sampleNormalArea;
 		pVars["reservoir"] = reservoir;
 		pVars["M"] = M; 
+		pVars["jilin"] = jilin;
 	}
 
 	// Launch our ray tracing

@@ -72,6 +72,8 @@ RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
+RWTexture2D<float4> jilin;
+
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
@@ -117,7 +119,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	float4 sNA = sampleNormalArea[launchIndex];
 	float4 toS = toSample[launchIndex];
 
-	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	reservoir[launchIndex].x = (reservoir[launchIndex].y / (float)M[launchIndex]) / evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
 }
 
 // What code is executed when our ray misses all geometry?
@@ -162,4 +164,6 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	
 	// Call RIS
 	RIS(launchIndex, launchDim);
+
+	//jilin[launchIndex] = float4(0, M[launchIndex] / 100.f, 0, 1);
 }
