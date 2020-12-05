@@ -64,7 +64,13 @@ MyReservoir combineReservoirs(uint2 pixelPos, MyReservoir r1, MyReservoir r2, in
 	updateReservoir(s, r2.y_, w2, seed);
 
 	s.M_ = r1.M_ + r2.M_;
-	s.W_ = (s.Wsum_ / s.M_) / evalP(s.y_.tS.xyz, diffuse, s.y_.eL, nor);
+	float p_hat = evalP(s.y_.tS.xyz, diffuse, s.y_.eL, nor);
+	if (p_hat == 0) {
+		s.W_ = 0;
+	}
+	else {
+		s.W_ = (s.Wsum_ / s.M_) / p_hat;
+	}
 
 	return s;
 }
@@ -106,6 +112,10 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		return;
 	}
 	
+	if (lastReservoir[lastPos].x == 0) {
+		return;
+	}
+
 	// Use pixel index and frame count to initialize random seed
 	uint seed = initRand(pixelPos.x + pixelPos.y * width, gFrameCount, 16);
 
@@ -124,6 +134,11 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	rl.M_ = lastM[lastPos];
 	rl.W_ = lastReservoir[lastPos].x;
 	rl.Wsum_ = lastReservoir[lastPos].y;
+
+	if (rl.M_ > 20 * rq.M_) {
+		rl.Wsum_ *= 20 * rq.M_ / rl.M_;
+		rl.M_ = 20 * rq.M_;
+	}
 		
 	MyReservoir outRes = combineReservoirs(pixelPos, rq, rl, seed);
 	

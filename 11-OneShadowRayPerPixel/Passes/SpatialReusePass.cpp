@@ -12,7 +12,7 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	mpResManager = pResManager;
 
 	// Request textures
-	mpResManager->requestTextureResources({ "PingPongReservior", "PingpongToSample", "PingpongEmittedLight" });
+	mpResManager->requestTextureResources({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight" });
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
@@ -21,7 +21,7 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("EmittedLight");
 
-	mpResManager->requestTextureResource("Jilin"); // Debug
+	mpResManager->requestTextureResource("JilinS"); // Debug
 
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
@@ -34,7 +34,7 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 
 void SpatialReusePass::execute(RenderContext* pRenderContext)
 {
-	auto outputFbo = mpResManager->createManagedFbo({ "PingPongReservior", "PingpongToSample", "PingpongEmittedLight", "PingpongM" });
+	auto outputFbo = mpResManager->createManagedFbo({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight", "PingpongM" });
 
 	auto shaderVars = mpSpatialReusePass->getVars();
 
@@ -50,7 +50,7 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 
-	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
+	shaderVars["jilin"] = mpResManager->getTexture("JilinS");
 
 	shaderVars["MyCB"]["gFrameCount"] = mFrameCount++;
 

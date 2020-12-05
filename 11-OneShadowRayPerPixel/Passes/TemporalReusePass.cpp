@@ -24,7 +24,7 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
-	mpResManager->requestTextureResources({ "PingPongReservior", "PingpongToSample", "PingpongEmittedLight" });
+	mpResManager->requestTextureResources({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight" });
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	mpResManager->requestTextureResource("LastWorldPosition");
@@ -52,7 +52,7 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 
 	Texture::SharedPtr lastEmittedLight = mpResManager->getTexture("PingpongEmittedLight");
 	Texture::SharedPtr lastToSample = mpResManager->getTexture("PingpongToSample");
-	Texture::SharedPtr lastReservoir = mpResManager->getTexture("PingPongReservior");
+	Texture::SharedPtr lastReservoir = mpResManager->getTexture("PingpongReservoir");
 	Texture::SharedPtr lastM = mpResManager->getTexture("PingpongM");
 	Texture::SharedPtr lastWPos = mpResManager->getTexture("LastWorldPosition");
 	
@@ -88,4 +88,8 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 
 	// Save the current position to be used in next frame
 	pRenderContext->blit(myFBO->getColorTexture(0)->getSRV(), mpResManager->getTexture("LastWorldPosition")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), mpResManager->getTexture("PingpongReservoir")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), mpResManager->getTexture("PingpongEmittedLight")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("PingpongToSample")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("PingpongM")->getRTV());
 }

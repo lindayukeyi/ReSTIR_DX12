@@ -82,6 +82,10 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		}
 		uint2 neighborPos = (uint2)neighborf;
 
+		if (reservoir[neighborPos].x == 0) {
+			continue;
+		}
+
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree		
 		if (dot(gWsNorm[pixelPos].xyz, gWsNorm[neighborPos].xyz) < 0.9063) {
 			continue;
@@ -99,15 +103,35 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		float4 toS = float4(lightPosW, 1);
 		float w = p_hat * reservoir[neighborPos].x * M[neighborPos];
 		updatereservoir(emittedLight[neighborPos].xyz, toS, w, seed, pp);
+
 		M_sum += M[neighborPos];
+
+		if (i == 0) {
+			jilin[pixelPos] = float4(p_hat, jilin[pixelPos].y, jilin[pixelPos].z, jilin[pixelPos].w);
+		}
+		else if (i == 1) {
+			jilin[pixelPos] = float4(jilin[pixelPos].x, p_hat, jilin[pixelPos].z, jilin[pixelPos].w);
+		}
+		else if (i == 2) {
+			jilin[pixelPos] = float4(jilin[pixelPos].x, jilin[pixelPos].y, p_hat, jilin[pixelPos].w);
+		}
+		else if (i == 3) {
+			jilin[pixelPos] = float4(jilin[pixelPos].x, jilin[pixelPos].y, jilin[pixelPos].z, p_hat);
+		}
 	}
 
-	pp.pM += M_sum;
+	pp.pM = M_sum + M[pixelPos];
 
 	float3 curToSample = pp.ptoSample.xyz - gWsPos[pixelPos].xyz;
 	pp.ptoSample = float4(normalize(curToSample), length(curToSample));
 	float p_hat_s = evalP(pp.ptoSample.xyz, gMatDif[pixelPos].xyz, pp.pemittedLight.xyz, gWsNorm[pixelPos].xyz);
-	pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
+
+	if (p_hat_s == 0) {
+		pp.preservoir.x = 0;
+	}
+	else {
+		pp.preservoir.x = pp.preservoir.y / p_hat_s / float(pp.pM);
+	}
 
 	return pp;
 }

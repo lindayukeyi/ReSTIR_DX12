@@ -75,6 +75,7 @@ RWTexture2D<int> M;
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
+	reservoir[launchIndex].z += 1.f;
 	float Wsum = reservoir[launchIndex].y;
 	if (Wsum > 0 && nextRand(seed) < (w / Wsum)) {
 		emittedLight[launchIndex] = float4(Le, 1.f);
@@ -117,7 +118,13 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	float4 sNA = sampleNormalArea[launchIndex];
 	float4 toS = toSample[launchIndex];
 
-	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	float p_hat = evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	if (p_hat != 0) {
+		reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / p_hat;
+	}
+	else {
+		reservoir[launchIndex].x = 0;
+	}
 }
 
 // What code is executed when our ray misses all geometry?
