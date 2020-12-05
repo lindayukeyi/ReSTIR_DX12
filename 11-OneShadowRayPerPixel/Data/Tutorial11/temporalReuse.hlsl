@@ -64,11 +64,7 @@ MyReservoir combineReservoirs(uint2 pixelPos, MyReservoir r1, MyReservoir r2, in
 	updateReservoir(s, r2.y_, w2, seed);
 
 	s.M_ = r1.M_ + r2.M_;
-	float p_hat = evalP(s.y_.tS.xyz, diffuse, s.y_.eL, nor);
-	if (s.M_ == 0 || p_hat == 0.f)
-		s.W_ = 0;
-	else
-		s.W_ = (s.Wsum_ / (float)s.M_) / p_hat;
+	s.W_ = (s.Wsum_ / s.M_) / evalP(s.y_.tS.xyz, diffuse, s.y_.eL, nor);
 
 	return s;
 }
