@@ -2,4 +2,6 @@
 *.VC.opendb
 Bin/*
 .vs/*
-
+oidn/
+ispc-v1.14.1-windows/
+tbb/

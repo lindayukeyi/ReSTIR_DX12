@@ -16,3 +16,26 @@ float evalP(float3 toLight, float3 diffuse, float3 energy, float3 nor) {
 	float3 color = brdf * energy * lambert;
 	return length(color);
 }
+
+// Debug
+bool equals(float4 a, float4 b) {
+	return (a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w);
+}
+
+bool equals(float3 a, float3 b) {
+	return (a.x == b.x && a.y == b.y && a.z == b.z);
+}
+
+
+bool equal(float4 a, float4 b) {
+	return (abs(a.x - b.x) < 0.001) &&
+		(abs(a.y - b.y) < 0.001) &&
+		(abs(a.z - b.z) < 0.001) &&
+		(abs(a.w - b.w) < 0.001);
+}
+
+bool equal(float3 a, float3 b) {
+	return (abs(a.x - b.x) < 0.001) &&
+		(abs(a.y - b.y) < 0.001) &&
+		(abs(a.z - b.z) < 0.001);
+}

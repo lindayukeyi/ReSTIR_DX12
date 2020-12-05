@@ -84,14 +84,6 @@ uint2 getLastPixelPos(float4 worldPos, float width, float height, inout bool inS
 	return (uint2)lastPos;
 }
 
-bool equal(float4 a, float4 b) {
-	return (a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w);
-}
-
-bool equal(float3 a, float3 b) {
-	return (a.x == b.x && a.y == b.y && a.z == b.z);
-}
-
 void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 {
 	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
