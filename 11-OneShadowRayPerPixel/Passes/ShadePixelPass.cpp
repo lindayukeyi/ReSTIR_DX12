@@ -17,9 +17,11 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
-	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+
+	mpResManager->requestTextureResource("Jilin");
+	mpResManager->requestTextureResource("JilinS");
 	
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
@@ -45,10 +47,24 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
-	shaderVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 
+	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
+
 	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
+
+	/*
+	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
+
+	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".EXR";
+	mpResManager->getTexture("FinalShadedImage")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+
+	fileName = folderName + "reservoirM\\" + std::to_string(mFrameCount) + ".EXR";
+	mpResManager->getTexture("Jilin")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+
+	fileName = folderName + "phat\\" + std::to_string(mFrameCount++) + ".EXR";
+	mpResManager->getTexture("JilinS")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+	*/
 }

@@ -24,5 +24,5 @@ protected:
 	// Internal pass state
 	FullscreenLaunch::SharedPtr   mpShadePixelPass;         ///< Our accumulation shader state
 	GraphicsState::SharedPtr      mpGfxState;             ///< Our graphics pipeline state
-    uint32_t                      mFrameCount = 0x1337u;  ///< A frame counter to vary random numbers over time
+    uint32_t                      mFrameCount = 0;  ///< A frame counter to vary random numbers over time
 };

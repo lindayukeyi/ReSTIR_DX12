@@ -72,15 +72,10 @@ RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
-// A constant buffer we'll populate from our c++ code
-cbuffer RISCB
-{
-	uint gFrameCount; // Frame counter, used to perturb random seed each frame
-};
-
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
+	reservoir[launchIndex].z += 1.f;
 	float Wsum = reservoir[launchIndex].y;
 	if (Wsum > 0 && nextRand(seed) < (w / Wsum)) {
 		emittedLight[launchIndex] = float4(Le, 1.f);
@@ -93,9 +88,11 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	// Get position and normal from G-Buffer
 	float3 pos = gWsPos[launchIndex].xyz;
 	float3 nor = normalize(gWsNorm[launchIndex].xyz);
+
+	uint frameCount = uint(reservoir[launchIndex].w);
 	
 	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
+	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, frameCount, 16);
 	for (int i = 0; i < 32; i++) {
 		// Generate sample according to p
 		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
@@ -121,7 +118,13 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	float4 sNA = sampleNormalArea[launchIndex];
 	float4 toS = toSample[launchIndex];
 
-	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	float p_hat = evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	if (p_hat != 0) {
+		reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / p_hat;
+	}
+	else {
+		reservoir[launchIndex].x = 0;
+	}
 }
 
 // What code is executed when our ray misses all geometry?
