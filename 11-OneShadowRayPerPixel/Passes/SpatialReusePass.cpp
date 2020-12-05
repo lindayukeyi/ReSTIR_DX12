@@ -12,7 +12,7 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	mpResManager = pResManager;
 
 	// Request textures
-	mpResManager->requestTextureResources({ "PingPongReservior", "PingpongToSample", "PingpongSampleNormalArea", "PingpongEmittedLight" });
+	mpResManager->requestTextureResources({ "PingPongReservior", "PingpongToSample", "PingpongEmittedLight" });
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
