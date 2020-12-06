@@ -140,7 +140,11 @@
     <None Include="Data\Tutorial11\randomHelper.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl" />
-    <None Include="Data\Tutorial11\temporalReuse.hlsl" />
+    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Data\Tutorial11\temporalReuse.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

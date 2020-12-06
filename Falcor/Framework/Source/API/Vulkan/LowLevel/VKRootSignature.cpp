@@ -94,7 +94,8 @@ namespace Falcor
 
     bool RootSignature::apiInit()
     {
-        // Find the max set index
+        // Find the 
+		set index
         uint32_t maxIndex = 0;
         for (const auto& set : mDesc.mSets)
         {
