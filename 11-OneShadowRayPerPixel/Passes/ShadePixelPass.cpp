@@ -4,6 +4,8 @@
 namespace {
 	// Where is our shader located?
 	const char* kShadePixelShader = "Tutorial11\\shadePixel.hlsl";
+	// What environment map should we load?
+	const char* kEnvironmentMap = "Data/MonValley_G_DirtRoad_3k.hdr";
 };
 
 bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager)
@@ -19,7 +21,9 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
-		
+
+	mpResManager->updateEnvironmentMap(kEnvironmentMap);
+
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
 
@@ -43,6 +47,8 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
+
+	shaderVars["gEnvMap"] = mpResManager->getTexture(ResourceManager::kEnvironmentMap);
 	
 	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel

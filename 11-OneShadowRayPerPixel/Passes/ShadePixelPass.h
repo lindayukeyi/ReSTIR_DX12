@@ -20,6 +20,7 @@ protected:
 
     // Override some functions that provide information to the RenderPipeline class
     bool usesRasterization() override { return true; }
+	bool usesEnvironmentMap() override { return true; }
 
 	// Internal pass state
 	FullscreenLaunch::SharedPtr   mpShadePixelPass;         ///< Our accumulation shader state
