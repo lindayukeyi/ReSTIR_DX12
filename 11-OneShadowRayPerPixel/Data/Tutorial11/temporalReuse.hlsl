@@ -19,10 +19,7 @@ RWTexture2D<float4> lastEmittedLight;
 RWTexture2D<float4> lastToSample;
 RWTexture2D<float4> lastReservoir;
 RWTexture2D<int> lastM;
-
 RWTexture2D<float4> lastWPos;
-
-RWTexture2D<float4> jilin; // Debug
 
 cbuffer MyCB {
 	uint gFrameCount;

@@ -19,6 +19,7 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 
 	// Request textures
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
+
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
@@ -28,8 +29,6 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	mpResManager->requestTextureResource("LastWorldPosition");
-
-	mpResManager->requestTextureResource("Jilin"); // Debug
 
 	// Create our graphics state and accumulation shader
 	mpGfxState = GraphicsState::create();
@@ -76,8 +75,6 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 	shaderVars["lastReservoir"] = lastReservoir;
 	shaderVars["lastM"] = lastM;
 	shaderVars["lastWPos"] = lastWPos;
-
-	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
 
 	mpGfxState->setFbo(myFBO); // We need a FBO to make it work
 

@@ -14,15 +14,13 @@ bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager
 	// Request textures
 	mpResManager->requestTextureResources({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight" });
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
-	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
-											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
+
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 	mpResManager->requestTextureResource("EmittedLight");
-
-	mpResManager->requestTextureResource("JilinS"); // Debug
-
+	
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
 
@@ -41,16 +39,11 @@ void SpatialReusePass::execute(RenderContext* pRenderContext)
 	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
 	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
 	shaderVars["gMatDif"] = mpResManager->getTexture("MaterialDiffuse");
-	shaderVars["gMatSpec"] = mpResManager->getTexture("MaterialSpecRough");
-	shaderVars["gMatExtra"] = mpResManager->getTexture("MaterialExtraParams");
-	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
 
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
-
-	shaderVars["jilin"] = mpResManager->getTexture("JilinS");
 
 	shaderVars["MyCB"]["gFrameCount"] = mFrameCount++;
 

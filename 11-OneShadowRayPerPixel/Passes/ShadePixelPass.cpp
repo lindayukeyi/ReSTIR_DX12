@@ -13,16 +13,13 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 	// Request textures
 	mpResManager->requestTextureResource("FinalShadedImage");
-	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
-											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
+
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
-
-	mpResManager->requestTextureResource("Jilin");
-	mpResManager->requestTextureResource("JilinS");
-	
+		
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
 
@@ -41,17 +38,12 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
 	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
 	shaderVars["gMatDif"] = mpResManager->getTexture("MaterialDiffuse");
-	shaderVars["gMatSpec"] = mpResManager->getTexture("MaterialSpecRough");
-	shaderVars["gMatExtra"]	= mpResManager->getTexture("MaterialExtraParams");
-	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
 
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
-
-	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
-
+	
 	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
 
