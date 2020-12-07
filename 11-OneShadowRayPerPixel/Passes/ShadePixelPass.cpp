@@ -5,7 +5,7 @@ namespace {
 	// Where is our shader located?
 	const char* kShadePixelShader = "Tutorial11\\shadePixel.hlsl";
 	// What environment map should we load?
-	const char* kEnvironmentMap = "Data/MonValley_G_DirtRoad_3k.hdr";
+	const char* kEnvironmentMap = "Tutorial11\\MonValley_G_DirtRoad_3k.hdr";
 };
 
 bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager)

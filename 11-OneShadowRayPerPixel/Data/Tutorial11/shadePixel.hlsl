@@ -14,12 +14,29 @@ RWTexture2D<int> M;
 // The texture containing our environment map
 Texture2D<float4>   gEnvMap;
 
+// Some early DXR drivers had a bug breaking atan2() in DXR shaders.  This is a work-around
+float atan2_WAR(float y, float x)
+{
+	const float M_PI = 3.14159265358979323846;
+	if (x > 0.f)
+		return atan(y / x);
+	else if (x < 0.f && y >= 0.f)
+		return atan(y / x) + M_PI;
+	else if (x < 0.f && y < 0.f)
+		return atan(y / x) - M_PI;
+	else if (x == 0.f && y > 0.f)
+		return M_PI / 2.f;
+	else if (x == 0.f && y < 0.f)
+		return -M_PI / 2.f;
+	return 0.f; // x==0 && y==0 (undefined)
+}
+
 // Convert our world space direction to a (u,v) coord in a latitude-longitude spherical map
 float2 wsVectorToLatLong(float3 dir)
 {
-	float3 p = normalize(dir);
-	float u = (1.f + atan2_WAR(p.x, -p.z) * M_1_PI) * 0.5f;
-	float v = acos(p.y) * M_1_PI;
+	const float M_1_PI = 0.3183099f;
+	float u = (1.f + atan2_WAR(dir.x, -dir.z) * M_1_PI) * 0.5f;
+	float v = acos(dir.y) * M_1_PI;
 	return float2(u, v);
 }
 
@@ -29,7 +46,7 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 	if (gWsPos[pixelPos].w == 0) {
 		float2 dims;
 		gEnvMap.GetDimensions(dims.x, dims.y);
-		float2 uv = wsVectorToLatLong(gWsPos[pixelPos].xyz);
+		float2 uv = wsVectorToLatLong(gMatDif[pixelPos].xyz);
 		return float4(gEnvMap[uint2(uv * dims)].rgb, 1.0f);
 	}
 
