@@ -36,9 +36,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	
 	pipeline->setPass(0, RayTracedGBufferPass::create());                     // generate G-buffer and initial candidates
 	pipeline->setPass(1, ShadowDetectionPass::create());                      // remove invisible sample
-	//pipeline->setPass(2, TemporalReusePass::create());                        // temporal reuse
+	pipeline->setPass(2, TemporalReusePass::create());                        // temporal reuse
 
-	const int spatialReuseIteration = 0;
+	const int spatialReuseIteration = 1;
 	for (int i = 0; i < spatialReuseIteration; i++) {
 		pipeline->setPass(3 + i, SpatialReusePass::create());                 // spatial reuse
 	}
