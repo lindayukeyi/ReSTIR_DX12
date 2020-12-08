@@ -133,7 +133,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>FALCOR_DXR;WIN32;SOLUTION_DIR=R"($(SolutionDir))";_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(FALCOR_DXR_DIR)\DX12\;$(FALCOR_DXR_DIR)..\..\Source\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\keyiy\Penn\CIS565\finalproject\oidn\build\apps;$(FALCOR_DXR_DIR)\DX12\;$(FALCOR_DXR_DIR)..\..\Source\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

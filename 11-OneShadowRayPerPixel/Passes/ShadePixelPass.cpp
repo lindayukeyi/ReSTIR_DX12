@@ -1,4 +1,5 @@
-#include "ShadePixelPass.h" 
+#include "ShadePixelPass.h"
+//#include "denoiseHelper.h"
 
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
@@ -52,6 +53,10 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	
 	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
+
+	//int argc = 1;
+	//char* argv[1] = { "lueluelue\0" };
+	//main1(argc, argv);
 
 	/*
 	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
