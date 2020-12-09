@@ -20,6 +20,7 @@
     <ClCompile Include="..\SharedUtils\ResourceManager.cpp" />
     <ClCompile Include="..\SharedUtils\SceneLoaderWrapper.cpp" />
     <ClCompile Include="..\SharedUtils\SimpleVars.cpp" />
+    <ClCompile Include="DenoisePass.cpp" />
     <ClCompile Include="Passes\CopyToOutputPass.cpp" />
     <ClCompile Include="Passes\DiffuseOneShadowRayPass.cpp" />
     <ClCompile Include="Passes\RaytracedGBufferPass.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\SharedUtils\ResourceManager.h" />
     <ClInclude Include="..\SharedUtils\SceneLoaderWrapper.h" />
     <ClInclude Include="..\SharedUtils\SimpleVars.h" />
+    <ClInclude Include="DenoisePass.h" />
     <ClInclude Include="Passes\CopyToOutputPass.h" />
     <ClInclude Include="Passes\DiffuseOneShadowRayPass.h" />
     <ClInclude Include="Passes\RaytracedGBufferPass.h" />
@@ -89,6 +91,24 @@
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\preprocess.ps.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\bmfrDenoise.ps.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Data\Tutorial11\postprocess.ps.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\regressionCP.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D04DA011-0F3F-459E-8B18-41180F9ACCAD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -133,13 +153,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>FALCOR_DXR;WIN32;SOLUTION_DIR=R"($(SolutionDir))";_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(FALCOR_DXR_DIR)\DX12\;$(FALCOR_DXR_DIR)..\..\Source\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FALCOR_DXR_DIR)\DX12\;$(FALCOR_DXR_DIR)..\..\Source\;C:\Users\keyiy\Penn\CIS565\finalproject\oidn\build\apps;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(FALCOR_CORE_DIRECTORY)\lib\debugdxr;$(SolutionDir)\Framework\Externals\DXRT\Lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Shlwapi.lib;assimp.lib;freeimage.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;avcodec.lib;avutil.lib;avformat.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(FALCOR_CORE_DIRECTORY)\lib\debugdxr;$(SolutionDir)\Framework\Externals\DXRT\Lib\;C:\Users\keyiy\Penn\CIS565\finalproject\oidn\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Shlwapi.lib;assimp.lib;freeimage.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;avcodec.lib;avutil.lib;avformat.lib;swscale.lib;oidnDenoise.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

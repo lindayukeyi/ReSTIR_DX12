@@ -61,6 +61,16 @@ void CopyToOutputPass::execute(RenderContext* pRenderContext)
 
 	// Copy the selected input buffer to our output buffer.
 	pRenderContext->blit(inTex->getSRV(), outTex->getRTV());
+	/*
+	denoise_helper(outTex->getData(),
+		NULL,
+		NULL,
+		mpResManager->getTexture("DenoisedImage")->getData(),
+		outTex->getWidth(),
+		outTex->getHeight(),
+		0,
+		16,
+		16 * outTex->getWidth());*/
 }
 
 

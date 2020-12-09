@@ -30,6 +30,7 @@ bool ::RenderPass::onInitialize(RenderContext* pRenderContext, ResourceManager::
     return mIsInitialized;
 }
 
+
 void ::RenderPass::onRenderGui(Gui* pGui)
 {
     // Record current UI pos/size

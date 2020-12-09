@@ -36,6 +36,10 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 	}*/
 
 	float3 result = bsdf * L * lambert * reservoir[pixelPos].x;
-	jilin[pixelPos] = float4(reservoir[pixelPos].xy, float(M[pixelPos]), 1);
+	float2 dim;
+	reservoir.GetDimensions(dim.x, dim.y);
+	
+	jilin[pixelPos] = float4(0, pos.x / dim.x, 0, 1);
+
 	return float4(result, 1);
 }

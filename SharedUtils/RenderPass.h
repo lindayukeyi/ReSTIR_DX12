@@ -37,6 +37,7 @@ protected:
 	//
 
 	virtual bool initialize(Falcor::RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager) = 0;
+
 	virtual void initScene(Falcor::RenderContext* pRenderContext, Falcor::Scene::SharedPtr pScene) {}
 	virtual void resize(uint32_t width, uint32_t height) {}
 	virtual void pipelineUpdated(ResourceManager::SharedPtr pResManager) { mpResManager = pResManager; }

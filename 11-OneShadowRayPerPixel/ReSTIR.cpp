@@ -26,6 +26,7 @@
 #include "Passes/CopyToOutputPass.h"
 #include "Passes/RaytracedGBufferPass.h"
 #include "Passes/TemporalReusePass.h"
+#include "DenoisePass.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -44,7 +45,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	pipeline->setPass(3 + spatialReuseIteration, ShadePixelPass::create());   // compute final color
-	pipeline->setPass(4 + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
+	pipeline->setPass(4 + spatialReuseIteration, BlockwiseMultiOrderFeatureRegression::create(ResourceManager::kOutputChannel));
+	//pipeline->setPass(5 + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
 	
 	// Define a set of config / window parameters for our program
     SampleConfig config;

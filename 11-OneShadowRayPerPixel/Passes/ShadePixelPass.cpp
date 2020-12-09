@@ -1,4 +1,4 @@
-#include "ShadePixelPass.h" 
+#include "ShadePixelPass.h"
 
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
@@ -13,6 +13,7 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 	// Request textures
 	mpResManager->requestTextureResource("FinalShadedImage");
+	mpResManager->requestTextureResource("DenoisedImage");
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
 											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
 	mpResManager->requestTextureResource("EmittedLight");
@@ -34,7 +35,8 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 void ShadePixelPass::execute(RenderContext* pRenderContext)
 {
-	auto outputFbo = mpResManager->createManagedFbo({ "FinalShadedImage" });
+	auto outputFbo = mpResManager->createManagedFbo({ ResourceManager::kOutputChannel }); //mpResManager->getClearedTexture(ResourceManager::kOutputChannel, vec4(0.0f, 0.0f, 0.0f, 0.0f));
+	auto denoisedImage = mpResManager->getClearedTexture("DenoisedImage", vec4(1, 0, 0, 1));
 
 	auto shaderVars = mpShadePixelPass->getVars();
 	
@@ -54,6 +56,13 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 
 	mpGfxState->setFbo(outputFbo);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
+	
+	auto w = mpResManager->getTexture("FinalShadedImage")->getWidth();
+	auto h = mpResManager->getTexture("FinalShadedImage")->getHeight();
+
+
+		
+	//mpResManager->getTexture("Jilin")->captureToFile(0, 0, "", Bitmap::FileFormat::ExrFile);
 
 	/*
 	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
