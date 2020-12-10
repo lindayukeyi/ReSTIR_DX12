@@ -124,6 +124,12 @@ namespace Falcor
         mState.perSubresource.resize(mMipLevels * mArraySize, mState.global);
     }
 
+    void* Texture::getData() {
+        uint32_t subresource = getSubresourceIndex(0, 0);
+        std::vector<uint8> textureData = gpDevice->getRenderContext()->readTextureSubresource(this, subresource);
+        return (void*)textureData.data();
+    }
+
     void Texture::captureToFile(uint32_t mipLevel, uint32_t arraySlice, const std::string& filename, Bitmap::FileFormat format, Bitmap::ExportFlags exportFlags) const
     {
         uint32_t subresource = getSubresourceIndex(arraySlice, mipLevel);

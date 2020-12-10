@@ -1,5 +1,6 @@
 #include "ShadePixelPass.h"
-//#include "denoiseHelper.h"
+#include <malloc.h>
+#include "denoiseHelper.h"
 
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
@@ -16,6 +17,7 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 	// Request textures
 	mpResManager->requestTextureResource("FinalShadedImage");
+	mpResManager->requestTextureResource("DenoisedImage");
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
 
 	mpResManager->requestTextureResource("EmittedLight");
@@ -57,7 +59,13 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	//int argc = 1;
 	//char* argv[1] = { "lueluelue\0" };
 	//main1(argc, argv);
-
+	
+	auto w = mpResManager->getTexture("FinalShadedImage")->getWidth();
+	auto h = mpResManager->getTexture("FinalShadedImage")->getHeight();
+	
+	/*float* denoisedData = (float*)malloc(sizeof(float) * 4 * w * h);
+	denoise_helper(mpResManager->getTexture("FinalShadedImage")->getData(), NULL, NULL, mpResManager->getTexture("DenoisedImage")->getData(), w, h, 0, sizeof(float) * 4, 16 * w);
+	free(denoisedData);*/
 	/*
 	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
 

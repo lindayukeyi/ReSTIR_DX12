@@ -47,7 +47,7 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 		float2 dims;
 		gEnvMap.GetDimensions(dims.x, dims.y);
 		float2 uv = wsVectorToLatLong(gMatDif[pixelPos].xyz);
-		return float4(gEnvMap[uint2(uv * dims)].rgb, 1.0f);
+		return float4(gEnvMap[uint2(uv * dims)].rgb, 1);
 	}
 
 	float lambert = max(0, dot(toSample[pixelPos].xyz, gWsNorm[pixelPos].xyz));
@@ -62,6 +62,5 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 		pdfL = r * r / (cosLight * sampleNormalArea[pixelPos].w);
 	}*/
 
-	float3 result = bsdf * L * lambert * reservoir[pixelPos].x;
-	return float4(result, 1);
+	return float4(bsdf * L * lambert * reservoir[pixelPos].x, 1);
 }
