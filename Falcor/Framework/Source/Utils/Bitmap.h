@@ -59,6 +59,8 @@ namespace Falcor
         using UniquePtr = std::unique_ptr<Bitmap>;
         using UniqueConstPtr = std::unique_ptr<const Bitmap>;
 
+        static Bitmap::UniqueConstPtr createFromPtr(float* inputPtr, float* f4p, uint32_t width, uint32_t height);
+
         /** Create a new object from file
             \param[in] filename Filename, including a path. If the file can't be found relative to the current directory, Falcor will search for it in the common directories.
             \param[in] isTopDown Control the memory layout of the image. If true, the top-left pixel is the first pixel in the buffer, otherwise the bottom-left pixel is first.
@@ -77,6 +79,8 @@ namespace Falcor
             \param[in] pData Pointer to the buffer containing the image
         */
         static void saveImage(const std::string& filename, uint32_t width, uint32_t height, FileFormat fileFormat, ExportFlags exportFlags, ResourceFormat resourceFormat, bool isTopDown, void* pData);
+
+        static void getMyData(uint32_t width, uint32_t height, float* outputPtr, void* pData);
 
         /**  Open dialog to save image to a file
             \param[in] pTexture Texture to save to file

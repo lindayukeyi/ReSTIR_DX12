@@ -33,6 +33,7 @@
 #include <cstring>
 #include "StringUtils.h"
 #include "API/Texture.h"
+#include <malloc.h>
 
 namespace Falcor
 {
@@ -41,6 +42,30 @@ namespace Falcor
         std::string err = "Error when loading image file " + filename + '\n' + errMsg + '.';
         logError(err);
         return nullptr;
+    }
+
+    Bitmap::UniqueConstPtr Bitmap::createFromPtr(float* inputPtr, float* head, uint32_t width, uint32_t height)
+    {       
+        // create the bitmap
+        auto pBmp = new Bitmap;
+        pBmp->mHeight = width;
+        pBmp->mWidth = height;
+        pBmp->mFormat = ResourceFormat::RGBA32Float;  // 4xfloat32 HDR format
+
+        for (auto y = 0u; y < height; y++) {
+            float *rowStart = (float*)head;
+            rowStart += width * 4;
+            for (auto x = 0u; x < width; x++) {
+                rowStart[4 * x + 0] = inputPtr[0];
+                rowStart[4 * x + 1] = inputPtr[1];
+                rowStart[4 * x + 2] = inputPtr[2];
+                rowStart[4 * x + 3] = 1.f;
+                inputPtr += 3;
+            }
+        }
+
+        pBmp->mpData = (uint8_t*)head;
+        return UniqueConstPtr(pBmp);
     }
 
     Bitmap::UniqueConstPtr Bitmap::createFromFile(const std::string& filename, bool isTopDown)
@@ -254,6 +279,21 @@ namespace Falcor
             }
 
             pTexture->captureToFile(0, 0, filePath, fileFormat);
+        }
+    }
+
+    void Bitmap::getMyData(uint32_t width, uint32_t height, float* ouputPtr, void* pData) {
+        BYTE* head = (BYTE*)pData;
+        for (unsigned y = 0; y < height; y++)
+        {
+            float* dstBits = ouputPtr + width * y * 3;            
+            for (unsigned x = 0; x < width; x++)
+            {
+                dstBits[x * 3 + 0] = (((float*)head)[x * 4 + 0]);
+                dstBits[x * 3 + 1] = (((float*)head)[x * 4 + 1]);
+                dstBits[x * 3 + 2] = (((float*)head)[x * 4 + 2]);
+            }            
+            head += 16 * width;
         }
     }
 

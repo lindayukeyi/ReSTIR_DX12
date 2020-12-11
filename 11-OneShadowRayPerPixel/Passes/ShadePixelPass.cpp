@@ -38,11 +38,12 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 void ShadePixelPass::execute(RenderContext* pRenderContext)
 {
-	auto outputFbo = mpResManager->createManagedFbo({ "FinalShadedImage" });
+	auto myFBO = mpResManager->createManagedFbo({ "WorldPosition" });
 
 	auto shaderVars = mpShadePixelPass->getVars();
 	
-	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
+	shaderVars["shadedImage"] = mpResManager->getTexture("FinalShadedImage");
+	shaderVars["gWsPos"] = myFBO->getColorTexture(0);
 	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
 	shaderVars["gMatDif"] = mpResManager->getTexture("MaterialDiffuse");
 
@@ -53,25 +54,50 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 
 	shaderVars["gEnvMap"] = mpResManager->getTexture(ResourceManager::kEnvironmentMap);
 	
-	mpGfxState->setFbo(outputFbo);
+	mpGfxState->setFbo(myFBO);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
-
-	//int argc = 1;
-	//char* argv[1] = { "lueluelue\0" };
-	//main1(argc, argv);
 	
-	auto w = mpResManager->getTexture("FinalShadedImage")->getWidth();
-	auto h = mpResManager->getTexture("FinalShadedImage")->getHeight();
+	auto width = mpResManager->getWidth();
+	auto height = mpResManager->getHeight();
+
+	if (mFrameCount++ == 0) {
+		toDenoisePtr = (float*)malloc(sizeof(float) * 3 * width * height);
+		f4p = (float*)malloc(sizeof(float) * 4 * width * height);
+	}
+
+	mpResManager->getTexture("FinalShadedImage")->getData(toDenoisePtr);
 	
-	/*float* denoisedData = (float*)malloc(sizeof(float) * 4 * w * h);
-	denoise_helper(mpResManager->getTexture("FinalShadedImage")->getData(), NULL, NULL, mpResManager->getTexture("DenoisedImage")->getData(), w, h, 0, sizeof(float) * 4, 16 * w);
-	free(denoisedData);*/
-	/*
-	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
 
-	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".EXR";
-	mpResManager->getTexture("FinalShadedImage")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+	denoise_helper(toDenoisePtr, NULL, NULL, toDenoisePtr, width, height, 0, 0, 0);
 
+	for (auto y = 0u, ct = 0u; y < height; y++) {
+		float* rowStart = (float*)f4p;
+		rowStart += width * 4;
+		for (auto x = 0u; x < width; x++) {
+			rowStart[4 * x + 0] = toDenoisePtr[ct + 0];
+			rowStart[4 * x + 1] = toDenoisePtr[ct + 1];
+			rowStart[4 * x + 2] = toDenoisePtr[ct + 2];
+			rowStart[4 * x + 3] = 1.f;
+			ct += 3;
+		}
+	}
+
+	Texture::SharedPtr denoisedTexture = Texture::create2D(width, height, ResourceFormat::RGBA32Float, 1, 1, (uint8_t*)f4p);
+	if (denoisedTexture) {
+		mpResManager->manageTextureResource("DenoisedImage", denoisedTexture);
+	}
+
+
+	/*std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
+
+	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".exr";
+	mpResManager->getTexture("FinalShadedImage")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);*/
+
+	/*std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
+
+	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".Pfm";
+	mpResManager->getTexture("EmittedLight")->captureToFile(0, 0, fileName, Bitmap::FileFormat::PfmFile);
+	
 	fileName = folderName + "reservoirM\\" + std::to_string(mFrameCount) + ".EXR";
 	mpResManager->getTexture("Jilin")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
 

@@ -154,7 +154,7 @@ namespace Falcor
 
         static SharedPtr create2DMS(uint32_t width, uint32_t height, ResourceFormat format, uint32_t sampleCount, uint32_t arraySize = 1, BindFlags bindFlags = BindFlags::ShaderResource);
         
-        void* getData();
+        void getData(float* outputPtr);
 
         /** Capture the texture to an image file.
             \param[in] mipLevel Requested mip-level

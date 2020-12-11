@@ -11,6 +11,8 @@ RWTexture2D<float4> toSample; // xyz: hit point(ref) to sample // w: distToLight
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
+RWTexture2D<float4> shadedImage;
+
 // The texture containing our environment map
 Texture2D<float4>   gEnvMap;
 
@@ -40,14 +42,16 @@ float2 wsVectorToLatLong(float3 dir)
 	return float2(u, v);
 }
 
-float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
+void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 {
 	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
+
 	if (gWsPos[pixelPos].w == 0) {
 		float2 dims;
 		gEnvMap.GetDimensions(dims.x, dims.y);
 		float2 uv = wsVectorToLatLong(gMatDif[pixelPos].xyz);
-		return float4(gEnvMap[uint2(uv * dims)].rgb, 1);
+		shadedImage[pixelPos] = float4(gEnvMap[uint2(uv * dims)].rgb, 1);
+		return;
 	}
 
 	float lambert = max(0, dot(toSample[pixelPos].xyz, gWsNorm[pixelPos].xyz));
@@ -62,5 +66,5 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 		pdfL = r * r / (cosLight * sampleNormalArea[pixelPos].w);
 	}*/
 
-	return float4(bsdf * L * lambert * reservoir[pixelPos].x, 1);
+	shadedImage[pixelPos] = float4(bsdf * L * lambert * reservoir[pixelPos].x, 1);
 }
