@@ -101,9 +101,10 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 
 	bool inScreen;
 	uint2 lastPos = getLastPixelPos(worldPos, width, height, inScreen);
+	/*
 	if (!inScreen) { // The corresponding pixel in previous frame is out of screen
 		return;
-	}
+	}*/
 	/*
 	if (length(worldPos - lastWPos[lastPos]) > 0.01f) { // The corresonding fragment is occluded by another fragment
 		return;

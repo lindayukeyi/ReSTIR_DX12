@@ -49,67 +49,28 @@
     ],
     "lights": [
         {
-            "name": "dirLight0",
-            "type": "point_light",
+            "name": "areaLight0",
+            "type": "area_light_rect",
             "intensity": [
                 1.0,
                 1.0,
                 0.9843137860298157
             ],
-            "pos": [
+            "translation": [
                 -4.645481586456299,
                 1.5427508354187012,
                 -1.488459825515747
             ],
-            "direction": [
-                0.3642265796661377,
-                -0.5452651977539063,
-                0.7549999952316284
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
             ],
-            "opening_angle": 180.0,
-            "penumbra_angle": 0.0
-        },
-        {
-            "name": "pointLight1",
-            "type": "point_light",
-            "intensity": [
+            "scaling": [
                 1.0,
                 1.0,
                 1.0
-            ],
-            "pos": [
-                -4.645481586456299,
-                1.5427508354187012,
-                -1.488459825515747
-            ],
-            "direction": [
-                0.0,
-                -1.0,
-                0.0
-            ],
-            "opening_angle": 180.0,
-            "penumbra_angle": 0.0
-        },
-        {
-            "name": "pointLight2",
-            "type": "point_light",
-            "intensity": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "pos": [
-                -1.016136884689331,
-                1.4740270376205445,
-                -1.4256235361099244
-            ],
-            "direction": [
-                0.0,
-                -1.0,
-                0.0
-            ],
-            "opening_angle": 180.0,
-            "penumbra_angle": 0.0
+            ]
         }
     ],
     "cameras": [

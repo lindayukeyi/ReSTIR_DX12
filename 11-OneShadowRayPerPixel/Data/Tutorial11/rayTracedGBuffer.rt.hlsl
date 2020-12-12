@@ -72,6 +72,8 @@ RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
+RWTexture2D<float4> test;
+
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
@@ -166,7 +168,7 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	gMatEmissive[launchIndex] = float4(shadeData.emissive, 0.f);
 
 	M[launchIndex] = 0; // Initial number of samples is zero
-	
+
 	// Call RIS
 	RIS(launchIndex, launchDim);
 }

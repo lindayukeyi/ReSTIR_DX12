@@ -124,24 +124,11 @@ namespace Falcor
         mState.perSubresource.resize(mMipLevels * mArraySize, mState.global);
     }
 
-    void Texture::getData(float *outputPtr) {
-        uint32_t subresource = getSubresourceIndex(0, 0);
-        std::vector<uint8> textureData = gpDevice->getRenderContext()->readTextureSubresource(this, subresource);
-        
-        auto func = [=]()
-        {
-            Bitmap::getMyData(getWidth(0), getHeight(0), outputPtr, (void*)textureData.data());
-        };
-
-        static ThreadPool<16> sThreadPool;
-        sThreadPool.getAvailable() = std::thread(func);
-    }
-
     void Texture::captureToFile(uint32_t mipLevel, uint32_t arraySlice, const std::string& filename, Bitmap::FileFormat format, Bitmap::ExportFlags exportFlags) const
     {
         uint32_t subresource = getSubresourceIndex(arraySlice, mipLevel);
         std::vector<uint8> textureData = gpDevice->getRenderContext()->readTextureSubresource(this, subresource);
-        
+
         auto func = [=]()
         {
             Bitmap::saveImage(filename, getWidth(mipLevel), getHeight(mipLevel), format, exportFlags, getFormat(), true, (void*)textureData.data());

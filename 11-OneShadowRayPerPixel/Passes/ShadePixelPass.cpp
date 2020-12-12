@@ -1,6 +1,6 @@
 #include "ShadePixelPass.h"
 #include <malloc.h>
-#include "denoiseHelper.h"
+
 
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
@@ -23,6 +23,8 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+
+	mpResManager->requestTextureResource("TestBuffer"); // Debug
 
 	mpResManager->updateEnvironmentMap(kEnvironmentMap);
 
@@ -56,10 +58,10 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	mpGfxState->setFbo(myFBO);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
 	
-	/*
+	
 	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
 
-	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".EXR";
-	mpResManager->getTexture("WorldPosition")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
-	*/
+	std::string fileName = folderName + "hello\\" + std::to_string(mFrameCount) + ".EXR";
+	mpResManager->getTexture("TestBuffer")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+	
 }

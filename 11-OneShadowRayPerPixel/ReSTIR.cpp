@@ -26,6 +26,7 @@
 #include "Passes/CopyToOutputPass.h"
 #include "Passes/RaytracedGBufferPass.h"
 #include "Passes/TemporalReusePass.h"
+#include "Passes/AtrousDenoise.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -44,13 +45,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	pipeline->setPass(3 + spatialReuseIteration, ShadePixelPass::create());   // compute final color
-	pipeline->setPass(4 + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
+
+	int filterSize = 64;
+	float filterLimit = glm::log((filterSize - 1) / 2.f) / glm::log(2.f);
+	for (int k = 0; k < filterLimit; k++) {
+		pipeline->setPass(4 + k + spatialReuseIteration, AtrousDenoisePass::create(k));
+	}
+	pipeline->setPass(4 + (int)filterLimit + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
 	
 	// Define a set of config / window parameters for our program
     SampleConfig config;
 	config.windowDesc.title = "ReSTIR with DX12";
 	config.windowDesc.resizableWindow = true;
-	
+
 	// Start our program!
 	RenderingPipeline::run(pipeline, config);
 }
