@@ -32,7 +32,7 @@ void AtrousDenoisePass::execute(RenderContext* pRenderContext)
 	auto outputFbo = mpResManager->createManagedFbo({ "DenoisedImage" });
 
 	auto shaderVars = mpAtrousDenoisePass->getVars();
-	
+	shaderVars["MyCB"]["k"] = k;
 	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
 	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
 	shaderVars["gShadeImg"] = mpResManager->getTexture("PingpongDenoisedImage");

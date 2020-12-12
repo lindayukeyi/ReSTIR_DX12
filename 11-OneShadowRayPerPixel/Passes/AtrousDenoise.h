@@ -8,12 +8,12 @@ public:
     using SharedPtr = std::shared_ptr<AtrousDenoisePass>;
     using SharedConstPtr = std::shared_ptr<const AtrousDenoisePass>;
 
-    static SharedPtr create() { return SharedPtr(new AtrousDenoisePass()); }
+	static SharedPtr create(int k) { return SharedPtr(new AtrousDenoisePass(k)); }
     virtual ~AtrousDenoisePass() = default;
 
 protected:
-	AtrousDenoisePass() : ::RenderPass("AtrousDenoisePass", "AtrousDenoisePass  Options") {}
-
+	AtrousDenoisePass(int k) : ::RenderPass("AtrousDenoisePass", "AtrousDenoisePass  Options") { this->k = k; }
+	int k;
     // Implementation of RenderPass interface
     bool initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager) override;
     void execute(RenderContext* pRenderContext) override;
