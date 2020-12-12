@@ -369,7 +369,7 @@ namespace Falcor
             BYTE* head = (BYTE*)pData;
             for(unsigned y = 0; y < height; y++) 
             {
-                float* dstBits = (float*)FreeImage_GetScanLine(pImage, height - y - 1);
+                float* dstBits = (float*)FreeImage_GetScanLine(pImage, height - 1 - y);
                 if(scanlineCopy)
                 {
                     std::memcpy(dstBits, head, bytesPerPixel * width);

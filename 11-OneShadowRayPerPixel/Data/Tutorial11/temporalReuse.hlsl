@@ -109,9 +109,6 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		return;
 	}
 	
-	if (lastReservoir[lastPos].x == 0) {
-		return;
-	}
 
 	// Use pixel index and frame count to initialize random seed
 	uint seed = initRand(pixelPos.x + pixelPos.y * width, gFrameCount, 16);

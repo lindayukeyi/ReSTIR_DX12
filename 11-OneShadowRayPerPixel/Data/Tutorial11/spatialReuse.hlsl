@@ -77,11 +77,6 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		}
 		uint2 neighborPos = (uint2)neighborf;
 
-		// TODO: comment this
-		if (reservoir[neighborPos].x == 0) {
-			continue;
-		}
-
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree		
 		if (dot(gWsNorm[pixelPos].xyz, gWsNorm[neighborPos].xyz) < 0.9063) {
 			continue;

@@ -16,3 +16,5 @@ CommonPasses/Data/simpleScene/
 11-OneShadowRayPerPixel/worldPos/
 11-OneShadowRayPerPixel/random/
 11-OneShadowRayPerPixel/shade/
+11-OneShadowRayPerPixel/temp/
+CommonPasses/Data/Pub/

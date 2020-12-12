@@ -141,7 +141,7 @@ namespace Falcor
     {
         uint32_t subresource = getSubresourceIndex(arraySlice, mipLevel);
         std::vector<uint8> textureData = gpDevice->getRenderContext()->readTextureSubresource(this, subresource);
-
+        
         auto func = [=]()
         {
             Bitmap::saveImage(filename, getWidth(mipLevel), getHeight(mipLevel), format, exportFlags, getFormat(), true, (void*)textureData.data());
