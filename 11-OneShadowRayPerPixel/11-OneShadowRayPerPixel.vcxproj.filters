@@ -63,6 +63,9 @@
     <ClInclude Include="Passes\TemporalReusePass.h">
       <Filter>Passes</Filter>
     </ClInclude>
+    <ClInclude Include="Passes\AtrousDenoise.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SharedUtils\RenderingPipeline.cpp">
@@ -114,6 +117,9 @@
       <Filter>Passes</Filter>
     </ClCompile>
     <ClCompile Include="ReSTIR.cpp" />
+    <ClCompile Include="Passes\AtrousDenoise.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli">
@@ -144,6 +150,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Data\Tutorial11\temporalReuse.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Data\Tutorial11\AtrousDenoise.hlsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
