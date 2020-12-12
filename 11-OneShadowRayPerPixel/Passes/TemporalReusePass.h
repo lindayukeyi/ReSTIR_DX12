@@ -35,4 +35,5 @@ protected:
 	mat4                          mLastViewProjMatrix;
 
 	uint32_t                      mFrameCount = 0;
+
 };

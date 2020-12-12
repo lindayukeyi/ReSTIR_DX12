@@ -50,7 +50,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     SampleConfig config;
 	config.windowDesc.title = "ReSTIR with DX12";
 	config.windowDesc.resizableWindow = true;
-
+	
 	// Start our program!
 	RenderingPipeline::run(pipeline, config);
 }

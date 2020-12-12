@@ -104,10 +104,10 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	if (!inScreen) { // The corresponding pixel in previous frame is out of screen
 		return;
 	}
-
+	/*
 	if (length(worldPos - lastWPos[lastPos]) > 0.01f) { // The corresonding fragment is occluded by another fragment
 		return;
-	}
+	}*/
 	
 
 	// Use pixel index and frame count to initialize random seed
