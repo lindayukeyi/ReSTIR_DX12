@@ -1,9 +1,13 @@
-#include "ShadePixelPass.h" 
+#include "ShadePixelPass.h"
+#include <malloc.h>
+
 
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
 	const char* kShadePixelShader = "Tutorial11\\shadePixel.hlsl";
+	// What environment map should we load?
+	const char* kEnvironmentMap = "Tutorial11\\MonValley_G_DirtRoad_3k.hdr";
 };
 
 bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager)
@@ -13,16 +17,15 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 	// Request textures
 	mpResManager->requestTextureResource("FinalShadedImage");
-	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse",
-											"MaterialSpecRough", "MaterialExtraParams", "Emissive" });
+	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
+
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
-	mpResManager->requestTextureResource("Jilin");
-	mpResManager->requestTextureResource("JilinS");
-	
+	mpResManager->updateEnvironmentMap(kEnvironmentMap);
+
 	// Use the default gfx pipeline state
 	mpGfxState = GraphicsState::create();
 
@@ -34,37 +37,29 @@ bool ShadePixelPass::initialize(RenderContext* pRenderContext, ResourceManager::
 
 void ShadePixelPass::execute(RenderContext* pRenderContext)
 {
-	auto outputFbo = mpResManager->createManagedFbo({ "FinalShadedImage" });
+	auto myFBO = mpResManager->createManagedFbo({ "WorldPosition" });
 
 	auto shaderVars = mpShadePixelPass->getVars();
 	
-	shaderVars["gWsPos"] = mpResManager->getTexture("WorldPosition");
+	shaderVars["shadedImage"] = mpResManager->getTexture("FinalShadedImage");
+	shaderVars["gWsPos"] = myFBO->getColorTexture(0);
 	shaderVars["gWsNorm"] = mpResManager->getTexture("WorldNormal");
 	shaderVars["gMatDif"] = mpResManager->getTexture("MaterialDiffuse");
-	shaderVars["gMatSpec"] = mpResManager->getTexture("MaterialSpecRough");
-	shaderVars["gMatExtra"]	= mpResManager->getTexture("MaterialExtraParams");
-	shaderVars["gMatEmissive"] = mpResManager->getTexture("Emissive");
 
 	shaderVars["emittedLight"] = mpResManager->getTexture("EmittedLight");
 	shaderVars["toSample"] = mpResManager->getTexture("ToSample");
 	shaderVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	shaderVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
 
-	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
-
-	mpGfxState->setFbo(outputFbo);
+	shaderVars["gEnvMap"] = mpResManager->getTexture(ResourceManager::kEnvironmentMap);
+	
+	mpGfxState->setFbo(myFBO);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
-
+	
 	/*
 	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
 
 	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".EXR";
-	mpResManager->getTexture("FinalShadedImage")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
-
-	fileName = folderName + "reservoirM\\" + std::to_string(mFrameCount) + ".EXR";
-	mpResManager->getTexture("Jilin")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
-
-	fileName = folderName + "phat\\" + std::to_string(mFrameCount++) + ".EXR";
-	mpResManager->getTexture("JilinS")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+	mpResManager->getTexture("WorldPosition")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
 	*/
 }

@@ -19,6 +19,7 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 
 	// Request textures
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
+
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
 	mpResManager->requestTextureResource("Reservoir");
@@ -28,8 +29,6 @@ bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManage
 	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
 	mpResManager->requestTextureResource("LastWorldPosition");
-
-	mpResManager->requestTextureResource("Jilin"); // Debug
 
 	// Create our graphics state and accumulation shader
 	mpGfxState = GraphicsState::create();
@@ -77,8 +76,6 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 	shaderVars["lastM"] = lastM;
 	shaderVars["lastWPos"] = lastWPos;
 
-	shaderVars["jilin"] = mpResManager->getTexture("Jilin");
-
 	mpGfxState->setFbo(myFBO); // We need a FBO to make it work
 
 	if (mFrameCount != 1) {
@@ -88,8 +85,12 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 
 	// Save the current position to be used in next frame
 	pRenderContext->blit(myFBO->getColorTexture(0)->getSRV(), mpResManager->getTexture("LastWorldPosition")->getRTV());
+
+	// Enable the following lines if you want temporal reuse only
+	/*
 	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), mpResManager->getTexture("PingpongReservoir")->getRTV());
 	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), mpResManager->getTexture("PingpongEmittedLight")->getRTV());
 	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("PingpongToSample")->getRTV());
 	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("PingpongM")->getRTV());
+	*/
 }

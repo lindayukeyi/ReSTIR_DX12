@@ -11,17 +11,12 @@ static const float PI = 3.14159265f;
 RWTexture2D<float4> gWsPos;
 RWTexture2D<float4> gWsNorm;
 RWTexture2D<float4> gMatDif;
-RWTexture2D<float4> gMatSpec;
-RWTexture2D<float4> gMatExtra;
-RWTexture2D<float4> gMatEmissive;
 
 // Reservoir texture
 RWTexture2D<float4> emittedLight; // xyz: light color
 RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
-
-RWTexture2D<float4> jilin;
 
 cbuffer MyCB
 {
@@ -82,10 +77,6 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		}
 		uint2 neighborPos = (uint2)neighborf;
 
-		if (reservoir[neighborPos].x == 0) {
-			continue;
-		}
-
 		// The angle between normals of the current pixel to the neighboring pixel exceeds 25 degree		
 		if (dot(gWsNorm[pixelPos].xyz, gWsNorm[neighborPos].xyz) < 0.9063) {
 			continue;
@@ -105,19 +96,6 @@ Pingpong main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		updatereservoir(emittedLight[neighborPos].xyz, toS, w, seed, pp);
 
 		M_sum += M[neighborPos];
-
-		if (i == 0) {
-			jilin[pixelPos] = float4(p_hat, jilin[pixelPos].y, jilin[pixelPos].z, jilin[pixelPos].w);
-		}
-		else if (i == 1) {
-			jilin[pixelPos] = float4(jilin[pixelPos].x, p_hat, jilin[pixelPos].z, jilin[pixelPos].w);
-		}
-		else if (i == 2) {
-			jilin[pixelPos] = float4(jilin[pixelPos].x, jilin[pixelPos].y, p_hat, jilin[pixelPos].w);
-		}
-		else if (i == 3) {
-			jilin[pixelPos] = float4(jilin[pixelPos].x, jilin[pixelPos].y, jilin[pixelPos].z, p_hat);
-		}
 	}
 
 	pp.pM = M_sum + M[pixelPos];

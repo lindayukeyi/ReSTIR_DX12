@@ -19,10 +19,7 @@ RWTexture2D<float4> lastEmittedLight;
 RWTexture2D<float4> lastToSample;
 RWTexture2D<float4> lastReservoir;
 RWTexture2D<int> lastM;
-
 RWTexture2D<float4> lastWPos;
-
-RWTexture2D<float4> jilin; // Debug
 
 cbuffer MyCB {
 	uint gFrameCount;
@@ -112,9 +109,6 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 		return;
 	}
 	
-	if (lastReservoir[lastPos].x == 0) {
-		return;
-	}
 
 	// Use pixel index and frame count to initialize random seed
 	uint seed = initRand(pixelPos.x + pixelPos.y * width, gFrameCount, 16);

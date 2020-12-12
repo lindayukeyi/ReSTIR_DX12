@@ -20,9 +20,13 @@ protected:
 
     // Override some functions that provide information to the RenderPipeline class
     bool usesRasterization() override { return true; }
+	bool usesEnvironmentMap() override { return true; }
+    void shutdown() { free(toDenoisePtr); free(f4p); }
 
 	// Internal pass state
 	FullscreenLaunch::SharedPtr   mpShadePixelPass;         ///< Our accumulation shader state
 	GraphicsState::SharedPtr      mpGfxState;             ///< Our graphics pipeline state
     uint32_t                      mFrameCount = 0;  ///< A frame counter to vary random numbers over time
+    float* toDenoisePtr = nullptr;
+    float* f4p = nullptr;
 };

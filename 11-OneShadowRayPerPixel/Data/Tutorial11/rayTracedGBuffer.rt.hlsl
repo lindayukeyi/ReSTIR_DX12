@@ -131,8 +131,8 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 [shader("miss")]
 void PrimaryMiss(inout SimpleRayPayload)
 {
-	// Store the background color into our diffuse material buffer
-	gMatDif[DispatchRaysIndex().xy] = float4(gBgColor, 1.0f);
+	// Store the ray direction into diffuse buffer for later indexing environment map
+	gMatDif[DispatchRaysIndex().xy] = float4(normalize(WorldRayDirection()), 0);
 }
 
 // What code is executed when our ray hits a potentially transparent surface?
