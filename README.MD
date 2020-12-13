@@ -40,9 +40,11 @@ In a scene with millions of lights, it is not practical for a real-time applicat
 
 But we can do much better if we can reuse samples! Suppose we have two samples for a given point, one is occluded while the other is not. To reduce noise, we would like to use the sample that can actually illuminate our point of interest. In the meanwhile, we also would like to use the occluded sample for a lower probability to create partially occluded effects or soft shadows. The probability can be determined by assigning weights to samples. If a sample has a greater contribution, it should be given a higher weight to be chosen. The basic resampling importance sampling algorithm simply repeats the sampling process and select a sample from candidates based on their weights.
 
-![](./images/RISIllustrate.png) 
+![](./images/RISIllustrate.png)
+
 ![](./images/RIS-only.png)
-![](./images/uniform-sampling.png)
+
+![](./images/Uniform-Sampling.png)
 
 ### What is a reservoir?
 We can get more converged results as we increase the number of samples in the resampling stage. But the execution time also increase linearly. Thanks to the reservoir, we can potentially see a lot of samples and select one from them based on their weights. A reservoir maintains a state from a streaming input. It contains the number of samples seen so far, the weight of the currently selected sample and the sum of sample weights from the input stream. The idea is similar to computing mean score of students from a streaming input: we simply record the sum of all scores we have seen so far and the number of students so that we can update the mean score given a new input. A reservoir is powerful in that it requires little memory while allowing us to potentially see a lot of samples.
