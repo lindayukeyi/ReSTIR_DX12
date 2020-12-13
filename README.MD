@@ -50,6 +50,7 @@ But we can do much better if we can reuse samples! Suppose we have two samples f
 We can get more converged results as we increase the number of samples in the resampling stage. But the execution time also increase linearly. Thanks to the reservoir, we can potentially see a lot of samples and select one from them based on their weights. A reservoir maintains a state from a streaming input. It contains the number of samples seen so far, the weight of the currently selected sample and the sum of sample weights from the input stream. The idea is similar to computing mean score of students from a streaming input: we simply record the sum of all scores we have seen so far and the number of students so that we can update the mean score given a new input. A reservoir is powerful in that it requires little memory while allowing us to potentially see a lot of samples.
 
 ![](./images/Reservoir.png)
+![](./images/Reservoir2.png)
 
 ### Spatial reuse
 Reservoir provides simplicity in reusing samples. As we can reuse samples from a lot of candidates, it is a good idea to reuse samples from neighboring pixels. Because the neighboring pixels usually share the same lighting conditions and occlusion conditions, we can potentially get more good samples from a neighborhood. In this step we will change the value in reservoir for each pixel. As we use shaders to do the calculation, we need to avoid race condition by using a ping-pong buffer. After we have updated the ping-pong buffer, we copy it back to the current reservoir.
