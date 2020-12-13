@@ -29,7 +29,7 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	mpResManager->requestTextureResource("TestBuffer"); // Debug
 
 	// Set the default scene to load
-	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
+	mpResManager->setDefaultSceneName("Data/myTest/Pub_area.fscene");
 
 	// Create our wrapper around a ray tracing pass.  Specify our ray generation shader and ray-specific shaders
 	mpRays = RayLaunch::create(kFileRayTrace, kEntryPointRayGen);

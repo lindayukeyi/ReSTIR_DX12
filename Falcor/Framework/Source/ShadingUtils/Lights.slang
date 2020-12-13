@@ -103,16 +103,17 @@ LightSample evalPointLight(in LightData light, in float3 surfacePosW)
 
 /** Sample a position on the rectangular light source and evaluate its intensity
 */
-LightSample evalRectLight(in LightData light, in float3 surfacePosW, in float2 rectSample)
+LightSample evalRectLight(in LightData light, in float3 surfacePosW, in float2 rectSample, inout float4 testData)
 {
     LightSample ls;
     float2 samplePos = rectSample - float2(0.5, 0.5);
 
     
-    ls.posW = mul(float4(0,0,0, 1.0), light.transMat).xyz;
-    //ls.posW = mul(light.transMat, float4(0, 0, 0, 1.0)).xyz;
+    //ls.posW = mul(float4(0,0,0, 1.0), light.transMat).xyz;
+    ls.posW = mul(light.transMat, float4(samplePos.xy, 0, 1.0)).xyz;
+    testData = float4(light.dirW, 1.0);
 
-    ls.L = light.posW - surfacePosW;
+    ls.L = ls.posW - surfacePosW;
     float distSquared = dot(ls.L, ls.L);
     ls.distance = (distSquared > 1e-5f) ? length(ls.L) : 0;
     ls.L = (distSquared > 1e-5f) ? normalize(ls.L) : 0;
@@ -122,7 +123,7 @@ LightSample evalRectLight(in LightData light, in float3 surfacePosW, in float2 r
 
     // Calculate the falloff
     float cosTheta = -dot(ls.L, lightNormal); // cos of angle of light orientation 
-    float falloff = abs(cosTheta) * light.surfaceArea * 0.25;
+    float falloff = max(0.f, cosTheta) * light.surfaceArea * 0.25;
     falloff *= getDistanceFalloff(distSquared);
     ls.diffuse = falloff * light.intensity;
     ls.specular = ls.diffuse;

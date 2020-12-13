@@ -18,7 +18,7 @@
 
 // A helper to extract important light data from internal Falcor data structures.  What's going on isn't particularly
 //     important -- any framework you use will expose internal scene data in some way.  Use your framework's utilities.
-void getLightData(in int index, in float3 hitPos, out float3 toLight, out float3 lightIntensity, out float distToLight, in float2 rectSample)
+void getLightData(in int index, in float3 hitPos, out float3 toLight, out float3 lightIntensity, out float distToLight, in float2 rectSample, inout float4 testData)
 {
 	// Use built-in Falcor functions and data structures to fill in a LightSample data structure
 	//   -> See "Lights.slang" for it's definition
@@ -26,7 +26,7 @@ void getLightData(in int index, in float3 hitPos, out float3 toLight, out float3
 
 	// Is it a rectangular area light?
 	if (gLights[index].type == LightAreaRect)
-		ls = evalRectLight(gLights[index], hitPos, rectSample);
+		ls = evalRectLight(gLights[index], hitPos, rectSample, testData);
 
 	// No?  We only support point light and rectangular area light
 	else
