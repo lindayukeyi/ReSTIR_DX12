@@ -73,14 +73,29 @@ Below is the result after applying spatial reuse and temporal reuse.
 
 We use an integer to store the number of samples seen so far. As we combine reservoirs from previous frame, this number will increase exponentially and go unbounded. Which gives us very interesting bug images below. To fix this, we clamp the number of samples seen so far and also scale the sum of weights accordingly. This is like assigning a weight to previous frames' reservoirs and will bound the influence of temporal information.
 
-![](./images/UnboundedSampleCount.png)
+![](./images/UnboundedSampleCount.gif)
 
 ### Denoising pass
 The image is almost clean after spatial and temporal reuse. But we still add an optional denoising stage to our pipeline. We use the Edge-avoiding A-Trous Wavelet Transform to denoise our rendered image. Each filter iteration takes about 2ms on RTX 2070. We also tried integrating Intel Open Image Denoiser into our pipeline but each frame will then spend about 1.5 seconds in applying the filter, which is impractical for real-time applications. Denoising provide limited improvement to the final result and sometimes can even introduce artifacts.
 
 ![](./images/Denoised.png)
 
+## Performance test
+Our test scene is created by all the team members. It contains 100 triangles, 100 point lights and 7 area lights. The test is operated on a laptop with RTX 2070.
+
+
+| 800 * 800 | 1600 * 1600 |
+|---|---|
+| 58ms | 233ms |
+
+
+## Limitations
+For now our scene only supports area lights and point lights. It doesn't support mesh lights which contain arbitrary sets of triangles. ReSTIR is powerful even when it is dealing with millions of triangles from mesh lights. This can be a very interesting part for our future work. Also as mentioned before, we do not have an unbiased version of ReSTIR. The algorithm is using raytracing instead of pathtracing so no global illumination is included here.
+
 ## Acknowledgements
+
+We used some models from Amazon Lumberyard Bistro. See
+    http://developer.nvidia.com/orca/amazon-lumberyard-bistro
 
 The desert HDR environment map (MonValley Dirtroad) is provided from the sIBL Archive under a 
 Creative Commons license (CC BY-NC-SA 3.0 US). See
