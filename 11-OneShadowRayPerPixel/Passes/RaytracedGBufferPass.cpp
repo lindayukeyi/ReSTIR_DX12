@@ -83,7 +83,7 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	auto missVars = mpRays->getMissVars(0);
 	missVars["MissShaderCB"]["gBgColor"] = mBgColor;  // What color to use as a background?
 	missVars["gMatDif"] = matDif;                     // Where do we store the bg color? (in the diffuse texture)
-
+	missVars["test"] = mpResManager->getTexture("TestBuffer");
 	// Cycle through all geometry instances, bind our g-buffer textures to the hit shaders for each instance.
 	// Note:  There is a different binding point for each pair {instance, hit group}, so variables used inside
 	//        the hit group need to be bound per-instance.  If these variables do not change, as in this case,
@@ -108,4 +108,12 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 
 	// Launch our ray tracing
 	mpRays->execute(pRenderContext, mpResManager->getScreenSize());
+
+	/*
+
+	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
+
+	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".EXR";
+	mpResManager->getTexture("ToSample")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
+	*/
 }

@@ -46,12 +46,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	pipeline->setPass(3 + spatialReuseIteration, ShadePixelPass::create());   // compute final color
 
-	int filterSize = 64;
+	/*
+	int filterSize = 5;
 	float filterLimit = glm::log((filterSize - 1) / 2.f) / glm::log(2.f);
 	for (int k = 0; k < filterLimit; k++) {
 		pipeline->setPass(4 + k + spatialReuseIteration, AtrousDenoisePass::create(k));
-	}
-	pipeline->setPass(4 + (int)filterLimit + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
+	}*/
+	pipeline->setPass(4 + /*(int)filterLimit + spatialReuseIteration*/ spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
 	
 	// Define a set of config / window parameters for our program
     SampleConfig config;

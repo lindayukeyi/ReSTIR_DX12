@@ -23,7 +23,7 @@
     },
     "models": [
         {
-            "file": "Pub.fbx",
+            "file": "Pub3.fbx",
             "name": "Pub",
             "instances": [
                 {
@@ -2210,7 +2210,1141 @@
             ],
             "opening_angle": 360.0,
             "penumbra_angle": 0.0
-        }                                                          
+        },
+        {
+            "name": "tree92_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.905,
+                11.288,
+                2.958
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree92_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.337,
+                11.288,
+                3.192
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree92_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.161,
+                11.288,
+                3.418
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.312,
+                11.288,
+                3.851
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.912,
+                11.288,
+                4.155
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.354,
+                11.288,
+                3.851
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.462,
+                11.288,
+                3.548
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.379,
+                11.288,
+                3.192
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.790,
+                10.728,
+                3.569
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.0928,
+                9.2841,
+                4.6175
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree10_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.5250,
+                9.2841,
+                4.8521
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree10_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.3486,
+                9.2841,
+                5.0776
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.4997,
+                9.2841,
+                5.5104
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.0993,
+                9.2841,
+                5.8143
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.5418,
+                9.2841,
+                5.5104
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.6500,
+                9.2841,
+                5.2073
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.5671,
+                9.2841,
+                4.8521
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.9777,
+                8.7242,
+                5.2287
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.4047,
+                16.5624,
+                5.6775
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree18_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.9278,
+                16.5624,
+                5.7761
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree18_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.6539,
+                16.5624,
+                6.0967
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.8051,
+                16.5624,
+                6.5295
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.0644,
+                16.5624,
+                6.7072
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.4047,
+                16.5624,
+                6.8334
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.8472,
+                16.5624,
+                6.5295
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.9553,
+                16.5624,
+                6.2265
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.2831,
+                16.0026,
+                6.2478
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+            {
+            "name": "tree11_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.4766,
+                10.3349,
+                8.7459
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree11_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.9088,
+                10.3349,
+                8.9805
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree11_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.7323,
+                10.3349,
+                9.2061
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.8835,
+                10.3349,
+                9.6388
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.4830,
+                10.3349,
+                9.9428
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.9256,
+                10.3349,
+                9.6388
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                13.0337,
+                10.3349,
+                9.3358
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.9509,
+                10.3349,
+                8.9805
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.3614,
+                9.7751,
+                9.3572
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.8412,
+                7.8269,
+                2.3028
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree22_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.3644,
+                7.8269,
+                2.4014
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree22_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.0905,
+                7.8269,
+                2.7220
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.2416,
+                7.8269,
+                3.1547
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.5010,
+                7.8269,
+                3.3325
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                3.3325,
+                7.8269,
+                3.4587
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.2837,
+                7.8269,
+                3.1547
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.3919,
+                7.8269,
+                2.8517
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.2323,
+                7.8269,
+                2.4964
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.1686,
+                22.4484,
+                7.5942
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree32_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.6008,
+                22.4484,
+                7.8288
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree32_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.4243,
+                22.4484,
+                8.0543
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.5755,
+                22.4484,
+                8.4871
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.1750,
+                22.4484,
+                8.7910
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.7257,
+                22.4484,
+                8.1841
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.6429,
+                22.4484,
+                7.8288
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.0534,
+                21.8886,
+                8.2054
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.6176,
+                22.4484,
+                8.4871
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        }                                                                                        
         
     ],
     "cameras": [

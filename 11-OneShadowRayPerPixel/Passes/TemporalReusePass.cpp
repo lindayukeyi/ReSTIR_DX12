@@ -93,4 +93,5 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("PingpongToSample")->getRTV());
 	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("PingpongM")->getRTV());
 	*/
+
 }

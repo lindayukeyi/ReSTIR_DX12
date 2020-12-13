@@ -105,9 +105,10 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 		float3 lightIntensity;  // What color is it?
 		float3 toLight;         // What direction is it from our current pixel? Normalized.
 
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight);
-		
+		float2 rectSample = float2(nextRand(randSeed), nextRand(randSeed));
+		//float4 testData = float4(1, 0, 0, 1);
+		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight, rectSample);
+				
 		float4 sNA = float4(1.f, 0, 0, 1.f); // TODO: Get light normal and area for areaLight
 		float4 toS = float4(toLight, distToLight);
 

@@ -51,6 +51,10 @@ MyReservoir combineReservoirs(uint2 pixelPos, MyReservoir r1, MyReservoir r2, in
 	s.M_ = 0;
 	s.W_ = 0;
 	s.Wsum_ = 0;
+	MySample ms;
+	ms.eL = float3(0, 0, 0);
+	ms.tS = float4(0, 0, 0, 0);
+	s.y_ = ms;
 
 	float3 diffuse = gMatDif[pixelPos].xyz;
 	float3 nor = gWsNorm[pixelPos].xyz;
