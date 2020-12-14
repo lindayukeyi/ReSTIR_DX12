@@ -61,9 +61,6 @@ cbuffer MissShaderCB
 RWTexture2D<float4> gWsPos;
 RWTexture2D<float4> gWsNorm;
 RWTexture2D<float4> gMatDif;
-RWTexture2D<float4> gMatSpec;
-RWTexture2D<float4> gMatExtra;
-RWTexture2D<float4> gMatEmissive;
 
 // Reservoir texture
 RWTexture2D<float4> emittedLight; // xyz: light color
@@ -71,8 +68,6 @@ RWTexture2D<float4> toSample; // xyz: hit point(ref) to sample // w: distToLight
 RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
-
-RWTexture2D<float4> test;
 
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
@@ -163,14 +158,8 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	gWsPos[launchIndex] = float4(shadeData.posW, 1.f);
 	gWsNorm[launchIndex] = float4(shadeData.N, depthW);
 	gMatDif[launchIndex] = float4(shadeData.diffuse, shadeData.opacity);
-	gMatSpec[launchIndex] = float4(shadeData.specular, shadeData.linearRoughness);
-	gMatExtra[launchIndex] = float4(shadeData.IoR, shadeData.doubleSidedMaterial ? 1.f : 0.f, 0.f, 0.f);
-	gMatEmissive[launchIndex] = float4(shadeData.emissive, 0.f);
-
 	M[launchIndex] = 0; // Initial number of samples is zero
 
 	// Call RIS
 	RIS(launchIndex, launchDim);
-
-	//test[launchIndex] = float4(toSample[launchIndex].xyz * toSample[launchIndex].w + gWsPos[launchIndex].xyz, 1.0);
 }

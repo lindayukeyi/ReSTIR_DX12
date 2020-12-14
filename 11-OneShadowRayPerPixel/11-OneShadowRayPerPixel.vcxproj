@@ -22,7 +22,6 @@
     <ClCompile Include="..\SharedUtils\SimpleVars.cpp" />
     <ClCompile Include="Passes\AtrousDenoise.cpp" />
     <ClCompile Include="Passes\CopyToOutputPass.cpp" />
-    <ClCompile Include="Passes\DiffuseOneShadowRayPass.cpp" />
     <ClCompile Include="Passes\RaytracedGBufferPass.cpp" />
     <ClCompile Include="Passes\ShadePixelPass.cpp" />
     <ClCompile Include="Passes\ShadowDetectionPass.cpp" />
@@ -42,7 +41,6 @@
     <ClInclude Include="..\SharedUtils\SimpleVars.h" />
     <ClInclude Include="Passes\AtrousDenoise.h" />
     <ClInclude Include="Passes\CopyToOutputPass.h" />
-    <ClInclude Include="Passes\DiffuseOneShadowRayPass.h" />
     <ClInclude Include="Passes\RaytracedGBufferPass.h" />
     <ClInclude Include="Passes\ShadePixelPass.h" />
     <ClInclude Include="Passes\ShadowDetectionPass.h" />
@@ -54,11 +52,6 @@
     <None Include="Data\Tutorial11\pbr.hlsli" />
     <None Include="Data\Tutorial11\randomHelper.hlsli" />
     <None Include="Data\Tutorial11\standardShadowRay.hlsli" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Tutorial11\diffusePlus1Shadow.rt.hlsl">
-      <FileType>Document</FileType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Falcor\Framework\FalcorSharedObjects\FalcorSharedObjects.vcxproj">

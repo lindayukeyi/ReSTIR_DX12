@@ -26,10 +26,9 @@ bool RayTracedGBufferPass::initialize(RenderContext* pRenderContext, ResourceMan
 	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
-	mpResManager->requestTextureResource("TestBuffer"); // Debug
 
 	// Set the default scene to load
-	mpResManager->setDefaultSceneName("Data/myTest/Pub_area.fscene");
+	mpResManager->setDefaultSceneName("Data/pink_room/pink_room_old.fscene");
 
 	// Create our wrapper around a ray tracing pass.  Specify our ray generation shader and ray-specific shaders
 	mpRays = RayLaunch::create(kFileRayTrace, kEntryPointRayGen);
@@ -75,15 +74,10 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 	Texture::SharedPtr reservoir = mpResManager->getClearedTexture("Reservoir", vec4(0, 0, 0, mFrameCount++));
 	Texture::SharedPtr M = mpResManager->getTexture("SamplesSeenSoFar");
 
-	Texture::SharedPtr test = mpResManager->getTexture("TestBuffer"); // Debug
-
-	// Now we'll send our parameters down to our ray tracing shaders
-
 	// Pass our background color down to miss shader #0
 	auto missVars = mpRays->getMissVars(0);
 	missVars["MissShaderCB"]["gBgColor"] = mBgColor;  // What color to use as a background?
 	missVars["gMatDif"] = matDif;                     // Where do we store the bg color? (in the diffuse texture)
-	missVars["test"] = mpResManager->getTexture("TestBuffer");
 	// Cycle through all geometry instances, bind our g-buffer textures to the hit shaders for each instance.
 	// Note:  There is a different binding point for each pair {instance, hit group}, so variables used inside
 	//        the hit group need to be bound per-instance.  If these variables do not change, as in this case,
@@ -93,9 +87,6 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["gWsPos"] = wsPos;
 		pVars["gWsNorm"] = wsNorm;
 		pVars["gMatDif"] = matDif;
-		pVars["gMatSpec"] = matSpec;
-		pVars["gMatExtra"] = matExtra;
-		pVars["gMatEmissive"] = matEmit;
 
 		pVars["emittedLight"] = emittedLight;
 		pVars["toSample"] = toSample;
@@ -103,17 +94,8 @@ void RayTracedGBufferPass::execute(RenderContext* pRenderContext)
 		pVars["reservoir"] = reservoir;
 		pVars["M"] = M; 
 
-		pVars["test"] = test;
 	}
 
 	// Launch our ray tracing
 	mpRays->execute(pRenderContext, mpResManager->getScreenSize());
-
-	/*
-
-	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
-
-	std::string fileName = folderName + "worldPos\\" + std::to_string(mFrameCount) + ".EXR";
-	mpResManager->getTexture("ToSample")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
-	*/
 }

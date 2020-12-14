@@ -35,8 +35,6 @@ bool ShadowDetectionPass::initialize(RenderContext* pRenderContext, ResourceMana
 	// Stash a copy of our resource manager so we can get rendering resources
 	mpResManager = pResManager;
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
-	mpResManager->requestTextureResource("ReservoirShadowed");
-	mpResManager->requestTextureResource("TestBuffer");
 
 	// Create our wrapper around a ray tracing pass.  Tell it where our ray generation shader and ray-specific shaders are
 	mpRays = RayLaunch::create(kFileRayTrace, kEntryPointRayGen);
@@ -74,8 +72,6 @@ void ShadowDetectionPass::execute(RenderContext* pRenderContext)
 	rayGenVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
 	rayGenVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	rayGenVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
-
-	rayGenVars["test"] = mpResManager->getTexture("TestBuffer");
 
 	// Shoot our rays and shade our primary hit points
 	mpRays->execute(pRenderContext, mpResManager->getScreenSize());

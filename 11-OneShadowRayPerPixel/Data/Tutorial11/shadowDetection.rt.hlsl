@@ -52,7 +52,6 @@ RWTexture2D<float4> toSample; // xyz: hit to sample // w: distToLight
 RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
-RWTexture2D<float4> test;
 
 // TODO : shadowed detection
 void ShadowedDetection() {
@@ -67,26 +66,20 @@ void ShadowedDetection() {
 
 	// If we don't hit any geometry, our difuse material contains our background color.
 	float weight = rsv.x;
-	//shadeColor = saturate(shadeColor + float3(0.2f, 0.3f, 0.2f));
 	
 	// Our camera sees the background if worldPos.w is 0, only do diffuse shading elsewhere
 	if (worldPos.w != 0.0f)
 	{
-
 		// We need to query our scene to find info about the current light
 		float distToLight = toSample[launchIndex].w;      // How far away is it?
 		float3 lightIntensity = emittedLight[launchIndex].xyz;  // What color is it?
 		float3 toLight = toSample[launchIndex].xyz;         // What direction is it from our current pixel?
 
-		//test[launchIndex] = float4(toSample[launchIndex].w, 0, 0, 1);
-
-		// Shoot our ray.  Since we're randomly sampling lights, divide by the probability of sampling
-		//    (we're uniformly sampling, so this probability is: 1 / #lights) 
+		// Shoot our ray
 		int isVisible = shadowRayVisibility(worldPos.xyz, toLight, gMinT, distToLight);
 		if (isVisible == 0) {
 			weight = 0.0;
 		}
-		
 	}
 	
 	// Save out our final shaded

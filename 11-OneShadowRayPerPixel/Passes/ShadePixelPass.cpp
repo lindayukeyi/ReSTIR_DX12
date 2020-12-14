@@ -57,11 +57,4 @@ void ShadePixelPass::execute(RenderContext* pRenderContext)
 	
 	mpGfxState->setFbo(myFBO);
 	mpShadePixelPass->execute(pRenderContext, mpGfxState); // Shade the pixel
-	
-	/*
-	std::string folderName = "C:\\Users\\keyiy\\Penn\\CIS565\\finalproject\\ReSTIR_DX12\\11-OneShadowRayPerPixel\\";
-
-	std::string fileName = folderName + "hello\\" + std::to_string(mFrameCount++) + ".EXR";
-	mpResManager->getTexture("TestBuffer")->captureToFile(0, 0, fileName, Bitmap::FileFormat::ExrFile);
-	*/
 }

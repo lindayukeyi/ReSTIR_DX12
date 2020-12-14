@@ -18,8 +18,6 @@
 
 #include "Falcor.h"
 #include "../SharedUtils/RenderingPipeline.h"
-#include "Passes/DiffuseOneShadowRayPass.h"
-#include "../CommonPasses/SimpleAccumulationPass.h"
 #include "Passes/ShadowDetectionPass.h"
 #include "Passes/SpatialReusePass.h"
 #include "Passes/ShadePixelPass.h"
@@ -50,7 +48,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int filterSize = 5;
 	float filterLimit = glm::log((filterSize - 1) / 2.f) / glm::log(2.f);
 	for (int k = 0; k < filterLimit; k++) {
-		pipeline->setPass(4 + k + spatialReuseIteration, AtrousDenoisePass::create(k));
+		pipeline->setPass(4 + k + spatialReuseIteration, AtrousDenoisePass::create(k));  // Add ATrous denoiser
 	}
 	pipeline->setPass(4 + (int)filterLimit + spatialReuseIteration, CopyToOutputPass::create()); // output selected texture to channel; for debug
 	
