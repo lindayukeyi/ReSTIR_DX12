@@ -129,7 +129,7 @@ Both temporal reuse and spatial reuse will read and update reservoir information
 For now, our scene only supports area lights and point lights. It doesn't support mesh lights which contain arbitrary sets of triangles. ReSTIR is powerful even when it is dealing with millions of triangles from mesh lights. This can be a very interesting part for our future work. We only support Lambertian material in the scene. Also as mentioned before, we do not have an unbiased version of ReSTIR. Finally, the algorithm is using raytracing instead of pathtracing so no global illumination is included here.
 
 ## Acknowledgements
-We want to give special thanks to our shadow team of the final project. They shared many great ideas with us and helped us set up base code.
+We want to give special thanks to our shadow team of the final project. They are Sydney Miller, Sireesha Putcha and Thy Tran. They shared many great ideas with us and helped us set up the base code.
 
 We used some models from Amazon Lumberyard Bistro. See
     http://developer.nvidia.com/orca/amazon-lumberyard-bistro
