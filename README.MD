@@ -89,7 +89,7 @@ Sometimes the corresponding fragment position in the previous frame will be occl
 
 Below is the result after applying spatial reuse and temporal reuse.
 
-![](./images/SpatialTemporalReuse.png)
+![](./images/restir.png)
 
 We use an integer to store the number of samples seen so far. As we combine reservoirs from previous frame, this number will increase exponentially and go unbounded. Which gives us very interesting bug images below. To fix this, we clamp the number of samples seen so far and also scale the sum of weights accordingly. This is like assigning a weight to previous frames' reservoirs and will bound the influence of temporal information.
 
@@ -120,7 +120,6 @@ Our test scene is created by all the team members. It contains 100 triangles, 10
 For now our scene only supports area lights and point lights. It doesn't support mesh lights which contain arbitrary sets of triangles. ReSTIR is powerful even when it is dealing with millions of triangles from mesh lights. This can be a very interesting part for our future work. We only support lambertian material in the scene. Also as mentioned before, we do not have an unbiased version of ReSTIR. Finally, the algorithm is using raytracing instead of pathtracing so no global illumination is included here.
 
 ## Acknowledgements
-
 We used some models from Amazon Lumberyard Bistro. See
     http://developer.nvidia.com/orca/amazon-lumberyard-bistro
 
