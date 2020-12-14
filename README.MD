@@ -12,6 +12,21 @@ ReSTIR with DirectX Raytracing
 
 
 
+Contents
+-------------------------------------
+- [Introduction](#Introduction)
+- [Pipeline Overview](#Pipeline-Overview)
+- [Algorithm Details](#Algorithm-Details)
+  - [Why resampling?](#Why-resampling?)
+  - [What is a reservoir?](#What-is-a-reservoir?)
+  - [Spatial reuse](#Spatial-reuse)
+  - [Temporal reuse](#Temporal-reuse)
+  - [Raytraced G-Buffer and visibility test](#Raytraced-G\-Buffer-and-visibility-test)
+  - [Denoising pass](#Denoising-pass)
+- [Performance Analysis](#Performance-Analysis)
+- [Limitations](#Limitations)
+- [Acknowledgements](#Acknowledgements)
+
 ## Introduction
 
 This repository contains our implementation of **Reservoir-based SpatioTemporal Importance Resampling(i.e. ReSTIR)** with DirectX Raytracing. Our base code is from Chris Wyman's DXR tutorials ["A Gentle Introduction To DirectX Raytracing"](http://cwyman.org/code/dxrTutors/dxr_tutors.md.html). He is also one of the authors of our reference paper on SIGGRAPH 2020. The code is dependent on Nvidia's [Falcor](https://developer.nvidia.com/falcor) framework.
@@ -92,8 +107,8 @@ The image is almost clean after spatial and temporal reuse. But we still add an 
 
 ![](./images/Denoised.png)
 
-## Performance test
-Our test scene is created by all the team members. It contains 100 triangles, 100 point lights and 7 area lights. The test is operated on a laptop with RTX 2070.
+## Performance Analysis
+Our test scene is created by all the team members. It contains 100 triangles, 100 point lights and 7 area lights. The test is operated on a laptop with Windows 10, i7-10750H @ 2.60GHz 16GB, GeForce RTX 2070 with Max-Q 8228MB.
 
 
 | 800 * 800 | 1600 * 1600 |
