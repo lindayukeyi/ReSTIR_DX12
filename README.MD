@@ -100,7 +100,7 @@ In the context of DXR, we have several types raytracing shaders: Ray generation 
 
 We then shoot another ray for each pixel in the next raytracing pass. It only uses ray generation shader to test the visibility of a given sample from RIS and sets the weight of the corresponding reservoir to zero if it is occluded. This prevents shadow from propogating to neighboring pixels.
 
-![](./images/ShadowDetection.gif)
+![](./images/shadow-detection.png)
 
 ### Denoising pass
 The image is almost clean after spatial and temporal reuse. But we still add an optional denoising stage to our pipeline. We use the Edge-avoiding A-Trous Wavelet Transform to denoise our rendered image. Each filter iteration takes about 2ms on RTX 2070. We also tried integrating Intel Open Image Denoiser into our pipeline but each frame will then spend about 1.5 seconds in applying the filter, which is impractical for real-time applications. Denoising provides limited improvement to the final result and sometimes can even introduce artifacts.
