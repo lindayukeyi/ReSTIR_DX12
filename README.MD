@@ -10,9 +10,7 @@ ReSTIR with DirectX Raytracing
 * Li Zheng
   * [LinkedIn](https://www.linkedin.com/in/li-zheng-1955ba169/).
 
-
-
-Contents
+Table of Contents
 -------------------------------------
 - [Introduction](#Introduction)
 - [Pipeline Overview](#Pipeline-Overview)
@@ -30,6 +28,8 @@ Contents
 ## Introduction
 
 This repository contains our implementation of **Reservoir-based SpatioTemporal Importance Resampling(i.e. ReSTIR)** with DirectX Raytracing. Our base code is from Chris Wyman's DXR tutorials ["A Gentle Introduction To DirectX Raytracing"](http://cwyman.org/code/dxrTutors/dxr_tutors.md.html). He is also one of the authors of our reference paper on SIGGRAPH 2020. The code is dependent on Nvidia's [Falcor](https://developer.nvidia.com/falcor) framework.
+
+![](./images/restir-final.gif)
 
 ## Pipeline Overview
 
