@@ -110,7 +110,7 @@ The image is almost clean after spatial and temporal reuse. But we still add an 
 ## Performance Analysis
 Our test scene "Pub" is created by all the team members. It contains 989392 triangles, 130 point lights and 5 area lights. Other scenes are provided on https://developer.nvidia.com/orca. The test is operated on a laptop with Windows 10, i7-10750H @ 2.60GHz 16GB, GeForce RTX 2070 with Max-Q 8228MB.
 
-![](./images/Time.png)
+![](./images/time.png)
 
 As you can see in the image, the first pass is the most expensive one. It uses ray tracing and contains several iteration of resampling.
 
