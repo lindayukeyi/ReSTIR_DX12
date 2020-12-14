@@ -17,9 +17,9 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 	float height;
 	gShadeImgOutput.GetDimensions(width, height);
 
-	float c_phi = 0.773;
-	float n_phi = 0.052;
-	float p_phi = 0.722;
+	float c_phi = 0.405;
+	float n_phi = 0.350;
+	float p_phi = 0.2;
 
 	float3 nval = gWsNorm[pixelPos].xyz;
 	float3 pval = gWsPos[pixelPos].xyz;
@@ -44,11 +44,11 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 	float3 cval = gShadeImg[pixelPos].xyz;
 	float cum_w = 0.0;
 	for (int i = 0; i < 25; i++) {
-		int nx = pixelPos.x + offset[i][0] * stepwidth;
-		int ny = pixelPos.y + offset[i][1] * stepwidth;
-		if (nx >= width || ny >= height || nx < 0 || ny < 0) {
-			continue;
-		}
+		int nx = clamp(pixelPos.x + offset[i][0] * stepwidth, 0, width - 1);
+		int ny = clamp(pixelPos.y + offset[i][1] * stepwidth, 0, height - 1);
+		//if (nx >= width || ny >= height || nx < 0 || ny < 0) {
+			//continue;
+		//}
 		uint2 neighborPos = uint2((uint)nx, (uint)ny);
 
 		float3 ctmp = gShadeImg[neighborPos].xyz;
@@ -58,7 +58,7 @@ float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 
 		float3 ntmp = gWsNorm[neighborPos].xyz;
 		t = nval - ntmp;
-		dist2 = max(dot(t, t), 0.0f);
+		dist2 = max(dot(t, t) / (stepwidth * stepwidth), 0.0f);
 		float n_w = min(exp(-(dist2) / n_phi), 1.0);
 
 		float3 ptmp = gWsPos[neighborPos].xyz;

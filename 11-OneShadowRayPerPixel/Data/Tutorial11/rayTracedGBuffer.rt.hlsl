@@ -95,7 +95,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, frameCount, 16);
-	for (int i = 0; i < 32; i++) {
+	for (int i = 0; i < 4; i++) {
 		// Generate sample according to p
 		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
 		float p = 1.f / gLightsCount;
@@ -106,9 +106,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 		float3 toLight;         // What direction is it from our current pixel? Normalized.
 
 		float2 rectSample = float2(nextRand(randSeed), nextRand(randSeed));
-		float4 testData = float4(1, 0, 0, 1);
-		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight, rectSample, testData);
-		test[launchIndex] = testData;
+		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight, rectSample);
 				
 		float4 sNA = float4(1.f, 0, 0, 1.f); // TODO: Get light normal and area for areaLight
 		float4 toS = float4(toLight, distToLight);

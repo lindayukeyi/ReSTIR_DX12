@@ -103,7 +103,7 @@ LightSample evalPointLight(in LightData light, in float3 surfacePosW)
 
 /** Sample a position on the rectangular light source and evaluate its intensity
 */
-LightSample evalRectLight(in LightData light, in float3 surfacePosW, in float2 rectSample, inout float4 testData)
+LightSample evalRectLight(in LightData light, in float3 surfacePosW, in float2 rectSample)
 {
     LightSample ls;
     float2 samplePos = rectSample - float2(0.5, 0.5);
@@ -111,7 +111,6 @@ LightSample evalRectLight(in LightData light, in float3 surfacePosW, in float2 r
     
     //ls.posW = mul(float4(0,0,0, 1.0), light.transMat).xyz;
     ls.posW = mul(light.transMat, float4(samplePos.xy, 0, 1.0)).xyz;
-    testData = float4(light.dirW, 1.0);
 
     ls.L = ls.posW - surfacePosW;
     float distSquared = dot(ls.L, ls.L);

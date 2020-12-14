@@ -153,7 +153,7 @@ namespace Falcor
             break;
         }
 
-        mSpeedModifier = 1.0f;
+        mSpeedModifier = 4.0f;
         if (event.mods.isCtrlDown) mSpeedModifier = 0.25f;
         else if (event.mods.isShiftDown) mSpeedModifier = 10.0f;
 

@@ -71,55 +71,7 @@
                 10.0,
                 10.0
             ]
-        },
-		{
-            "name": "windowLight0",
-            "type": "area_light_rect",
-            "intensity": [
-                30.0,
-                30.0,
-                30.0
-            ],
-            "translation": [
-                72.0929,
-                10.7745,
-                17.0541
-            ],
-            "rotation": [
-                90.0,
-                0.0,
-                0.0
-            ],
-            "scaling": [
-                22.0,
-                7.5,
-                2.5
-            ]
-        },
-        {
-            "name": "windowLight1",
-            "type": "area_light_rect",
-            "intensity": [
-                30.0,
-                30.0,
-                30.0
-            ],
-            "translation": [
-                72.0929,
-                10.7745,
-                -48.4204
-            ],
-            "rotation": [
-                90.0,
-                0,
-                0.0
-            ],
-            "scaling": [
-                22.0,
-                7.5,
-                2.5
-            ]
-        },        
+        },    
 		{
             "name": "windowLight2",
             "type": "area_light_rect",
@@ -2957,7 +2909,7 @@
                 -50
             ],
             "target": [
-                10,
+                0,
                 15,
                 -49
             ],
