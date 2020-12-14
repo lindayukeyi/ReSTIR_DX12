@@ -57,14 +57,13 @@ But we can do much better if we can reuse samples! Suppose we have two samples f
 
 ![](./images/RISIllustrate.png)
 
-![](./images/RIS-only.png)
-
-![](./images/Uniform-Sampling.png)
+![](./images/NaiveVSRIS.png)
 
 ### What is a reservoir?
 We can get more converged results as we increase the number of samples in the resampling stage. But the execution time also increase linearly. Thanks to the reservoir, we can potentially see a lot of samples and select one from them based on their weights. A reservoir maintains a state from a streaming input. It contains the number of samples seen so far, the weight of the currently selected sample and the sum of sample weights from the input stream. The idea is similar to computing mean score of students from a streaming input: we simply record the sum of all scores we have seen so far and the number of students so that we can update the mean score given a new input. A reservoir is powerful in that it requires little memory while allowing us to potentially see a lot of samples.
 
 ![](./images/Reservoir.png)
+
 ![](./images/Reservoir2.png)
 
 ### Spatial reuse
@@ -78,7 +77,7 @@ We limit the bias introduced here by rejecting neighbors if either the differenc
 
 We can also apply spatial reuse more than once. In our pipeline we have two spatial reuse passes. Here is a result after applying spatial reuse.
 
-![](./images/SpatialReuse.png)
+![](./images/SpatialCompare.png)
 
 ### Temporal reuse
 Reservoirs in the previous frame can also provide useful information. We find the corresponding pixel position in the previous frame by applying the motion vector, which can be easily computed using the previous frame's view projection matrix. We then combine the reservoir from previous frame with our current reservoir. In Falcor, textures can be shared through frames. We use the ping-pong buffer in the previous frame as the input of last frame's reservoir.
