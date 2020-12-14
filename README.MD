@@ -13,6 +13,7 @@ ReSTIR with DirectX Raytracing
 Table of Contents
 -------------------------------------
 - [Introduction](#Introduction)
+- [How to build](#How-to-Build)
 - [Pipeline Overview](#Pipeline-Overview)
 - [Algorithm Details](#Algorithm-Details)
   - [Why resampling?](#Why-resampling?)
@@ -30,6 +31,9 @@ Table of Contents
 This repository contains our implementation of **Reservoir-based SpatioTemporal Importance Resampling (i.e. ReSTIR)** with DirectX Raytracing. Our base code is from Chris Wyman's DXR tutorials ["A Gentle Introduction to DirectX Raytracing"](http://cwyman.org/code/dxrTutors/dxr_tutors.md.html). He is also one of the authors of our reference paper on SIGGRAPH 2020. The code is dependent on Nvidia's [Falcor](https://developer.nvidia.com/falcor) framework.
 
 ![](./images/restir-final.gif)
+
+## How to Build
+Our code is based on Falcor 3.1.0, which is an earlier version of Falcor. When you first build the project, it may automatically download some resources. More details on how to use it can be found [here](http://cwyman.org/code/dxrTutors/dxr_tutors.md.html).
 
 ## Pipeline Overview
 
@@ -125,6 +129,8 @@ Both temporal reuse and spatial reuse will read and update reservoir information
 For now, our scene only supports area lights and point lights. It doesn't support mesh lights which contain arbitrary sets of triangles. ReSTIR is powerful even when it is dealing with millions of triangles from mesh lights. This can be a very interesting part for our future work. We only support Lambertian material in the scene. Also as mentioned before, we do not have an unbiased version of ReSTIR. Finally, the algorithm is using raytracing instead of pathtracing so no global illumination is included here.
 
 ## Acknowledgements
+We want to give special thanks to our shadow team of the final project. They shared many great ideas with us and helped us set up base code.
+
 We used some models from Amazon Lumberyard Bistro. See
     http://developer.nvidia.com/orca/amazon-lumberyard-bistro
 
