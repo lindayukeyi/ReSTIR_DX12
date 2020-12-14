@@ -79,7 +79,8 @@ void LambertShadowsRayGen()
 		float3 toLight;         // What direction is it from our current pixel?
 
 		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight);
+		float2 rectSample = float2(nextRand(randSeed), nextRand(randSeed));
+		getLightData(lightToSample, worldPos.xyz, toLight, lightIntensity, distToLight, rectSample);
 
 		// Compute our lambertion term (L dot N)
 		float LdotN = saturate(dot(worldNorm.xyz, toLight));

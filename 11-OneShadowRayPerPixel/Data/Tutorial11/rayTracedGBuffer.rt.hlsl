@@ -72,15 +72,12 @@ RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
-// A constant buffer we'll populate from our c++ code
-cbuffer RISCB
-{
-	uint gFrameCount; // Frame counter, used to perturb random seed each frame
-};
+RWTexture2D<float4> test;
 
 void updateReservoir(uint2 launchIndex, float3 Le, float4 toS, float4 sNA, float w, inout uint seed) {
 	reservoir[launchIndex].y = reservoir[launchIndex].y + w; // Wsum += w
 	M[launchIndex] = M[launchIndex] + 1;
+	reservoir[launchIndex].z += 1.f;
 	float Wsum = reservoir[launchIndex].y;
 	if (Wsum > 0 && nextRand(seed) < (w / Wsum)) {
 		emittedLight[launchIndex] = float4(Le, 1.f);
@@ -93,10 +90,12 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	// Get position and normal from G-Buffer
 	float3 pos = gWsPos[launchIndex].xyz;
 	float3 nor = normalize(gWsNorm[launchIndex].xyz);
+
+	uint frameCount = uint(reservoir[launchIndex].w);
 	
 	// Initialize our random number generator
-	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-	for (int i = 0; i < 32; i++) {
+	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, frameCount, 16);
+	for (int i = 0; i < 4; i++) {
 		// Generate sample according to p
 		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
 		float p = 1.f / gLightsCount;
@@ -106,9 +105,9 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 		float3 lightIntensity;  // What color is it?
 		float3 toLight;         // What direction is it from our current pixel? Normalized.
 
-		// A helper (from the included .hlsli) to query the Falcor scene to get this data
-		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight);
-		
+		float2 rectSample = float2(nextRand(randSeed), nextRand(randSeed));
+		getLightData(lightToSample, pos, toLight, lightIntensity, distToLight, rectSample);
+				
 		float4 sNA = float4(1.f, 0, 0, 1.f); // TODO: Get light normal and area for areaLight
 		float4 toS = float4(toLight, distToLight);
 
@@ -121,15 +120,21 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	float4 sNA = sampleNormalArea[launchIndex];
 	float4 toS = toSample[launchIndex];
 
-	reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	float p_hat = evalP(toS.xyz, gMatDif[launchIndex].xyz, emittedLight[launchIndex].xyz, nor);
+	if (p_hat != 0) {
+		reservoir[launchIndex].x = (reservoir[launchIndex].y / M[launchIndex]) / p_hat;
+	}
+	else {
+		reservoir[launchIndex].x = 0;
+	}
 }
 
 // What code is executed when our ray misses all geometry?
 [shader("miss")]
 void PrimaryMiss(inout SimpleRayPayload)
 {
-	// Store the background color into our diffuse material buffer
-	gMatDif[DispatchRaysIndex().xy] = float4(gBgColor, 1.0f);
+	// Store the ray direction into diffuse buffer for later indexing environment map
+	gMatDif[DispatchRaysIndex().xy] = float4(normalize(WorldRayDirection()), 0);
 }
 
 // What code is executed when our ray hits a potentially transparent surface?
@@ -163,7 +168,9 @@ void PrimaryClosestHit(inout SimpleRayPayload, BuiltInTriangleIntersectionAttrib
 	gMatEmissive[launchIndex] = float4(shadeData.emissive, 0.f);
 
 	M[launchIndex] = 0; // Initial number of samples is zero
-	
+
 	// Call RIS
 	RIS(launchIndex, launchDim);
+
+	//test[launchIndex] = float4(toSample[launchIndex].xyz * toSample[launchIndex].w + gWsPos[launchIndex].xyz, 1.0);
 }

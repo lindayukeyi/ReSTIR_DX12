@@ -1,0 +1,3516 @@
+{
+    "version": 2,
+    "camera_speed": 1.0,
+    "lighting_scale": 1.0,
+    "active_camera": "Camera0",
+    "ambient_intensity": [
+        0.501960813999176,
+        0.29411765933036806,
+        0.29411765933036806
+    ],
+    "user_defined": {
+        "numLights" : 3,
+        "l0_power"  : [ 60.0, 60.0, 60.0 ],
+        "l0_extent" : [ 1.0, 0.5 ],
+        "l0_center" : [ -2.0, 0.5, -4.0 ],
+        "l0_left"   : [ -1.0, 0.0, 0.0 ],
+        "l0_up"     : [ 0.0, 1.0, 0.0 ],
+        "l1_power"  : [ 70.0, 60.0, 60.0 ],
+        "l1_extent" : [ 13.0, 0.5 ],
+        "l1_center" : [ -8.0, 0.5, -4.0 ],
+        "l1_left"   : [ -4.0, 0.0, 0.0 ],
+        "l1_up"     : [ 2.0, 1.0, 0.0 ]
+    },
+    "models": [
+        {
+            "file": "Pub3.fbx",
+            "name": "Pub",
+            "instances": [
+                {
+                    "name": "Pub",
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scaling": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ]
+        }
+    ],
+    "lights": [
+        {
+            "name": "smallWindow0",
+            "type": "point_light",
+            "intensity": [
+                500.0,
+                500.0,
+                500.0
+            ],
+            "pos": [
+                16.5,
+                28.3,
+                51
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "smallWindow1",
+            "type": "point_light",
+            "intensity": [
+                500.0,
+                500.0,
+                500.0
+            ],
+            "pos": [
+                19,
+                26,
+                51
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "smallWindow2",
+            "type": "point_light",
+            "intensity": [
+                500.0,
+                500.0,
+                500.0
+            ],
+            "pos": [
+                18.5,
+                28.3,
+                51
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight0",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                17.973,
+                27.123
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight1",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                17.973,
+                17.3
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight2",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                17.973,
+                6.5
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight3",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                16,
+                27.123
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight4",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                16,
+                17.3
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight5",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                16,
+                6.5
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight6",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                17.973,
+                -36.3
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight7",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                17.973,
+                -46
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight8",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                17.973,
+				-57
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight9",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                16,
+                -36.3
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight10",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                16,
+                -46
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight11",
+            "type": "point_light",
+            "intensity": [
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "pos": [
+                -41.51,
+                16,
+				-57
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight12",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                17.973,
+                27.123
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight13",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                17.973,
+                17.3
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight14",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                17.973,
+                6.5
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight15",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                16,
+                27.123
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight16",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                16,
+                17.3
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight17",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                16,
+                6.5
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight18",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                17.973,
+                -36.3
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight19",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                17.973,
+                -46
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight20",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                17.973,
+				-57
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight21",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                16,
+                -36.3
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight22",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                16,
+                -46
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+		{
+            "name": "windowLight23",
+            "type": "point_light",
+            "intensity": [
+                200.0,
+                200.0,
+                200.0
+            ],
+            "pos": [
+				76.7,
+                16,
+				-57
+            ],
+            "direction": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle71",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.802,
+                8.941,
+                -43.265
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle72",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.680,
+                8.941,
+                -43.388
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle74",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.686,
+                8.941,
+                -43.134
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle73",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.549,
+                8.941,
+                -43.261
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle67",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                2.426,
+                8.941,
+                -39.284
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle68",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                2.304,
+                8.941,
+                -39.407
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle69",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                2.173,
+                8.941,
+                -39.280
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle70",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                2.311,
+                8.941,
+                -39.153
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle63",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -0.453,
+                8.941,
+                -41.804
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle64",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -0.574,
+                8.941,
+                -41.928
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle65",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -0.705,
+                8.941,
+                -41.801
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle66",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -0.568,
+                8.941,
+                -41.674
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle59",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -20.132,
+                8.941,
+                -31.697
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle60",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -20.253,
+                8.941,
+                -31.821
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle61",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -20.385,
+                8.941,
+                -31.694
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle62",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -20.247,
+                8.941,
+                -31.566
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle75",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                27.482,
+                8.941,
+                -42.546
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle76",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                27.360,
+                8.941,
+                -42.670
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle77",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                27.229,
+                8.941,
+                -42.543
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle78",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                27.366,
+                8.941,
+                -42.415
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle79",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                30.429,
+                8.941,
+                -39.722
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle80",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                30.307,
+                8.941,
+                -39.846
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle81",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                30.176,
+                8.941,
+                -39.719
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle82",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                30.314,
+                8.941,
+                -39.591
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle83",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                34.926,
+                8.941,
+                -43.940
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle84",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                34.804,
+                8.941,
+                -44.064
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle85",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                34.673,
+                8.941,
+                -43.937
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle86",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                34.811,
+                8.941,
+                -43.85
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle51",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                28.340,
+                8.941,
+                -14.838
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle52",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                28.218,
+                8.941,
+                -14.962
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle53",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                28.087,
+                8.941,
+                -14.835
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle54",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                28.225,
+                8.941,
+                -14.707
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle55",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                25.293,
+                8.941,
+                -11.051
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle56",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                25.172,
+                8.941,
+                -11.175
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle57",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                25.041,
+                8.941,
+                -11.048
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle58",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                25.178,
+                8.941,
+                -10.920
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+     {
+            "name": "candle23",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.382,
+                8.941,
+                -17.651
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle24",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.260,
+                8.941,
+                -17.774
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle25",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.129,
+                8.941,
+                -17.647
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle26",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.266,
+                8.941,
+                -17.520
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle27",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                4.533,
+                8.941,
+                -17.196
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle28",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                4.411,
+                8.941,
+                -17.320
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle29",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                4.280,
+                8.941,
+                -17.193
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle30",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                4.417,
+                8.941,
+                -17.065
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle14",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.432,
+                8.941,
+                -9.663
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle17",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.317,
+                8.941,
+                -9.532
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle19",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.179,
+                8.941,
+                -9.660
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle22",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.310,
+                8.941,
+                -9.787
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle35",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -15.496,
+                8.941,
+                1.588
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle36",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -15.618,
+                8.941,
+                1.465
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle37",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -15.749,
+                8.941,
+                1.591
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle38",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -15.611,
+                8.941,
+                1.719
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle31",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -23.400,
+                8.941,
+                0.557
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle32",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -23.522,
+                8.941,
+                0.434
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle33",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -23.653,
+                8.941,
+                0.561
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle34",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -23.515,
+                8.941,
+                0.688
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle39",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -9.611,
+                8.941,
+                29.243
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle40",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -9.733,
+                8.941,
+                29.119
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle41",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -9.864,
+                8.941,
+                29.246
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle42",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                -9.727,
+                8.941,
+                29.373
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle91",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.735,
+                11.912,
+                -19.318
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle92",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.613,
+                11.912,
+                -19.441
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle93",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.482,
+                11.912,
+                -19.314
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle94",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.620,
+                11.912,
+                -19.187
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle87",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.735,
+                11.912,
+                -1.180
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle88",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.613,
+                11.912,
+                -1.303
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle89",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.482,
+                11.912,
+                -1.176
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle90",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.620,
+                11.912,
+                -1.049
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle43",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                45.391,
+                8.941,
+                29.243
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle44",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                45.269,
+                8.941,
+                29.119
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle45",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                45.138,
+                8.941,
+                29.246 
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle46",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                45.275,
+                8.941,
+                29.373
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle47",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                47.033,
+                8.941,
+                35.060
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle48",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                46.911,
+                8.941,
+                34.936
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle49",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                46.780,
+                8.941,
+                35.063 
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "candle50",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                46.918,
+                8.941,
+                35.191
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.905,
+                11.288,
+                2.958
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree92_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.337,
+                11.288,
+                3.192
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree92_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.161,
+                11.288,
+                3.418
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.312,
+                11.288,
+                3.851
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.912,
+                11.288,
+                4.155
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.354,
+                11.288,
+                3.851
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.462,
+                11.288,
+                3.548
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                9.379,
+                11.288,
+                3.192
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree92_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.790,
+                10.728,
+                3.569
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.0928,
+                9.2841,
+                4.6175
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree10_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.5250,
+                9.2841,
+                4.8521
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree10_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.3486,
+                9.2841,
+                5.0776
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.4997,
+                9.2841,
+                5.5104
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.0993,
+                9.2841,
+                5.8143
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.5418,
+                9.2841,
+                5.5104
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.6500,
+                9.2841,
+                5.2073
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.5671,
+                9.2841,
+                4.8521
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree10_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                10.9777,
+                8.7242,
+                5.2287
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.4047,
+                16.5624,
+                5.6775
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree18_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.9278,
+                16.5624,
+                5.7761
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree18_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.6539,
+                16.5624,
+                6.0967
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.8051,
+                16.5624,
+                6.5295
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.0644,
+                16.5624,
+                6.7072
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.4047,
+                16.5624,
+                6.8334
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.8472,
+                16.5624,
+                6.5295
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.9553,
+                16.5624,
+                6.2265
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree18_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                8.2831,
+                16.0026,
+                6.2478
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+            {
+            "name": "tree11_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.4766,
+                10.3349,
+                8.7459
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree11_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.9088,
+                10.3349,
+                8.9805
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree11_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.7323,
+                10.3349,
+                9.2061
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                11.8835,
+                10.3349,
+                9.6388
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.4830,
+                10.3349,
+                9.9428
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.9256,
+                10.3349,
+                9.6388
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                13.0337,
+                10.3349,
+                9.3358
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.9509,
+                10.3349,
+                8.9805
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree11_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                12.3614,
+                9.7751,
+                9.3572
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.8412,
+                7.8269,
+                2.3028
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree22_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.3644,
+                7.8269,
+                2.4014
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree22_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.0905,
+                7.8269,
+                2.7220
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.2416,
+                7.8269,
+                3.1547
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.5010,
+                7.8269,
+                3.3325
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                3.3325,
+                7.8269,
+                3.4587
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.2837,
+                7.8269,
+                3.1547
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.3919,
+                7.8269,
+                2.8517
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree22_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.2323,
+                7.8269,
+                2.4964
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_1",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.1686,
+                22.4484,
+                7.5942
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },          
+        {
+            "name": "tree32_2",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.6008,
+                22.4484,
+                7.8288
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },           
+        {
+            "name": "tree32_3",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.4243,
+                22.4484,
+                8.0543
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_4",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                6.5755,
+                22.4484,
+                8.4871
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_5",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.1750,
+                22.4484,
+                8.7910
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_6",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.7257,
+                22.4484,
+                8.1841
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_7",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.6429,
+                22.4484,
+                7.8288
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_8",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.0534,
+                21.8886,
+                8.2054
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        },
+        {
+            "name": "tree32_9",
+            "type": "point_light",
+            "intensity": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "pos": [
+                7.6176,
+                22.4484,
+                8.4871
+            ],
+            "direction": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "opening_angle": 360.0,
+            "penumbra_angle": 0.0
+        }                                                                                        
+        
+    ],
+    "cameras": [
+        {
+            "name": "Camera0",
+            "pos": [
+                9,
+                15,
+                -50
+            ],
+            "target": [
+                10,
+                15,
+                -49
+            ],
+            "up": [
+                0.0,
+                1,
+                0.0
+            ],
+            "focal_length": 21.0,
+            "depth_range": [
+                0.10000000149011612,
+                10000.0
+            ],
+            "aspect_ratio": 1.0
+        }
+    ],
+    "paths": [
+        {
+            "name": "Path 0",
+            "loop": true,
+            "frames": [
+                {
+                    "time": 0.0,
+                    "pos": [
+                        -2.706775665283203,
+                        0.85294109582901,
+                        -3.112438678741455
+                    ],
+                    "target": [
+                        -2.347264528274536,
+                        0.7383297681808472,
+                        -2.1863629817962648
+                    ],
+                    "up": [
+                        0.038521841168403628,
+                        0.9933950304985046,
+                        0.1079813688993454
+                    ]
+                },
+                {
+                    "time": 2.0,
+                    "pos": [
+                        -1.4041675329208375,
+                        0.6247841119766235,
+                        -2.5271360874176027
+                    ],
+                    "target": [
+                        -1.2257745265960694,
+                        0.34850960969924929,
+                        -1.5827587842941285
+                    ],
+                    "up": [
+                        0.061039455235004428,
+                        0.9610214829444885,
+                        0.2696072459220886
+                    ]
+                },
+                {
+                    "time": 4.0,
+                    "pos": [
+                        -0.8170599341392517,
+                        0.5378264784812927,
+                        -2.2016208171844484
+                    ],
+                    "target": [
+                        -1.5336501598358155,
+                        0.377095103263855,
+                        -1.5228984355926514
+                    ],
+                    "up": [
+                        -0.1256074607372284,
+                        0.9869037866592407,
+                        0.10109011828899384
+                    ]
+                },
+                {
+                    "time": 6.0,
+                    "pos": [
+                        -0.28838375210762026,
+                        1.8338685035705567,
+                        -0.7556755542755127
+                    ],
+                    "target": [
+                        -0.4233609437942505,
+                        1.5751265287399293,
+                        0.20079386234283448
+                    ],
+                    "up": [
+                        -0.05899819731712341,
+                        0.9656745791435242,
+                        0.25289833545684817
+                    ]
+                },
+                {
+                    "time": 8.0,
+                    "pos": [
+                        -2.429372549057007,
+                        1.8113508224487305,
+                        -0.8239079117774963
+                    ],
+                    "target": [
+                        -1.9759008884429932,
+                        1.6049808263778687,
+                        0.04314166307449341
+                    ],
+                    "up": [
+                        0.06920450925827027,
+                        0.9780228137969971,
+                        0.196579247713089
+                    ]
+                },
+                {
+                    "time": 10.0,
+                    "pos": [
+                        -3.4931182861328127,
+                        0.6706330180168152,
+                        -1.1435459852218629
+                    ],
+                    "target": [
+                        -2.8087029457092287,
+                        0.3629470467567444,
+                        -0.4825579524040222
+                    ],
+                    "up": [
+                        0.19741703569889069,
+                        0.950911283493042,
+                        0.23822025954723359
+                    ]
+                },
+                {
+                    "time": 12.0,
+                    "pos": [
+                        -1.554296851158142,
+                        0.6058448553085327,
+                        -2.269808053970337
+                    ],
+                    "target": [
+                        -1.0321381092071534,
+                        0.3536733090877533,
+                        -1.4550936222076417
+                    ],
+                    "up": [
+                        0.14537210762500764,
+                        0.9675965905189514,
+                        0.20631736516952516
+                    ]
+                }
+            ],
+            "attached_objects": [
+                {
+                    "type": "camera",
+                    "name": "Camera0"
+                }
+            ]
+        }
+    ]
+}

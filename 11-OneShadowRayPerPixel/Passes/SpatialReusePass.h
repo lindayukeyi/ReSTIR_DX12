@@ -22,7 +22,7 @@ protected:
 	bool usesRasterization() override { return true; }
 
 	// Internal pass state
-	FullscreenLaunch::SharedPtr   mpSpatialReusePass;         ///< Our accumulation shader state
-	GraphicsState::SharedPtr      mpGfxState;             ///< Our graphics pipeline state
-	uint32_t                      mFrameCount = 0x1337u;  ///< A frame counter to vary random numbers over time
+	FullscreenLaunch::SharedPtr   mpSpatialReusePass;
+	GraphicsState::SharedPtr      mpGfxState;
+	uint32_t                      mFrameCount = 0x5517u;
 };
