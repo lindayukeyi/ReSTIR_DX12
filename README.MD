@@ -103,18 +103,22 @@ We then shoot another ray for each pixel in the next raytracing pass. It only us
 ![](./images/ShadowDetection.gif)
 
 ### Denoising pass
-The image is almost clean after spatial and temporal reuse. But we still add an optional denoising stage to our pipeline. We use the Edge-avoiding A-Trous Wavelet Transform to denoise our rendered image. Each filter iteration takes about 2ms on RTX 2070. We also tried integrating Intel Open Image Denoiser into our pipeline but each frame will then spend about 1.5 seconds in applying the filter, which is impractical for real-time applications. Denoising provide limited improvement to the final result and sometimes can even introduce artifacts.
+The image is almost clean after spatial and temporal reuse. But we still add an optional denoising stage to our pipeline. We use the Edge-avoiding A-Trous Wavelet Transform to denoise our rendered image. Each filter iteration takes about 2ms on RTX 2070. We also tried integrating Intel Open Image Denoiser into our pipeline but each frame will then spend about 1.5 seconds in applying the filter, which is impractical for real-time applications. Denoising provides limited improvement to the final result and sometimes can even introduce artifacts.
 
-![](./images/Denoised.png)
+![](./images/DenoiseCompare.png)
 
 ## Performance Analysis
-Our test scene is created by all the team members. It contains 100 triangles, 100 point lights and 7 area lights. The test is operated on a laptop with Windows 10, i7-10750H @ 2.60GHz 16GB, GeForce RTX 2070 with Max-Q 8228MB.
+Our test scene "Pub" is created by all the team members. It contains 989392 triangles, 130 point lights and 5 area lights. Other scenes are provided on https://developer.nvidia.com/orca. The test is operated on a laptop with Windows 10, i7-10750H @ 2.60GHz 16GB, GeForce RTX 2070 with Max-Q 8228MB.
 
+![](./images/Time.png)
 
-| 800 * 800 | 1600 * 1600 |
-|---|---|
-| 58ms | 233ms |
+As you can see in the image, the first pass is the most expensive one. It uses ray tracing and contains several iteration of resampling.
 
+The second pass also uses raytracing, but doesn't contain many heavy computations. So it is a good reference for us to inspect how long the raytracing part should take up in the pipeline. With a hardware acceleration and acceleration data structure, DirectX Raytracing is very fast even in a scene with almost one million triangles.
+
+Based on that, the raytraced G-Buffer only adds a little overhead to our first pass. Theoritically the execution time of RIS is proportional to the iteration times of resampling. But actually what we have observed is that it is also affected by the number of lights. As the number of lights increase, the memory it takes will also increase dramatically since each light stores a lot of information like direction, transform, color, surface area and DirectX requires padding for the data structure. Since we are randomly accessing each light in each resampling step, a scene with more lights will typically take a longer time to sample a light source.
+
+Both temporal reuse and spatial reuse will read and update reservoir information, which is stored in texture. Their execution time are related to how many textures we use. We apply two spatial reuse and as a result the exectuion time of spatial reuse passes in total is about twice as long as a temporal reuse pass.
 
 ## Limitations
 For now our scene only supports area lights and point lights. It doesn't support mesh lights which contain arbitrary sets of triangles. ReSTIR is powerful even when it is dealing with millions of triangles from mesh lights. This can be a very interesting part for our future work. We only support lambertian material in the scene. Also as mentioned before, we do not have an unbiased version of ReSTIR. Finally, the algorithm is using raytracing instead of pathtracing so no global illumination is included here.
