@@ -1,7 +1,7 @@
 #include "TemporalReusePass.h"
 
 namespace {
-	const char *kTemporalReuseShader = "Tutorial11\\temporalReuse.hlsl";
+	const char *kTemporalReuseShader = "shaders\\temporalReuse.hlsl";
 };
 
 void TemporalReusePass::initScene(RenderContext* pRenderContext, Scene::SharedPtr pScene) {

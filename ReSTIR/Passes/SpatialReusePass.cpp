@@ -3,7 +3,7 @@
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
-	const char* kSpatialReuseShader = "Tutorial11\\spatialReuse.hlsl";
+	const char* kSpatialReuseShader = "shaders\\spatialReuse.hlsl";
 };
 
 bool SpatialReusePass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager)

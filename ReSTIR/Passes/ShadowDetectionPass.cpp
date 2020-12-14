@@ -21,7 +21,7 @@
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
-	const char* kFileRayTrace = "Tutorial11\\shadowDetection.rt.hlsl";
+	const char* kFileRayTrace = "shaders\\shadowDetection.rt.hlsl";
 
 	// What are the entry points in that shader for various ray tracing shaders?
 	const char* kEntryPointRayGen = "ShadowedDetection";

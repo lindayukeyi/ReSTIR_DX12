@@ -13,6 +13,15 @@
   <ItemGroup>
     <ClCompile Include="..\CommonPasses\LightProbeGBufferPass.cpp" />
     <ClCompile Include="..\CommonPasses\SimpleAccumulationPass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\AtrousDenoise.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\CopyToOutputPass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\GenerateCandidatesPass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\RaytracedGBufferPass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\ShadePixelPass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\ShadowDetectionPass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\SpatialReusePass.cpp" />
+    <ClCompile Include="..\ReSTIR\Passes\TemporalReusePass.cpp" />
+    <ClCompile Include="..\ReSTIR\ReSTIR.cpp" />
     <ClCompile Include="..\SharedUtils\FullscreenLaunch.cpp" />
     <ClCompile Include="..\SharedUtils\RayLaunch.cpp" />
     <ClCompile Include="..\SharedUtils\RenderingPipeline.cpp" />
@@ -20,18 +29,18 @@
     <ClCompile Include="..\SharedUtils\ResourceManager.cpp" />
     <ClCompile Include="..\SharedUtils\SceneLoaderWrapper.cpp" />
     <ClCompile Include="..\SharedUtils\SimpleVars.cpp" />
-    <ClCompile Include="Passes\AtrousDenoise.cpp" />
-    <ClCompile Include="Passes\CopyToOutputPass.cpp" />
-    <ClCompile Include="Passes\RaytracedGBufferPass.cpp" />
-    <ClCompile Include="Passes\ShadePixelPass.cpp" />
-    <ClCompile Include="Passes\ShadowDetectionPass.cpp" />
-    <ClCompile Include="Passes\SpatialReusePass.cpp" />
-    <ClCompile Include="Passes\TemporalReusePass.cpp" />
-    <ClCompile Include="ReSTIR.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CommonPasses\LightProbeGBufferPass.h" />
     <ClInclude Include="..\CommonPasses\SimpleAccumulationPass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\AtrousDenoise.h" />
+    <ClInclude Include="..\ReSTIR\Passes\CopyToOutputPass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\GenerateCandidatesPass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\RaytracedGBufferPass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\ShadePixelPass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\ShadowDetectionPass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\SpatialReusePass.h" />
+    <ClInclude Include="..\ReSTIR\Passes\TemporalReusePass.h" />
     <ClInclude Include="..\SharedUtils\FullscreenLaunch.h" />
     <ClInclude Include="..\SharedUtils\RayLaunch.h" />
     <ClInclude Include="..\SharedUtils\RenderingPipeline.h" />
@@ -39,19 +48,6 @@
     <ClInclude Include="..\SharedUtils\ResourceManager.h" />
     <ClInclude Include="..\SharedUtils\SceneLoaderWrapper.h" />
     <ClInclude Include="..\SharedUtils\SimpleVars.h" />
-    <ClInclude Include="Passes\AtrousDenoise.h" />
-    <ClInclude Include="Passes\CopyToOutputPass.h" />
-    <ClInclude Include="Passes\RaytracedGBufferPass.h" />
-    <ClInclude Include="Passes\ShadePixelPass.h" />
-    <ClInclude Include="Passes\ShadowDetectionPass.h" />
-    <ClInclude Include="Passes\SpatialReusePass.h" />
-    <ClInclude Include="Passes\TemporalReusePass.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli" />
-    <None Include="Data\Tutorial11\pbr.hlsli" />
-    <None Include="Data\Tutorial11\randomHelper.hlsli" />
-    <None Include="Data\Tutorial11\standardShadowRay.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Falcor\Framework\FalcorSharedObjects\FalcorSharedObjects.vcxproj">
@@ -62,32 +58,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\rayTracedGBuffer.rt.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\AtrousDenoise.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\ReSTIR\Data\shaders\rayTracedGBuffer.rt.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\ReSTIR\Data\shaders\shadePixel.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\ReSTIR\Data\shaders\shadowDetection.rt.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\ReSTIR\Data\shaders\spatialReuse.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\ReSTIR\Data\shaders\temporalReuse.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\shadePixel.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="Data\Tutorial11\spatialReuse.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Tutorial11\temporalReuse.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Tutorial11\AtrousDenoise.hlsl">
-      <FileType>Document</FileType>
-    </None>
+    <None Include="..\ReSTIR\Data\shaders\diffusePlus1ShadowUtils.hlsli" />
+    <None Include="..\ReSTIR\Data\shaders\pbr.hlsli" />
+    <None Include="..\ReSTIR\Data\shaders\randomHelper.hlsli" />
+    <None Include="..\ReSTIR\Data\shaders\standardShadowRay.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D04DA011-0F3F-459E-8B18-41180F9ACCAD}</ProjectGuid>
@@ -151,7 +145,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>FALCOR_DXR;WIN32;SOLUTION_DIR=R"($(SolutionDir))";NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(FALCOR_DXR_DIR)\DX12\;$(FALCOR_DXR_DIR)..\..\Source\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\keyiy\Penn\CIS565\finalproject\ReSTIR_DX12\ReSTIR;$(FALCOR_DXR_DIR)\DX12\;$(FALCOR_DXR_DIR)..\..\Source\;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

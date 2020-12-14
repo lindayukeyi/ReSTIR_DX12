@@ -12,7 +12,7 @@ cbuffer MyCB {
 
 float4 main(float2 texC : TEXCOORD, float4 pos : SV_Position) : SV_Target0
 {
-	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
+	int2 pixelPos = (int2)pos.xy; // Where is this pixel on screen?
 	float width;
 	float height;
 	gShadeImgOutput.GetDimensions(width, height);

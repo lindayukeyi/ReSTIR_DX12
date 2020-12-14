@@ -42,25 +42,28 @@
     <ClInclude Include="..\SharedUtils\RenderPass.h">
       <Filter>SharedUtils</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\ShadowDetectionPass.h">
+    <ClInclude Include="..\ReSTIR\Passes\AtrousDenoise.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\SpatialReusePass.h">
+    <ClInclude Include="..\ReSTIR\Passes\CopyToOutputPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\CopyToOutputPass.h">
+    <ClInclude Include="..\ReSTIR\Passes\GenerateCandidatesPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\RaytracedGBufferPass.h">
+    <ClInclude Include="..\ReSTIR\Passes\RaytracedGBufferPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\ShadePixelPass.h">
+    <ClInclude Include="..\ReSTIR\Passes\ShadePixelPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\TemporalReusePass.h">
+    <ClInclude Include="..\ReSTIR\Passes\ShadowDetectionPass.h">
       <Filter>Passes</Filter>
     </ClInclude>
-    <ClInclude Include="Passes\AtrousDenoise.h">
+    <ClInclude Include="..\ReSTIR\Passes\SpatialReusePass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ReSTIR\Passes\TemporalReusePass.h">
       <Filter>Passes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,58 +95,61 @@
     <ClCompile Include="..\SharedUtils\RenderPass.cpp">
       <Filter>SharedUtils</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\ShadowDetectionPass.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\AtrousDenoise.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\SpatialReusePass.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\CopyToOutputPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\CopyToOutputPass.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\GenerateCandidatesPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\RaytracedGBufferPass.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\RaytracedGBufferPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\ShadePixelPass.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\ShadePixelPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="Passes\TemporalReusePass.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\ShadowDetectionPass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
-    <ClCompile Include="ReSTIR.cpp" />
-    <ClCompile Include="Passes\AtrousDenoise.cpp">
+    <ClCompile Include="..\ReSTIR\Passes\SpatialReusePass.cpp">
       <Filter>Passes</Filter>
     </ClCompile>
+    <ClCompile Include="..\ReSTIR\Passes\TemporalReusePass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ReSTIR\ReSTIR.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Tutorial11\diffusePlus1ShadowUtils.hlsli">
+    <None Include="..\ReSTIR\Data\shaders\diffusePlus1ShadowUtils.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\standardShadowRay.hlsli">
+    <None Include="..\ReSTIR\Data\shaders\pbr.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\rayTracedGBuffer.rt.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\randomHelper.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\pbr.hlsli">
+    <None Include="..\ReSTIR\Data\shaders\standardShadowRay.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\shadePixel.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\AtrousDenoise.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\spatialReuse.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\rayTracedGBuffer.rt.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\randomHelper.hlsli">
+    <None Include="..\ReSTIR\Data\shaders\shadePixel.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\shadowDetection.rt.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\shadowDetection.rt.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\temporalReuse.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\spatialReuse.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Data\Tutorial11\AtrousDenoise.hlsl">
+    <None Include="..\ReSTIR\Data\shaders\temporalReuse.hlsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -3,7 +3,7 @@
 // Some global vars, used to simplify changing shader location & entry points
 namespace {
 	// Where is our shader located?
-	const char* kShadePixelShader = "Tutorial11\\AtrousDenoise.hlsl";
+	const char* kShadePixelShader = "shaders\\AtrousDenoise.hlsl";
 };
 
 bool AtrousDenoisePass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager)
