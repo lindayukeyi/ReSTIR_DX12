@@ -8,24 +8,26 @@ void TemporalReusePass::initScene(RenderContext* pRenderContext, Scene::SharedPt
 	mpScene = std::dynamic_pointer_cast<RtScene>(pScene);
 }
 
+bool TemporalReusePass::hasCameraMoved() {
+	return mpScene && mpScene->getActiveCamera() &&
+		   (mLastViewProjMatrix != mpScene->getActiveCamera()->getViewProjMatrix());
+}
+
 bool TemporalReusePass::initialize(RenderContext* pRenderContext, ResourceManager::SharedPtr pResManager) {
 	// Stash our resource manager
 	mpResManager = pResManager;
 
 	// Request textures
-	mpResManager->requestTextureResource("TestOutput");
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
+
 	mpResManager->requestTextureResource("EmittedLight");
 	mpResManager->requestTextureResource("ToSample");
-	mpResManager->requestTextureResource("SampleNormalArea");
 	mpResManager->requestTextureResource("Reservoir");
 	mpResManager->requestTextureResource("SamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
 
-	mpResManager->requestTextureResource("LastEmittedLight");
-	mpResManager->requestTextureResource("LastToSample");
-	mpResManager->requestTextureResource("LastSampleNormalArea");
-	mpResManager->requestTextureResource("LastReservoir");
-	mpResManager->requestTextureResource("LastSamplesSeenSoFar", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+	mpResManager->requestTextureResources({ "PingpongReservoir", "PingpongToSample", "PingpongEmittedLight" });
+	mpResManager->requestTextureResource("PingpongM", ResourceFormat::R32Int, ResourceManager::kDefaultFlags);
+
 	mpResManager->requestTextureResource("LastWorldPosition");
 
 	// Create our graphics state and accumulation shader
@@ -44,15 +46,13 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 
 	Texture::SharedPtr emittedLight = mpResManager->getTexture("EmittedLight");
 	Texture::SharedPtr toSample = mpResManager->getTexture("ToSample");
-	Texture::SharedPtr sampleNormalArea = mpResManager->getTexture("SampleNormalArea");
 	Texture::SharedPtr reservoir = mpResManager->getTexture("Reservoir");
 	Texture::SharedPtr M = mpResManager->getTexture("SamplesSeenSoFar");
 
-	Texture::SharedPtr lastEmittedLight = mpResManager->getTexture("LastEmittedLight");
-	Texture::SharedPtr lastToSample = mpResManager->getTexture("LastToSample");
-	Texture::SharedPtr lastSampleNormalArea = mpResManager->getTexture("LastSampleNormalArea");
-	Texture::SharedPtr lastReservoir = mpResManager->getTexture("LastReservoir");
-	Texture::SharedPtr lastM = mpResManager->getTexture("LastSamplesSeenSoFar");
+	Texture::SharedPtr lastEmittedLight = mpResManager->getTexture("PingpongEmittedLight");
+	Texture::SharedPtr lastToSample = mpResManager->getTexture("PingpongToSample");
+	Texture::SharedPtr lastReservoir = mpResManager->getTexture("PingpongReservoir");
+	Texture::SharedPtr lastM = mpResManager->getTexture("PingpongM");
 	Texture::SharedPtr lastWPos = mpResManager->getTexture("LastWorldPosition");
 	
 	// Set shader parameters
@@ -67,13 +67,11 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 	
 	shaderVars["emittedLight"] = emittedLight;
 	shaderVars["toSample"] = toSample;
-	shaderVars["sampleNormalArea"] = sampleNormalArea;
 	shaderVars["reservoir"] = reservoir;
 	shaderVars["M"] = M;
 
 	shaderVars["lastEmittedLight"] = lastEmittedLight;
 	shaderVars["lastToSample"] = lastToSample;
-	shaderVars["lastSampleNormalArea"] = lastSampleNormalArea;
 	shaderVars["lastReservoir"] = lastReservoir;
 	shaderVars["lastM"] = lastM;
 	shaderVars["lastWPos"] = lastWPos;
@@ -85,11 +83,15 @@ void TemporalReusePass::execute(RenderContext* pRenderContext) {
 		mpTemporalReuse->execute(pRenderContext, mpGfxState);
 	}
 
-	// Save the current reservoir to be used in next frame
-	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), mpResManager->getTexture("LastEmittedLight")->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("LastToSample")->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("SampleNormalArea")->getSRV(), mpResManager->getTexture("LastSampleNormalArea")->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), mpResManager->getTexture("LastReservoir")->getRTV());
-	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("LastSamplesSeenSoFar")->getRTV());
+	// Save the current position to be used in next frame
 	pRenderContext->blit(myFBO->getColorTexture(0)->getSRV(), mpResManager->getTexture("LastWorldPosition")->getRTV());
+
+	// Enable the following lines if you want temporal reuse only
+	/*
+	pRenderContext->blit(mpResManager->getTexture("Reservoir")->getSRV(), mpResManager->getTexture("PingpongReservoir")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("EmittedLight")->getSRV(), mpResManager->getTexture("PingpongEmittedLight")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("ToSample")->getSRV(), mpResManager->getTexture("PingpongToSample")->getRTV());
+	pRenderContext->blit(mpResManager->getTexture("SamplesSeenSoFar")->getSRV(), mpResManager->getTexture("PingpongM")->getRTV());
+	*/
+
 }

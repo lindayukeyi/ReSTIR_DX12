@@ -11,17 +11,14 @@ RWTexture2D<float4> gMatDif;
 // Reservoir texture
 RWTexture2D<float4> emittedLight; // xyz: light color
 RWTexture2D<float4> toSample; // xyz: hit point(ref) to sample // w: distToLight
-RWTexture2D<float4> sampleNormalArea; // xyz: sample noraml // w: area of light
 RWTexture2D<float4> reservoir; // x: W // y: Wsum // zw: not used
 RWTexture2D<int> M;
 
 // Last frame's reservoir texture and world position
 RWTexture2D<float4> lastEmittedLight;
 RWTexture2D<float4> lastToSample;
-RWTexture2D<float4> lastSampleNormalArea;
 RWTexture2D<float4> lastReservoir;
 RWTexture2D<int> lastM;
-
 RWTexture2D<float4> lastWPos;
 
 cbuffer MyCB {
@@ -32,7 +29,6 @@ cbuffer MyCB {
 struct MySample {
 	float3 eL; 
 	float4 tS;
-	float4 sNA;
 };
 
 struct MyReservoir {
@@ -55,6 +51,10 @@ MyReservoir combineReservoirs(uint2 pixelPos, MyReservoir r1, MyReservoir r2, in
 	s.M_ = 0;
 	s.W_ = 0;
 	s.Wsum_ = 0;
+	MySample ms;
+	ms.eL = float3(0, 0, 0);
+	ms.tS = float4(0, 0, 0, 0);
+	s.y_ = ms;
 
 	float3 diffuse = gMatDif[pixelPos].xyz;
 	float3 nor = gWsNorm[pixelPos].xyz;
@@ -65,7 +65,13 @@ MyReservoir combineReservoirs(uint2 pixelPos, MyReservoir r1, MyReservoir r2, in
 	updateReservoir(s, r2.y_, w2, seed);
 
 	s.M_ = r1.M_ + r2.M_;
-	s.W_ = (s.Wsum_ / s.M_) / evalP(s.y_.tS.xyz, diffuse, s.y_.eL, nor);
+	float p_hat = evalP(s.y_.tS.xyz, diffuse, s.y_.eL, nor);
+	if (p_hat == 0) {
+		s.W_ = 0;
+	}
+	else {
+		s.W_ = (s.Wsum_ / s.M_) / p_hat;
+	}
 
 	return s;
 }
@@ -85,14 +91,6 @@ uint2 getLastPixelPos(float4 worldPos, float width, float height, inout bool inS
 	return (uint2)lastPos;
 }
 
-bool equal(float4 a, float4 b) {
-	return (a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w);
-}
-
-bool equal(float3 a, float3 b) {
-	return (a.x == b.x && a.y == b.y && a.z == b.z);
-}
-
 void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 {
 	uint2 pixelPos = (uint2)pos.xy; // Where is this pixel on screen?
@@ -107,13 +105,15 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 
 	bool inScreen;
 	uint2 lastPos = getLastPixelPos(worldPos, width, height, inScreen);
+	/*
 	if (!inScreen) { // The corresponding pixel in previous frame is out of screen
 		return;
-	}
-
+	}*/
+	/*
 	if (length(worldPos - lastWPos[lastPos]) > 0.01f) { // The corresonding fragment is occluded by another fragment
 		return;
-	}
+	}*/
+	
 
 	// Use pixel index and frame count to initialize random seed
 	uint seed = initRand(pixelPos.x + pixelPos.y * width, gFrameCount, 16);
@@ -121,10 +121,8 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	MySample s1, s2;
 	s1.eL = emittedLight[pixelPos].xyz;
 	s1.tS = toSample[pixelPos];
-	s1.sNA = sampleNormalArea[pixelPos];
 	s2.eL = lastEmittedLight[lastPos].xyz;
 	s2.tS = lastToSample[lastPos];
-	s2.sNA = lastSampleNormalArea[lastPos];
 	
 	MyReservoir rq, rl;	
 	rq.y_ = s1;
@@ -135,12 +133,16 @@ void main(float2 texC : TEXCOORD, float4 pos : SV_Position)
 	rl.M_ = lastM[lastPos];
 	rl.W_ = lastReservoir[lastPos].x;
 	rl.Wsum_ = lastReservoir[lastPos].y;
+
+	if (rl.M_ > 20 * rq.M_) {
+		rl.Wsum_ *= 20 * rq.M_ / rl.M_;
+		rl.M_ = 20 * rq.M_;
+	}
 		
 	MyReservoir outRes = combineReservoirs(pixelPos, rq, rl, seed);
 	
 	emittedLight[pixelPos] = float4(outRes.y_.eL, 1.f);
 	toSample[pixelPos] = outRes.y_.tS;
-	sampleNormalArea[pixelPos] = outRes.y_.sNA;
 	reservoir[pixelPos] = float4(outRes.W_, outRes.Wsum_, 0, 0);
 	M[pixelPos] = outRes.M_;
 }

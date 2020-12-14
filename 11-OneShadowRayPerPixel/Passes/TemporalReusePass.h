@@ -23,6 +23,8 @@ protected:
 	
 	// Override some functions that provide information to the RenderPipeline class
 	bool appliesPostprocess() override { return true; }
+
+	bool hasCameraMoved();
 	
 	// State for our accumulation shader
 	FullscreenLaunch::SharedPtr   mpTemporalReuse;

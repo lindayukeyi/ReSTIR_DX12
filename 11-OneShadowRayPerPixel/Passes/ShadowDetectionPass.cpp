@@ -36,10 +36,7 @@ bool ShadowDetectionPass::initialize(RenderContext* pRenderContext, ResourceMana
 	mpResManager = pResManager;
 	mpResManager->requestTextureResources({ "WorldPosition", "WorldNormal", "MaterialDiffuse" });
 	mpResManager->requestTextureResource("ReservoirShadowed");
-	//mpResManager->requestTextureResource(ResourceManager::kOutputChannel);
-
-	// Set the default scene to load
-	mpResManager->setDefaultSceneName("Data/pink_room/pink_room.fscene");
+	mpResManager->requestTextureResource("TestBuffer");
 
 	// Create our wrapper around a ray tracing pass.  Tell it where our ray generation shader and ray-specific shaders are
 	mpRays = RayLaunch::create(kFileRayTrace, kEntryPointRayGen);
@@ -59,12 +56,8 @@ void ShadowDetectionPass::initScene(RenderContext* pRenderContext, Scene::Shared
 
 void ShadowDetectionPass::execute(RenderContext* pRenderContext)
 {
-	// Get the output buffer we're writing into; clear it to black.
-	//Texture::SharedPtr pDstTex = mpResManager->getClearedTexture(ResourceManager::kOutputChannel, vec4(0.0f, 0.0f, 0.0f, 0.0f));
-	Texture::SharedPtr pDstTex = mpResManager->getClearedTexture("ReservoirShadowed", vec4(0.0f, 0.0f, 0.0f, 0.0f));
-
 	// Do we have all the resources we need to render?  If not, return
-	if (!pDstTex || !mpRays || !mpRays->readyToRender()) return;
+	if (!mpRays || !mpRays->readyToRender()) return;
 
 	// Set our ray tracing shader variables 
 	auto rayGenVars = mpRays->getRayGenVars();
@@ -81,7 +74,8 @@ void ShadowDetectionPass::execute(RenderContext* pRenderContext)
 	rayGenVars["sampleNormalArea"] = mpResManager->getTexture("SampleNormalArea");
 	rayGenVars["reservoir"] = mpResManager->getTexture("Reservoir");
 	rayGenVars["M"] = mpResManager->getTexture("SamplesSeenSoFar");
-	rayGenVars["gOutput"] = pDstTex;
+
+	rayGenVars["test"] = mpResManager->getTexture("TestBuffer");
 
 	// Shoot our rays and shade our primary hit points
 	mpRays->execute(pRenderContext, mpResManager->getScreenSize());

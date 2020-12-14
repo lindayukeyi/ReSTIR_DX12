@@ -20,6 +20,7 @@
     <ClCompile Include="..\SharedUtils\ResourceManager.cpp" />
     <ClCompile Include="..\SharedUtils\SceneLoaderWrapper.cpp" />
     <ClCompile Include="..\SharedUtils\SimpleVars.cpp" />
+    <ClCompile Include="Passes\AtrousDenoise.cpp" />
     <ClCompile Include="Passes\CopyToOutputPass.cpp" />
     <ClCompile Include="Passes\DiffuseOneShadowRayPass.cpp" />
     <ClCompile Include="Passes\RaytracedGBufferPass.cpp" />
@@ -27,7 +28,7 @@
     <ClCompile Include="Passes\ShadowDetectionPass.cpp" />
     <ClCompile Include="Passes\SpatialReusePass.cpp" />
     <ClCompile Include="Passes\TemporalReusePass.cpp" />
-    <ClCompile Include="Tutor11-OneShadowRayPerPixel.cpp" />
+    <ClCompile Include="ReSTIR.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CommonPasses\LightProbeGBufferPass.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\SharedUtils\ResourceManager.h" />
     <ClInclude Include="..\SharedUtils\SceneLoaderWrapper.h" />
     <ClInclude Include="..\SharedUtils\SimpleVars.h" />
+    <ClInclude Include="Passes\AtrousDenoise.h" />
     <ClInclude Include="Passes\CopyToOutputPass.h" />
     <ClInclude Include="Passes\DiffuseOneShadowRayPass.h" />
     <ClInclude Include="Passes\RaytracedGBufferPass.h" />
@@ -89,12 +91,17 @@
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Tutorial11\AtrousDenoise.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D04DA011-0F3F-459E-8B18-41180F9ACCAD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DXRT</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>Tutor11-OneShadowRayPerPixel</ProjectName>
+    <ProjectName>ReSTIR_DXR</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
