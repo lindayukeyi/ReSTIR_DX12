@@ -90,7 +90,7 @@ void RIS(uint2 launchIndex, uint2 launchDim) {
 	
 	// Initialize our random number generator
 	uint randSeed = initRand(launchIndex.x + launchIndex.y * launchDim.x, frameCount, 16);
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 32; i++) {
 		// Generate sample according to p
 		int lightToSample = min(int(nextRand(randSeed) * gLightsCount), gLightsCount - 1);
 		float p = 1.f / gLightsCount;
